@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8d49b0995b975bc4aa8383aa298af28e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150824
+  packageName: Modern UI Pack
+  packageVersion: 4.4.5
+  assetPath: Assets/Modern UI Pack/Prefabs/Button/Basic - Outline Only Icon/Standard.prefab
+  uploadId: 442419

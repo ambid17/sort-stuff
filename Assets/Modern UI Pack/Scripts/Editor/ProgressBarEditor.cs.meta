@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e24fda0b81feb8343abb048c3c912da3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150824
+  packageName: Modern UI Pack
+  packageVersion: 4.4.5
+  assetPath: Assets/Modern UI Pack/Scripts/Editor/ProgressBarEditor.cs
+  uploadId: 442419

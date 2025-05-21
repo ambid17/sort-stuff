@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a45c696ee6e718645865d2f0d48ae184
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150824
+  packageName: Modern UI Pack
+  packageVersion: 4.4.5
+  assetPath: Assets/Modern UI Pack/Scripts/Fixes/UIElementInFront.cs
+  uploadId: 442419

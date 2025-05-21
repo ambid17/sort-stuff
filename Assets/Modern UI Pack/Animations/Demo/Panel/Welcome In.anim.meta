@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f72e6ce2027cc8142a28f0e0b02dea6c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150824
+  packageName: Modern UI Pack
+  packageVersion: 4.4.5
+  assetPath: Assets/Modern UI Pack/Animations/Demo/Panel/Welcome In.anim
+  uploadId: 442419

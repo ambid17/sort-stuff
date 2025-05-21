@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8c2e629ac6deda844a25d8051cac8c5e
+timeCreated: 1493662800
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150824
+  packageName: Modern UI Pack
+  packageVersion: 4.4.5
+  assetPath: Assets/Modern UI Pack/Prefabs/Progress Bar (Loop)/PB Loop - Radial Pie.prefab
+  uploadId: 442419

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3cf075bc2055d8142abf73b67b9862b5
+timeCreated: 1493662802
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150824
+  packageName: Modern UI Pack
+  packageVersion: 4.4.5
+  assetPath: Assets/Modern UI Pack/Prefabs/Progress Bar (Loop)/PB Loop - Radial Run.prefab
+  uploadId: 442419

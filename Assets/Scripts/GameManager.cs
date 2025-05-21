@@ -1,0 +1,253 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class GameManager : Singleton<GameManager>
+{
+    public List<SortableObject> sortables;
+    public LayerMask SortableLayerMask;
+    public LayerMask WallLayerMask;
+    public UiManager uiManager;
+    public Container containerPrefab;
+    public GameObject rightWall;
+    public GameObject sortableParent;
+    public float forceMultiplier = 4;
+    public BoxCollider spawnArea;
+
+    public const float CONTAINER_WIDTH = 3.33f;
+    public const int MAX_CONTAINER_COUNT = 5;
+    public const int MAX_COUNT_PER_TYPE = 40;
+
+    public int TotalCount => TypeCount * CountPerType;
+
+    [Header("Set in Game")]
+    public int TypeCount = 3;
+    public int CountPerType = MAX_COUNT_PER_TYPE;
+    public int ContainerCount = MAX_CONTAINER_COUNT;
+
+    public List<Sortable> allSortables;
+    public int remainingCount;
+
+    public List<Container> containers;
+    private Camera mainCamera;
+
+    private Vector3 forceToApply;
+    public bool isDragging = false;
+    public Sortable currentDrag;
+    public bool isGameRunning = false;
+
+    public Dictionary<int, List<Sortable>> sortedMapping;
+
+    private void Awake()
+    {
+        sortedMapping = new Dictionary<int, List<Sortable>>();
+        mainCamera = Camera.main;
+        InitLevel();
+    }
+
+    void Update()
+    {
+        if(!isGameRunning)
+        {
+            return;
+        }
+
+        if (!isDragging)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit rayHit, float.MaxValue, SortableLayerMask))
+                {
+                    var selectedObject = rayHit.collider.gameObject;
+                    currentDrag = selectedObject.GetComponent<Sortable>();
+                    isDragging = true;
+                }
+            }
+        }
+        else
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            // update position
+            if (Physics.Raycast(ray, out RaycastHit rayHit, float.MaxValue, WallLayerMask))
+            {
+                var targetPosition = rayHit.point + new Vector3(0, 3.5f, 0);
+                forceToApply = targetPosition - currentDrag.transform.position;
+                currentDrag.myRigidbody.linearDamping = 4;
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                isDragging = false;
+                currentDrag.myRigidbody.linearDamping = 0.5f;
+                currentDrag = null;
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!isGameRunning)
+        {
+            return;
+        }
+
+        if (isDragging)
+        {
+            currentDrag.myRigidbody.AddForce(forceToApply * Time.fixedDeltaTime * forceMultiplier, ForceMode.Impulse);
+        }
+    }
+
+    public bool CanSetContainer(Sortable sortable)
+    {
+        return !containers.Any(c => c.sortableId == sortable.sortableObject.id);
+    }
+
+    public void HandleContainerExit(Sortable sortable)
+    {
+        sortedMapping[sortable.sortableObject.id].Remove(sortable);
+        remainingCount++;
+        UiManager.Instance.SetRemaining();
+    }
+
+    public void TryAddSorted(Sortable sortable)
+    {
+        var sortedList = sortedMapping[sortable.sortableObject.id];
+        if (sortedList.Contains(sortable))
+        {
+            return;
+        }
+
+        sortedList.Add(sortable);
+        remainingCount--;
+        UiManager.Instance.SetRemaining();
+
+        if (remainingCount == 0)
+        {
+            uiManager.ShowWin();
+            isGameRunning = false;
+        }
+
+        if (sortedList.Count == CountPerType)
+        {
+            var container = containers.FirstOrDefault(c => c.sortableId == sortable.sortableObject.id);
+            container.sortableId = -1;
+            foreach (var toDespawn in sortedList)
+            {
+                toDespawn.Despawn();
+            }
+        }
+    }
+
+    public void StartGame()
+    {
+        foreach (Sortable sortable in allSortables)
+        {
+            sortable.TogglePhysics(true);
+        }
+
+        isDragging = false;
+        currentDrag = null;
+        remainingCount = TotalCount;
+        UiManager.Instance.SetRemaining();
+        InitSortedMapping();
+
+        foreach (var container in containers)
+        {
+            container.sortableId = -1;
+        }
+
+        isGameRunning = true;
+    }
+
+    public void InitSortedMapping()
+    {
+        sortedMapping.Clear();
+        foreach (var sortable in allSortables)
+        {
+            if (!sortedMapping.ContainsKey(sortable.sortableObject.id))
+            {
+                sortedMapping.Add(sortable.sortableObject.id, new List<Sortable>());
+            }
+        }
+    }
+
+    public void SetTypeCount(int count)
+    {
+        TypeCount = count;
+        SpawnMaxSortables();
+    }
+
+    public void SetCountPerType(int count)
+    {
+        CountPerType = count;
+        SpawnMaxSortables();
+    }
+
+    public void SetContainerCount(int count)
+    {
+        ContainerCount = count;
+
+        // toggle containers
+        for (int i = 0; i < MAX_CONTAINER_COUNT; i++)
+        {
+            containers[i].gameObject.SetActive(i < ContainerCount);
+        }
+
+        foreach (var sortable in allSortables)
+        {
+            sortable.UpdateSpawn();
+        }
+    }
+
+    public void InitLevel()
+    {
+        // spawn containers
+        containers = new List<Container>();
+        for (int i = 0; i < MAX_CONTAINER_COUNT; i++)
+        {
+            var container = Instantiate(containerPrefab);
+            container.transform.position = new Vector3(i * 3.33f, -0.55f, -6.6f);
+            container.sortableId = -1;
+            containers.Add(container);
+        }
+
+        // spawn all sortables
+        SpawnMaxSortables();
+    }
+
+    private void SpawnMaxSortables()
+    {
+        if (allSortables != null)
+        {
+            foreach (var sortable in allSortables)
+            {
+                Destroy(sortable.gameObject);
+            }
+        }
+
+        allSortables = new List<Sortable>();
+
+        var sortableIds = sortables
+           .OrderBy(x => Random.Range(0, 1000)) // sort randomly
+           .Take(TypeCount) // take the number of types we want
+           .Select(x => x.id)
+           .ToList();
+
+
+        foreach (var sortableId in sortableIds)
+        {
+            for (int i = 0; i < CountPerType; i++)
+            {
+                var sortableSO = sortables.FirstOrDefault(x => x.id == sortableId);
+                var sortableGO = Instantiate(sortableSO.prefab);
+                Sortable sortable = sortableGO.AddComponent<Sortable>();
+                sortable.Setup(sortableSO);
+                sortable.TogglePhysics(false);
+                sortable.transform.parent = sortableParent.transform;
+                allSortables.Add(sortable);
+            }
+        }
+    }
+}

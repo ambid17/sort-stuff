@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7548d0d4fe4626445855a0fd93a2961c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150824
+  packageName: Modern UI Pack
+  packageVersion: 4.4.5
+  assetPath: Assets/Modern UI Pack/Animations/Demo/Button/Demo Category Button.controller
+  uploadId: 442419

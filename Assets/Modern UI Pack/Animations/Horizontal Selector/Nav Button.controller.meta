@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 95c37268c177fef418d5eed618f042d5
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150824
+  packageName: Modern UI Pack
+  packageVersion: 4.4.5
+  assetPath: Assets/Modern UI Pack/Animations/Horizontal Selector/Nav Button.controller
+  uploadId: 442419

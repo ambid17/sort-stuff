@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c84e0d23282f584449a6e36818ee805a
+timeCreated: 1493566367
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150824
+  packageName: Modern UI Pack
+  packageVersion: 4.4.5
+  assetPath: Assets/Modern UI Pack/Animations/Demo/Button/Demo Button.controller
+  uploadId: 442419
