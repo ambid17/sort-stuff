@@ -3,6 +3,6 @@ using UnityEngine;
 
 public class SaveFile
 {
-    public List<Unlock> unlocks;
+    public List<string> unlockedItemNames;
     public int currency;
 }

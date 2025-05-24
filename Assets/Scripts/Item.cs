@@ -12,6 +12,6 @@ public class Item : ScriptableObject
     public string itemName;
     public int cost;
     public Sprite icon;
-    public int id;
     public ItemType itemType;
+    public SortableObject sortableObject;
 }

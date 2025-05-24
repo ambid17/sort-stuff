@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c069e390fb7abd48a5c989242c9f464, type: 3}
-  m_Name: 8
+  m_Name: Barrel
   m_EditorClassIdentifier: 
-  id: 8
-  prefab: {fileID: 919132149155446097, guid: 85ccec3ba32c5c444b3d880f47eedd2c, type: 3}
+  objectName: Barrel
+  prefab: {fileID: 919132149155446097, guid: b792d72843ae2fd46b5d4563d8487b45, type: 3}

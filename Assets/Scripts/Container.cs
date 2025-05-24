@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class Container : MonoBehaviour
 {
-    private int sortableId;
-    public int SortableId => sortableId;
+    private string sortableName;
+    public string SortableName => sortableName;
     public GameObject example;
 
     private void Awake()
     {
-        sortableId = -1;
+        sortableName = null;
     }
 
     public void SetType(SortableObject sortableObject)
     {
-        sortableId = sortableObject.id;
-        gameObject.name = $"{sortableObject.prefab.name} container";
+        sortableName = sortableObject.objectName;
+        gameObject.name = $"{sortableObject.objectName} container";
     }
 
     public void ClearType()
     {
-        sortableId = -1;
+        sortableName = null;
         gameObject.name = "Empty container";
     }
 }

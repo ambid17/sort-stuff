@@ -36,11 +36,12 @@ public class GameManager : Singleton<GameManager>
     public Sortable currentDrag;
     public bool isGameRunning = false;
 
-    public Dictionary<int, List<Sortable>> sortedMapping;
+    public Dictionary<string, List<Sortable>> sortedMapping;
+    public List<SortableObject> unlockedSortables;
 
     protected override void Initialize()
     {
-        sortedMapping = new Dictionary<int, List<Sortable>>();
+        sortedMapping = new Dictionary<string, List<Sortable>>();
         mainCamera = Camera.main;
         InitLevel();
     }
@@ -100,13 +101,13 @@ public class GameManager : Singleton<GameManager>
 
     public bool CanSetContainer(Sortable sortable)
     {
-        return !containers.Any(c => c.SortableId == sortable.sortableObject.id);
+        return !containers.Any(c => c.SortableName == sortable.sortableObject.objectName);
     }
 
     public void HandleContainerExit(Sortable sortable)
     {
-        if (sortedMapping[sortable.sortableObject.id].Contains(sortable)){
-            sortedMapping[sortable.sortableObject.id].Remove(sortable);
+        if (sortedMapping[sortable.sortableObject.objectName].Contains(sortable)){
+            sortedMapping[sortable.sortableObject.objectName].Remove(sortable);
             remainingCount++;
             UiManager.Instance.SetRemaining();
         }
@@ -114,7 +115,7 @@ public class GameManager : Singleton<GameManager>
 
     public void TryAddSorted(Sortable sortable)
     {
-        var sortedList = sortedMapping[sortable.sortableObject.id];
+        var sortedList = sortedMapping[sortable.sortableObject.objectName];
         if (sortedList.Contains(sortable))
         {
             return;
@@ -128,7 +129,7 @@ public class GameManager : Singleton<GameManager>
         // drain the container when full and allow it to be reused
         if (sortedList.Count == CountPerType)
         {
-            var container = containers.FirstOrDefault(c => c.SortableId == sortable.sortableObject.id);
+            var container = containers.FirstOrDefault(c => c.SortableName == sortable.sortableObject.objectName);
             container.ClearType();
             foreach (var toDespawn in sortedList)
             {
@@ -178,9 +179,9 @@ public class GameManager : Singleton<GameManager>
         sortedMapping.Clear();
         foreach (var sortable in allSortables)
         {
-            if (!sortedMapping.ContainsKey(sortable.sortableObject.id))
+            if (!sortedMapping.ContainsKey(sortable.sortableObject.objectName))
             {
-                sortedMapping.Add(sortable.sortableObject.id, new List<Sortable>());
+                sortedMapping.Add(sortable.sortableObject.objectName, new List<Sortable>());
             }
         }
     }
@@ -248,18 +249,25 @@ public class GameManager : Singleton<GameManager>
 
         allSortables = new List<Sortable>();
 
-        var sortableIds = sortables
+        var combinedSortables = sortables.Concat(unlockedSortables).ToList();
+
+        var sortableNames = combinedSortables
            .OrderBy(x => Random.Range(0, 1000)) // sort randomly
            .Take(TypeCount) // take the number of types we want
-           .Select(x => x.id)
+           .Select(x => x.objectName)
            .ToList();
 
+        if (sortableNames.Contains("Corndog"))
+        {
+            Debug.Log(":");
+        }
 
-        foreach (var sortableId in sortableIds)
+
+        foreach (var sortableName in sortableNames)
         {
             for (int i = 0; i < CountPerType; i++)
             {
-                var sortableSO = sortables.FirstOrDefault(x => x.id == sortableId);
+                var sortableSO = combinedSortables.FirstOrDefault(x => x.objectName == sortableName);
                 var sortableGO = Instantiate(sortableSO.prefab);
                 Sortable sortable = sortableGO.AddComponent<Sortable>();
                 sortable.Setup(sortableSO);

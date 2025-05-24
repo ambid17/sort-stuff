@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c069e390fb7abd48a5c989242c9f464, type: 3}
-  m_Name: 0
+  m_Name: Mustard
   m_EditorClassIdentifier: 
-  id: 0
-  prefab: {fileID: 919132149155446097, guid: ff4723716cfe0e546b7cdbad25d37aaa, type: 3}
+  objectName: Mustard
+  prefab: {fileID: 919132149155446097, guid: 85ccec3ba32c5c444b3d880f47eedd2c, type: 3}

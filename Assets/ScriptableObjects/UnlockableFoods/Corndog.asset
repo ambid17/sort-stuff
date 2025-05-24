@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c069e390fb7abd48a5c989242c9f464, type: 3}
-  m_Name: 6
+  m_Name: Corndog
   m_EditorClassIdentifier: 
-  id: 6
-  prefab: {fileID: 919132149155446097, guid: ada2ef009f7fb9846880bcda830d4c0c, type: 3}
+  objectName: Corndog
+  prefab: {fileID: 919132149155446097, guid: 90aec18e58e9f6e40a611d69bdbb6a14, type: 3}

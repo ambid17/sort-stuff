@@ -26,7 +26,7 @@ public class ShopItem : MonoBehaviour
         itemIcon.sprite = item.icon;
         purchaseButton.normalText.text = item.cost.ToString();
 
-        if (UnlockManager.Instance.IsUnlocked(item.id))
+        if (UnlockManager.Instance.IsUnlocked(item.name))
         {
             purchaseButton.buttonVar.interactable = false;
             purchaseButton.normalText.text = "Unlocked";
@@ -39,13 +39,13 @@ public class ShopItem : MonoBehaviour
         else
         {
             purchaseButton.buttonVar.onClick.RemoveAllListeners();
-            purchaseButton.buttonVar.onClick.AddListener(() => OnUnlockClicked(item.id));
+            purchaseButton.buttonVar.onClick.AddListener(OnUnlockClicked);
         }
     }
 
-    public void OnUnlockClicked(int itemId)
+    public void OnUnlockClicked()
     {
-        var didUnlock = UnlockManager.Instance.TryUnlock(itemId);
+        var didUnlock = UnlockManager.Instance.TryUnlock(item);
         if (didUnlock)
         {
             ShopController.Instance.currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";

@@ -25,7 +25,7 @@ public class Sortable : MonoBehaviour
     public bool isMoving;
     private Vector3 defaultSize;
     private Vector3 shrunkSize => defaultSize * 0.3f;
-    public HashSet<int> touchingContainerIds;
+    public HashSet<string> touchingContainers;
     private Scaling scalingStatus;
     private bool isCollected = false;
     enum Scaling
@@ -36,7 +36,7 @@ public class Sortable : MonoBehaviour
     private void Awake()
     {
         gameManager = GameManager.Instance;
-        touchingContainerIds = new HashSet<int>();
+        touchingContainers = new HashSet<string>();
     }
 
     public void Setup(SortableObject sortableObject)
@@ -127,7 +127,7 @@ public class Sortable : MonoBehaviour
     public void Respawn()
     {
         transform.position = GetSpawnPoint();
-        touchingContainerIds = new HashSet<int>();
+        touchingContainers = new HashSet<string>();
     }
 
     public void Despawn()
@@ -140,15 +140,15 @@ public class Sortable : MonoBehaviour
     private void HandleStop()
     {
         // if you're only touching 1 correct container when you stop, you're good
-        if (touchingContainerIds.Count == 1 && touchingContainerIds.Contains(sortableObject.id))
+        if (touchingContainers.Count == 1 && touchingContainers.Contains(sortableObject.objectName))
         {
             GameManager.Instance.TryAddSorted(this);
         }
         else
         {
-            var touchingMultipleContainers = touchingContainerIds.Count > 1;
-            var touchingOneWrongContainer = touchingContainerIds.Count == 1
-                && !touchingContainerIds.Contains(sortableObject.id);
+            var touchingMultipleContainers = touchingContainers.Count > 1;
+            var touchingOneWrongContainer = touchingContainers.Count == 1
+                && !touchingContainers.Contains(sortableObject.objectName);
             if(touchingMultipleContainers || touchingOneWrongContainer)
             {
                 Respawn();
@@ -165,12 +165,12 @@ public class Sortable : MonoBehaviour
 
         var otherContainer = other.gameObject.GetComponentInParent<Container>();
 
-        if (GameManager.Instance.CanSetContainer(this) && otherContainer.SortableId == -1)
+        if (GameManager.Instance.CanSetContainer(this) && otherContainer.SortableName == null)
         {
             otherContainer.SetType(sortableObject);
         }
 
-        touchingContainerIds.Add(otherContainer.SortableId);
+        touchingContainers.Add(otherContainer.SortableName);
 
         
 
@@ -180,7 +180,7 @@ public class Sortable : MonoBehaviour
             return;
         }
 
-        if (otherContainer.SortableId == sortableObject.id)
+        if (otherContainer.SortableName == sortableObject.objectName)
         {
             myContainer = otherContainer;
             gameObject.layer = IgnoreLayer;
@@ -197,14 +197,14 @@ public class Sortable : MonoBehaviour
         }
 
         var otherContainer = other.gameObject.GetComponentInParent<Container>();
-        touchingContainerIds.Remove(otherContainer.SortableId);
+        touchingContainers.Remove(otherContainer.SortableName);
 
         if (myContainer == null)
         {
             return;
         }
 
-        if (otherContainer.SortableId == sortableObject.id)
+        if (otherContainer.SortableName == sortableObject.objectName)
         {
             myContainer.ClearType();
             myContainer = null;

@@ -17,3 +17,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: f09e84f3e63f08b4c84c619b11139bbd, type: 3}
   id: 0
   itemType: 1
+  sortableObject: {fileID: 11400000, guid: a20e5a64ebf21c148949846d670537ae, type: 2}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c069e390fb7abd48a5c989242c9f464, type: 3}
-  m_Name: 5
+  m_Name: Cereal
   m_EditorClassIdentifier: 
-  id: 5
-  prefab: {fileID: 919132149155446097, guid: b792d72843ae2fd46b5d4563d8487b45, type: 3}
+  objectName: Cereal
+  prefab: {fileID: 919132149155446097, guid: d85473d8ec503b44f80ca4b284c37774, type: 3}

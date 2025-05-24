@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnlockManager : Singleton<UnlockManager>
 {
     public SaveFile fileStateToSave;
-    public List<Unlock> unlocks => fileStateToSave.unlocks;
     public List<Item> itemSOs;
 
     void Awake()
@@ -26,17 +26,13 @@ public class UnlockManager : Singleton<UnlockManager>
         Save();
     }
 
-    public bool TryUnlock(int itemId)
+    public bool TryUnlock(Item item)
     {
-        Item item = itemSOs.FirstOrDefault(i => i.id == itemId);
-        if (item != null && fileStateToSave.currency > item.cost)
+        if (fileStateToSave.currency > item.cost)
         {
             fileStateToSave.currency -= item.cost;
-            fileStateToSave.unlocks.Add(new Unlock 
-            { 
-                itemId = itemId, 
-                isUnlocked = true 
-            });
+            fileStateToSave.unlockedItemNames.Add(item.name);
+            GameManager.Instance.unlockedSortables.Add(item.sortableObject);
             Save();
             return true;
         }
@@ -44,19 +40,14 @@ public class UnlockManager : Singleton<UnlockManager>
         return false;
     }
 
-    public bool IsUnlocked(int itemId)
+    public bool IsUnlocked(string itemName)
     {
-        if(unlocks == null)
+        if(fileStateToSave.unlockedItemNames == null)
         {
             return false;
         }
 
-        Unlock unlock = unlocks.FirstOrDefault(u => u.itemId == itemId);
-        if (unlock != null)
-        {
-            return unlock.isUnlocked;
-        }
-        return false;
+        return fileStateToSave.unlockedItemNames.Contains(itemName);
     }
 
     public void AddCurrency(int currency)
@@ -90,16 +81,21 @@ public class UnlockManager : Singleton<UnlockManager>
 
                 fileStateToSave = JsonConvert.DeserializeObject<SaveFile>(fileContents);
 
-                if (fileStateToSave.unlocks == null)
+                if (fileStateToSave.unlockedItemNames == null)
                 {
-                    fileStateToSave.unlocks = new List<Unlock>();
+                    fileStateToSave.unlockedItemNames = new List<string>();
+                }
+                else
+                {
+                    AddUnlocksToUse();
+                    
                 }
             }
             else
             {
                 fileStateToSave = new SaveFile
                 {
-                    unlocks = new List<Unlock>(),
+                    unlockedItemNames = new List<string>(),
                     currency = 0
                 };
             }
@@ -110,6 +106,23 @@ public class UnlockManager : Singleton<UnlockManager>
         catch (Exception e)
         {
             Debug.LogError($"Error loading: {e.Message}\n{e.StackTrace}");
+        }
+    }
+
+    void AddUnlocksToUse()
+    {
+        if (GameManager.Instance.unlockedSortables == null)
+        {
+            GameManager.Instance.unlockedSortables = new List<SortableObject>();
+        }
+
+        foreach (var unlock in fileStateToSave.unlockedItemNames)
+        {
+            var item = itemSOs.FirstOrDefault(i => i.itemName == unlock);
+            if (item != null)
+            {
+                GameManager.Instance.unlockedSortables.Add(item.sortableObject);
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c069e390fb7abd48a5c989242c9f464, type: 3}
-  m_Name: 11
+  m_Name: Beet
   m_EditorClassIdentifier: 
-  id: 11
-  prefab: {fileID: 919132149155446097, guid: 132dbd52470423d4298945f18895bb9a, type: 3}
+  objectName: Beet
+  prefab: {fileID: 919132149155446097, guid: ada2ef009f7fb9846880bcda830d4c0c, type: 3}
