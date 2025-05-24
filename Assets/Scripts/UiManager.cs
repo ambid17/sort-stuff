@@ -12,18 +12,20 @@ public enum Difficulty
 public class UiManager : Singleton<UiManager>
 {
     public GameObject gameControlPanel;
+    public GameObject shopPanel;
     public TMP_Text titleText;
     public Button startButton;
+    public Button shopButton;
     public SliderManager boxCountSlider;
     public SliderManager objectTypeSlider;
     public SliderManager objectCountSlider;
 
     public GameObject inGamePanel;
     public TMP_Text remainingText;
+    public TMP_Text currencyText;
 
-
-
-
+    public SliderManager BonusBar;
+    public TMP_Text bonusCountText;
     void Start()
     {
         titleText.text = "Sort some stuff";
@@ -33,6 +35,15 @@ public class UiManager : Singleton<UiManager>
         boxCountSlider.mainSlider.onValueChanged.AddListener(SetBoxCount);
         objectTypeSlider.mainSlider.onValueChanged.AddListener(SetTypeCount);
         objectCountSlider.mainSlider.onValueChanged.AddListener(SetObjectCount);
+        shopButton.onClick.AddListener(() => ToggleShop(true));
+        
+        // ensure panels are in the right state regardless of the scene
+        ToggleShop(false);
+        inGamePanel.gameObject.SetActive(false);
+
+#if UNITY_EDITOR
+        bonusCountText.gameObject.SetActive(true);
+#endif
     }
 
     void Update()
@@ -52,6 +63,12 @@ public class UiManager : Singleton<UiManager>
         GameManager.Instance.StartGame();
         gameControlPanel.gameObject.SetActive(false);
         inGamePanel.gameObject.SetActive(true);
+    }
+
+    public void ToggleShop(bool isShopOpen)
+    {
+        gameControlPanel.gameObject.SetActive(!isShopOpen);
+        shopPanel.gameObject.SetActive(isShopOpen);
     }
 
     public void SetBoxCount(float containerCount)

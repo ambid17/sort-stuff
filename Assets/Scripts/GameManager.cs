@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -39,7 +38,7 @@ public class GameManager : Singleton<GameManager>
 
     public Dictionary<int, List<Sortable>> sortedMapping;
 
-    private void Awake()
+    protected override void Initialize()
     {
         sortedMapping = new Dictionary<int, List<Sortable>>();
         mainCamera = Camera.main;
@@ -124,6 +123,7 @@ public class GameManager : Singleton<GameManager>
         sortedList.Add(sortable);
         remainingCount--;
         UiManager.Instance.SetRemaining();
+        CurrencyController.Instance.SortComplete(sortable);
 
         // drain the container when full and allow it to be reused
         if (sortedList.Count == CountPerType)
@@ -170,6 +170,7 @@ public class GameManager : Singleton<GameManager>
     {
         sortedMapping.Clear();
         InitLevel();
+        UnlockManager.Instance.Save();
     }
 
     public void InitSortedMapping()

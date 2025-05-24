@@ -51,7 +51,7 @@ namespace Michsky.UI.ModernUIPack
             UNSCALED_TIME
         }
 
-        void Start()
+        void Awake()
         {
             if (buttonVar == null)
                 buttonVar = gameObject.GetComponent<Button>();

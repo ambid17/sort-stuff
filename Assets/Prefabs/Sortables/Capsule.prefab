@@ -130,7 +130,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortableObject: {fileID: 0}
   myRigidbody: {fileID: 2143916857754564114}
-  container: {fileID: 0}
+  collider: {fileID: 0}
+  myContainer: {fileID: 0}
   isMoving: 0
 --- !u!64 &2981849334189720879
 MeshCollider:
