@@ -49,6 +49,7 @@ public class ShopItem : MonoBehaviour
         if (didUnlock)
         {
             ShopController.Instance.currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";
+            UpdateInternal();
         }
     }
 }

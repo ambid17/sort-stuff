@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -68,7 +69,7 @@ public class UnlockManager : Singleton<UnlockManager>
     {
         try
         {
-            var fileData = JsonUtility.ToJson(fileStateToSave);
+            var fileData = JsonConvert.SerializeObject(fileStateToSave);
             string filePath = Path.Combine(Application.persistentDataPath, "unlocks.json");
 
             File.WriteAllText(filePath, fileData);
@@ -86,7 +87,13 @@ public class UnlockManager : Singleton<UnlockManager>
             if (File.Exists(filePath))
             {
                 var fileContents = File.ReadAllText(filePath);
-                fileStateToSave = JsonUtility.FromJson<SaveFile>(fileContents);
+
+                fileStateToSave = JsonConvert.DeserializeObject<SaveFile>(fileContents);
+
+                if (fileStateToSave.unlocks == null)
+                {
+                    fileStateToSave.unlocks = new List<Unlock>();
+                }
             }
             else
             {
