@@ -3164,17 +3164,14 @@ MonoBehaviour:
   containerPrefab: {fileID: -6854038045919382287, guid: ad6ac9c8ceac3264aa9d5a4e17abc2e4, type: 3}
   rightWall: {fileID: 1466549898}
   sortableParent: {fileID: 1492593734}
-  forceMultiplier: 20
+  forceMultiplier: 25
   spawnArea: {fileID: 1607263976}
   TypeCount: 3
   CountPerType: 40
   ContainerCount: 5
   allSortables: []
   remainingCount: 0
-  containers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  containers: []
   isDragging: 0
   currentDrag: {fileID: 0}
   isGameRunning: 0

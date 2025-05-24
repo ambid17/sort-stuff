@@ -25,7 +25,7 @@ public class Sortable : MonoBehaviour
     public bool isMoving;
     private Vector3 defaultSize;
     private Vector3 shrunkSize => defaultSize * 0.3f;
-    public List<int> touchingContainerIds;
+    public HashSet<int> touchingContainerIds;
     private Scaling scalingStatus;
     private bool isCollected = false;
     enum Scaling
@@ -36,7 +36,7 @@ public class Sortable : MonoBehaviour
     private void Awake()
     {
         gameManager = GameManager.Instance;
-        touchingContainerIds = new List<int>();
+        touchingContainerIds = new HashSet<int>();
     }
 
     public void Setup(SortableObject sortableObject)
@@ -127,7 +127,7 @@ public class Sortable : MonoBehaviour
     public void Respawn()
     {
         transform.position = GetSpawnPoint();
-        touchingContainerIds = new List<int>();
+        touchingContainerIds = new HashSet<int>();
     }
 
     public void Despawn()
@@ -158,43 +158,62 @@ public class Sortable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(myContainer == null && other.gameObject.layer == ContainerLayer)
+        if(other.gameObject.layer != ContainerLayer)
         {
-            var otherContainer = other.gameObject.GetComponentInParent<Container>();
+            return;
+        }
 
-            if (GameManager.Instance.CanSetContainer(this) && otherContainer.sortableId == -1)
-            {
-                otherContainer.SetType(sortableObject);
-            }
+        var otherContainer = other.gameObject.GetComponentInParent<Container>();
 
-            touchingContainerIds.Add(otherContainer.sortableId);
+        if (GameManager.Instance.CanSetContainer(this) && otherContainer.SortableId == -1)
+        {
+            otherContainer.SetType(sortableObject);
+        }
 
-            if (otherContainer.sortableId == sortableObject.id)
-            {
-                myContainer = otherContainer;
-                gameObject.layer = IgnoreLayer;
-                scalingStatus = Scaling.Shrinking;
-                Debug.DrawLine(transform.position, otherContainer.transform.position, Color.green, 2f);
-            }
+        touchingContainerIds.Add(otherContainer.SortableId);
+
+        
+
+        // Bail if we already have a container
+        if (myContainer != null)
+        {
+            return;
+        }
+
+        if (otherContainer.SortableId == sortableObject.id)
+        {
+            myContainer = otherContainer;
+            gameObject.layer = IgnoreLayer;
+            scalingStatus = Scaling.Shrinking;
+            Debug.DrawLine(transform.position, otherContainer.transform.position, Color.green, 2f);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (myContainer != null && other.gameObject.layer == ContainerLayer)
+        if(other.gameObject.layer != ContainerLayer)
         {
-            var otherContainer = other.gameObject.GetComponentInParent<Container>();
-            touchingContainerIds.Remove(otherContainer.sortableId);
-            if (otherContainer.sortableId == sortableObject.id)
-            {
-                myContainer = null;
-                gameObject.layer = RaycastLayer;
-                gameObject.transform.localScale = defaultSize;
-                gameManager.HandleContainerExit(this);
-                scalingStatus = Scaling.Growing;
-                Debug.DrawLine(transform.position, otherContainer.transform.position, Color.red, 2f);
-                Debug.Log("Exiting container");
-            }
+            return;
+        }
+
+        var otherContainer = other.gameObject.GetComponentInParent<Container>();
+        touchingContainerIds.Remove(otherContainer.SortableId);
+
+        if (myContainer == null)
+        {
+            return;
+        }
+
+        if (otherContainer.SortableId == sortableObject.id)
+        {
+            myContainer.ClearType();
+            myContainer = null;
+            gameObject.layer = RaycastLayer;
+            gameObject.transform.localScale = defaultSize;
+            gameManager.HandleContainerExit(this);
+            scalingStatus = Scaling.Growing;
+            Debug.DrawLine(transform.position, otherContainer.transform.position, Color.red, 2f);
+            Debug.Log("Exiting container");
         }
     }
 

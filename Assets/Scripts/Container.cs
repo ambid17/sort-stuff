@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Container : MonoBehaviour
 {
-    public int sortableId;
+    private int sortableId;
+    public int SortableId => sortableId;
     public GameObject example;
 
     private void Awake()
@@ -16,5 +17,11 @@ public class Container : MonoBehaviour
     {
         sortableId = sortableObject.id;
         gameObject.name = $"{sortableObject.prefab.name} container";
+    }
+
+    public void ClearType()
+    {
+        sortableId = -1;
+        gameObject.name = "Empty container";
     }
 }

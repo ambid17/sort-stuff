@@ -101,14 +101,16 @@ public class GameManager : Singleton<GameManager>
 
     public bool CanSetContainer(Sortable sortable)
     {
-        return !containers.Any(c => c.sortableId == sortable.sortableObject.id);
+        return !containers.Any(c => c.SortableId == sortable.sortableObject.id);
     }
 
     public void HandleContainerExit(Sortable sortable)
     {
-        sortedMapping[sortable.sortableObject.id].Remove(sortable);
-        remainingCount++;
-        UiManager.Instance.SetRemaining();
+        if (sortedMapping[sortable.sortableObject.id].Contains(sortable)){
+            sortedMapping[sortable.sortableObject.id].Remove(sortable);
+            remainingCount++;
+            UiManager.Instance.SetRemaining();
+        }
     }
 
     public void TryAddSorted(Sortable sortable)
@@ -123,25 +125,28 @@ public class GameManager : Singleton<GameManager>
         remainingCount--;
         UiManager.Instance.SetRemaining();
 
-        if (remainingCount == 0)
-        {
-            uiManager.ShowWin();
-            isGameRunning = false;
-        }
-
+        // drain the container when full and allow it to be reused
         if (sortedList.Count == CountPerType)
         {
-            var container = containers.FirstOrDefault(c => c.sortableId == sortable.sortableObject.id);
-            container.sortableId = -1;
+            var container = containers.FirstOrDefault(c => c.SortableId == sortable.sortableObject.id);
+            container.ClearType();
             foreach (var toDespawn in sortedList)
             {
                 toDespawn.Despawn();
             }
         }
+
+        if (remainingCount == 0)
+        {
+            EndGame();
+            uiManager.ShowWin();
+            isGameRunning = false;
+        }
     }
 
     public void StartGame()
     {
+        // toggle on sortables that are spawned in during settings changes
         foreach (Sortable sortable in allSortables)
         {
             sortable.TogglePhysics(true);
@@ -155,10 +160,16 @@ public class GameManager : Singleton<GameManager>
 
         foreach (var container in containers)
         {
-            container.sortableId = -1;
+            container.ClearType();
         }
 
         isGameRunning = true;
+    }
+
+    private void EndGame()
+    {
+        sortedMapping.Clear();
+        InitLevel();
     }
 
     public void InitSortedMapping()
@@ -203,13 +214,20 @@ public class GameManager : Singleton<GameManager>
 
     public void InitLevel()
     {
+        if(containers != null && containers.Count > 0)
+        {
+            foreach (var container in containers)
+            {
+                Destroy(container.gameObject);
+            }
+        }
         // spawn containers
         containers = new List<Container>();
         for (int i = 0; i < MAX_CONTAINER_COUNT; i++)
         {
             var container = Instantiate(containerPrefab);
             container.transform.position = new Vector3(i * 3.33f, -0.55f, -6.6f);
-            container.sortableId = -1;
+            container.ClearType();
             containers.Add(container);
         }
 
