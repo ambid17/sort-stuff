@@ -23,6 +23,7 @@ public class UiManager : Singleton<UiManager>
     public GameObject inGamePanel;
     public TMP_Text remainingText;
     public TMP_Text currencyText;
+    public Button pauseButton;
 
     public SliderManager BonusBar;
     public TMP_Text bonusCountText;
@@ -36,6 +37,7 @@ public class UiManager : Singleton<UiManager>
         objectTypeSlider.mainSlider.onValueChanged.AddListener(SetTypeCount);
         objectCountSlider.mainSlider.onValueChanged.AddListener(SetObjectCount);
         shopButton.onClick.AddListener(() => ToggleShop(true));
+        pauseButton.onClick.AddListener(TogglePauseMenu);
         
         // ensure panels are in the right state regardless of the scene
         ToggleShop(false);
@@ -92,5 +94,10 @@ public class UiManager : Singleton<UiManager>
     public void SetRemaining()
     {
         remainingText.text = $"Remaining: {GameManager.Instance.remainingCount}";
+    }
+
+    public void TogglePauseMenu()
+    {
+
     }
 }

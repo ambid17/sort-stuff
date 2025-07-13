@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnlockManager : Singleton<UnlockManager>
@@ -11,7 +10,7 @@ public class UnlockManager : Singleton<UnlockManager>
     public SaveFile fileStateToSave;
     public List<Item> itemSOs;
 
-    void Awake()
+    protected override void Initialize()
     {
         LoadUnlocks();
     }
