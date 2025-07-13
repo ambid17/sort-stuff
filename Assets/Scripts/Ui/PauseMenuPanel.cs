@@ -16,7 +16,7 @@ public class PauseMenuPanel : UiPanel
         QuitButton.onClick.AddListener(Quit);
     }
 
-    public override void AfterEnable()
+    protected override void AfterEnable()
     {
         GameManager.Instance.isGameRunning = false;
     }

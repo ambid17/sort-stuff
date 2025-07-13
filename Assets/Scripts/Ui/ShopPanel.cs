@@ -3,37 +3,51 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum ShopTab
+{
+    PowerUps,
+    Items,
+    Skins,
+    Unlocks
+}
+
 public class ShopPanel : UiPanel
 {
     public Button backButton;
     public Button powerUpButton;
     public Button itemButton;
     public ShopItem itemPrefab;
+    public TMP_Text currencyText;
+
     public Transform itemParent;
     public Transform powerUpParent;
-    public TMP_Text currencyText;
+    public Transform skinsParent;
+    public Transform unlocksParent;
 
     private List<ShopItem> powerups;
     private List<ShopItem> items;
+    private List<ShopItem> skins;
+    private List<ShopItem> unlocks;
 
     void Start()
     {
         backButton.onClick.AddListener(Back);
-        powerUpButton.onClick.AddListener(() => SetShopPane(true));
-        itemButton.onClick.AddListener(() => SetShopPane(false));
+        powerUpButton.onClick.AddListener(() => SetShopTab(ShopTab.PowerUps));
+        itemButton.onClick.AddListener(() => SetShopTab(ShopTab.Items));
         PopulateItems();
-        SetShopPane(true);
+    }
+
+    protected override void AfterEnable()
+    {
+        // Force update UI on panel enable
+        SetShopTab(ShopTab.Items);
+        currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";
+
     }
 
     void Back()
     {
         UiManager.Instance.ShowPanel(UiPanelType.NewGame);
-    }
-
-    public override void AfterEnable()
-    {
-        // Force update UI on panel enable
-        SetShopPane(true);
     }
 
     void PopulateItems()
@@ -47,36 +61,51 @@ public class ShopPanel : UiPanel
             shopItem.SetItem(item);
             shopItem.UpdateInternal();
 
-            if (item.itemType == ItemType.Powerup)
+            switch (item.itemType)
             {
-                powerups.Add(shopItem);
-            }
-            else
-            {
-                items.Add(shopItem);
+                case ItemType.Powerup:
+                    powerups.Add(shopItem);
+                    break;
+                case ItemType.Item:
+                    items.Add(shopItem);
+                    break;
+                case ItemType.Skin:
+                    skins.Add(shopItem);
+                    break;
+                case ItemType.Unlock:
+                    unlocks.Add(shopItem);
+                    break;
             }
         }
     }
 
-    void SetShopPane(bool isPowerUps)
+    void SetShopTab(ShopTab shopTab)
     {
-        itemParent.gameObject.SetActive(!isPowerUps);
-        powerUpParent.gameObject.SetActive(isPowerUps);
+        itemParent.gameObject.SetActive(shopTab == ShopTab.Items);
+        powerUpParent.gameObject.SetActive(shopTab == ShopTab.PowerUps);
+        skinsParent.gameObject.SetActive(shopTab == ShopTab.Skins);
+        unlocksParent.gameObject.SetActive(shopTab == ShopTab.Unlocks);
 
-        if(isPowerUps)
+        List<ShopItem> itemsToUpdate = new List<ShopItem>();
+        switch (shopTab)
         {
-            foreach (var item in powerups)
-            {
-                item.UpdateInternal();
-            }
-        }
-        else
-        {
-            foreach (var item in items)
-            {
-                item.UpdateInternal();
-            }
+            case ShopTab.Items:
+                itemsToUpdate = items;
+                break;
+            case ShopTab.PowerUps:
+                itemsToUpdate = powerups;
+                break;
+            case ShopTab.Skins:
+                itemsToUpdate = skins;
+                break;
+            case ShopTab.Unlocks:
+                itemsToUpdate = unlocks;
+                break;
         }
 
+        foreach (var item in itemsToUpdate)
+        {
+            item.UpdateInternal();
+        }
     }
 }

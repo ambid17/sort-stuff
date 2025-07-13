@@ -100,7 +100,7 @@ public class UnlockManager : Singleton<UnlockManager>
             }
 
             UiManager.Instance.hudPanel.currencyText.text = $"{fileStateToSave.currency}";
-            UiManager.Instance.shopPanel.currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";
+            UiManager.Instance.shopPanel.currencyText.text = $"{fileStateToSave.currency}";
         }
         catch (Exception e)
         {

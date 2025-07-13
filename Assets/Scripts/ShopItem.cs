@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class ShopItem : MonoBehaviour
 {
     public TMP_Text itemNameText;
+    public TMP_Text itemDescriptionText;
     public ButtonManagerBasicWithIcon purchaseButton;
+    public GameObject iconContainer;
     public Image itemIcon;
 
     private Item item;
@@ -23,6 +25,8 @@ public class ShopItem : MonoBehaviour
     public void UpdateInternal()
     {
         itemNameText.text = item.itemName;
+        itemDescriptionText.text = item.description;
+        iconContainer.SetActive(item.icon != null);
         itemIcon.sprite = item.icon;
         purchaseButton.normalText.text = item.cost.ToString();
 

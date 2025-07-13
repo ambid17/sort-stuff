@@ -21,7 +21,7 @@ public class UiPanel : MonoBehaviour
         AfterEnable();
     }
 
-    public virtual void AfterEnable()
+    protected virtual void AfterEnable()
     {
 
     }

@@ -22,6 +22,11 @@ public class HudPanel : UiPanel
 #endif
     }
 
+    protected override void AfterEnable()
+    {
+        currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";
+    }
+
     public void SetRemaining()
     {
         remainingText.text = $"Remaining: {GameManager.Instance.remainingCount}";
