@@ -36,23 +36,23 @@ public class CurrencyController : Singleton<CurrencyController>
             bonusTimer = BONUS_DURATION;
         }
 
-        UpdateSlider();
+        UpdateBonusBarSlider();
     }
 
-    void UpdateSlider()
+    void UpdateBonusBarSlider()
     {
-        UiManager.Instance.bonusCountText.text = bonusCounter.ToString();
+        UiManager.Instance.hudPanel.bonusCountText.text = bonusCounter.ToString();
         if (bonusCounter > 0)
         {
-            UiManager.Instance.BonusBar.mainSlider.value = bonusTimer / BONUS_DURATION;
+            UiManager.Instance.hudPanel.BonusBar.mainSlider.value = bonusTimer / BONUS_DURATION;
         }
         else
         {
-            UiManager.Instance.BonusBar.mainSlider.value = 0;
+            UiManager.Instance.hudPanel.BonusBar.mainSlider.value = 0;
         }
 
         var tierInfo = GetTierInfo(bonusTier);
-        UiManager.Instance.BonusBar.mainSlider.colors = new UnityEngine.UI.ColorBlock() 
+        UiManager.Instance.hudPanel.BonusBar.mainSlider.colors = new UnityEngine.UI.ColorBlock() 
         { 
             normalColor = tierInfo.color,
             highlightedColor = tierInfo.color,

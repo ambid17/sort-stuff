@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopController : Singleton<ShopController>
+public class ShopPanel : UiPanel
 {
     public Button backButton;
     public Button powerUpButton;
@@ -18,16 +18,22 @@ public class ShopController : Singleton<ShopController>
 
     void Start()
     {
-        backButton.onClick.AddListener(BackToSettings);
+        backButton.onClick.AddListener(Back);
         powerUpButton.onClick.AddListener(() => SetShopPane(true));
         itemButton.onClick.AddListener(() => SetShopPane(false));
         PopulateItems();
         SetShopPane(true);
     }
 
-    void BackToSettings()
+    void Back()
     {
-        UiManager.Instance.ToggleShop(false);
+        UiManager.Instance.ShowPanel(UiPanelType.NewGame);
+    }
+
+    public override void AfterEnable()
+    {
+        // Force update UI on panel enable
+        SetShopPane(true);
     }
 
     void PopulateItems()

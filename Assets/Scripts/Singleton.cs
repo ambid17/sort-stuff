@@ -25,7 +25,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     public static T GetInstance()
     {
-        _instance = FindObjectOfType<T>();
+        _instance = FindFirstObjectByType<T>();
         if (_instance == null)
         {
             GameObject singleton = new GameObject();

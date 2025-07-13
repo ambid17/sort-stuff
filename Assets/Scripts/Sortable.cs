@@ -18,7 +18,7 @@ public class Sortable : MonoBehaviour
     public readonly int RaycastLayer = 7;
     public readonly int ContainerLayer = 8;
     public Rigidbody myRigidbody;
-    public MeshCollider collider;
+    public MeshCollider myCollider;
     private GameManager gameManager;
     public Container myContainer;
 
@@ -51,8 +51,8 @@ public class Sortable : MonoBehaviour
 
         gameObject.layer = RaycastLayer;
 
-        collider = gameObject.AddComponent<MeshCollider>();
-        collider.convex = true;
+        myCollider = gameObject.AddComponent<MeshCollider>();
+        myCollider.convex = true;
 
         var meshFilter = gameObject.GetComponent<MeshFilter>();
         var bounds = meshFilter.mesh.bounds;

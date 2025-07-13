@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -109,7 +111,7 @@ public class GameManager : Singleton<GameManager>
         if (sortedMapping[sortable.sortableObject.objectName].Contains(sortable)){
             sortedMapping[sortable.sortableObject.objectName].Remove(sortable);
             remainingCount++;
-            UiManager.Instance.SetRemaining();
+            UiManager.Instance.hudPanel.SetRemaining();
         }
     }
 
@@ -123,7 +125,7 @@ public class GameManager : Singleton<GameManager>
 
         sortedList.Add(sortable);
         remainingCount--;
-        UiManager.Instance.SetRemaining();
+        UiManager.Instance.hudPanel.SetRemaining();
         CurrencyController.Instance.SortComplete(sortable);
 
         // drain the container when full and allow it to be reused
@@ -140,8 +142,7 @@ public class GameManager : Singleton<GameManager>
         if (remainingCount == 0)
         {
             EndGame();
-            uiManager.ShowWin();
-            isGameRunning = false;
+            uiManager.ShowPanel(UiPanelType.Win);
         }
     }
 
@@ -156,7 +157,7 @@ public class GameManager : Singleton<GameManager>
         isDragging = false;
         currentDrag = null;
         remainingCount = TotalCount;
-        UiManager.Instance.SetRemaining();
+        UiManager.Instance.hudPanel.SetRemaining();
         InitSortedMapping();
 
         foreach (var container in containers)
@@ -167,11 +168,12 @@ public class GameManager : Singleton<GameManager>
         isGameRunning = true;
     }
 
-    private void EndGame()
+    public void EndGame()
     {
         sortedMapping.Clear();
         InitLevel();
         UnlockManager.Instance.Save();
+        isGameRunning = false;
     }
 
     public void InitSortedMapping()
@@ -251,17 +253,20 @@ public class GameManager : Singleton<GameManager>
 
         var combinedSortables = sortables.Concat(unlockedSortables).ToList();
 
-        var sortableNames = combinedSortables
+        List<string> sortableNames = new List<string>();
+        try
+        {
+            sortableNames = combinedSortables
            .OrderBy(x => Random.Range(0, 1000)) // sort randomly
            .Take(TypeCount) // take the number of types we want
            .Select(x => x.objectName)
            .ToList();
-
-        if (sortableNames.Contains("Corndog"))
-        {
-            Debug.Log(":");
         }
-
+        catch(Exception e)
+        {
+            int x = 1;
+        }
+        
 
         foreach (var sortableName in sortableNames)
         {

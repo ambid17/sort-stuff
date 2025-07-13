@@ -52,7 +52,7 @@ public class UnlockManager : Singleton<UnlockManager>
     public void AddCurrency(int currency)
     {
         fileStateToSave.currency += currency;
-        UiManager.Instance.currencyText.text = $"{fileStateToSave.currency}";
+        UiManager.Instance.hudPanel.currencyText.text = $"{fileStateToSave.currency}";
     }
 
     public void Save()
@@ -99,8 +99,8 @@ public class UnlockManager : Singleton<UnlockManager>
                 };
             }
 
-            UiManager.Instance.currencyText.text = $"{fileStateToSave.currency}";
-            ShopController.Instance.currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";
+            UiManager.Instance.hudPanel.currencyText.text = $"{fileStateToSave.currency}";
+            UiManager.Instance.shopPanel.currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";
         }
         catch (Exception e)
         {

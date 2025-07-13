@@ -26,6 +26,11 @@ public class ShopItem : MonoBehaviour
         itemIcon.sprite = item.icon;
         purchaseButton.normalText.text = item.cost.ToString();
 
+        if (purchaseButton.buttonVar == null)
+        {
+            return;
+        }
+
         if (UnlockManager.Instance.IsUnlocked(item.name))
         {
             purchaseButton.buttonVar.interactable = false;
@@ -48,7 +53,7 @@ public class ShopItem : MonoBehaviour
         var didUnlock = UnlockManager.Instance.TryUnlock(item);
         if (didUnlock)
         {
-            ShopController.Instance.currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";
+            UiManager.Instance.shopPanel.currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";
             UpdateInternal();
         }
     }
