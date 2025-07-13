@@ -3726,7 +3726,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Unlocks
+  m_text: Upgrades
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
   m_sharedMaterial: {fileID: 21261991626553910, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
@@ -4796,7 +4796,7 @@ GameObject:
   - component: {fileID: 703493426}
   - component: {fileID: 703493427}
   m_Layer: 5
-  m_Name: Unlocks container
+  m_Name: Upgrades container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8214,12 +8214,12 @@ MonoBehaviour:
   backButton: {fileID: 594903827}
   powerUpButton: {fileID: 59971816}
   itemButton: {fileID: 1364666341}
-  itemPrefab: {fileID: 8144017336039973277, guid: 036b97ecb9ffc344c98045ca9ea6ead2, type: 3}
+  shopItemPrefab: {fileID: 0}
   currencyText: {fileID: 1609569541}
   itemParent: {fileID: 1027119683}
   powerUpParent: {fileID: 30778798}
   skinsParent: {fileID: 1908630723}
-  unlocksParent: {fileID: 703493426}
+  upgradesParent: {fileID: 0}
 --- !u!1 &1218615834
 GameObject:
   m_ObjectHideFlags: 0
@@ -9672,7 +9672,7 @@ GameObject:
   - component: {fileID: 1377769186}
   - component: {fileID: 1377769185}
   m_Layer: 5
-  m_Name: Unlocks Button
+  m_Name: Upgrades Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9778,7 +9778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d218e07e7315e243acdfcc700d01eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonText: Unlocks
+  buttonText: Upgrades
   clickEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -9923,9 +9923,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fdb8e405d7e72845a01b706b7566191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerUpSOs:
+  - {fileID: 11400000, guid: 96192851c85d1ae42befed7b534af88d, type: 2}
   itemSOs:
   - {fileID: 11400000, guid: 2e6d6fabd9834d94f9d0d0e116db0eab, type: 2}
   - {fileID: 11400000, guid: 96192851c85d1ae42befed7b534af88d, type: 2}
+  skinSOs:
+  - {fileID: 11400000, guid: c8a49007f464a6b4aac4997927744e41, type: 2}
+  upgradeSOs:
+  - {fileID: 11400000, guid: c46e6bb1832066e43b5c8223efab3ceb, type: 2}
+  - {fileID: 11400000, guid: 1edbcfc2a4bd4bd42a8f87679bc4250a, type: 2}
+  - {fileID: 11400000, guid: 5161323ff2452234690e9274f8b9c2bb, type: 2}
+  - {fileID: 11400000, guid: 8866e12b523fd6f449254ccba69c4621, type: 2}
+  - {fileID: 11400000, guid: 0a4ad6261a98d154e8a8956a54ac69dd, type: 2}
+  - {fileID: 11400000, guid: 2328596f59973fe40ac405ffe382832a, type: 2}
+  - {fileID: 11400000, guid: 45f12c525ce545c478b8497a4ed54660, type: 2}
+  - {fileID: 11400000, guid: 8834fc5b006505c4eb9e14df50e61022, type: 2}
+  - {fileID: 11400000, guid: c877e946c763f6849a760d19f7592d80, type: 2}
+  - {fileID: 11400000, guid: a7387ea574dfedc418cef21d065dfc86, type: 2}
+  - {fileID: 11400000, guid: f761017e3db5fcb4eac53dbe22e0174b, type: 2}
+  - {fileID: 11400000, guid: c6a6df3d3b1ae0f42b42d414ff09bd64, type: 2}
+  unlockedPowerUps: []
+  unlockedItems: []
+  unlockedSkins: []
+  unlockedUpgrades: []
+  selectedBowlSkin: {fileID: 0}
+  selectedWallSkin: {fileID: 0}
 --- !u!1 &1408733568
 GameObject:
   m_ObjectHideFlags: 0
@@ -13689,7 +13712,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Unlocks
+  m_text: Upgrades
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
   m_sharedMaterial: {fileID: 21261991626553910, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}

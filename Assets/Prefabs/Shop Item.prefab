@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bad14c4bf19da9345ad15397fdd8bb0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  borderImage: {fileID: 5368738338191117986}
   itemNameText: {fileID: 8003180450965076409}
   itemDescriptionText: {fileID: 6251073171910665333}
   purchaseButton: {fileID: 3977997509879727851}

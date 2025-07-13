@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ShopItem : MonoBehaviour
 {
+    public Image borderImage;
     public TMP_Text itemNameText;
     public TMP_Text itemDescriptionText;
     public ButtonManagerBasicWithIcon purchaseButton;
@@ -16,39 +17,70 @@ public class ShopItem : MonoBehaviour
     public void SetItem(Item item)
     {
         this.item = item;
+        UpdateInternal();
     }
 
-    /// <summary>
-    /// This is only necessary because Awake happens before purchaseButton.buttonVar is setup by ModernUI.
-    /// And we need to ensure that the item is setup first
-    /// </summary>
     public void UpdateInternal()
     {
         itemNameText.text = item.itemName;
         itemDescriptionText.text = item.description;
         iconContainer.SetActive(item.icon != null);
         itemIcon.sprite = item.icon;
-        purchaseButton.normalText.text = item.cost.ToString();
+        SetupButton();
+    }
 
+    void SetupButton()
+    {
+        // ModernUI doesn't have this set up on Awake
         if (purchaseButton.buttonVar == null)
         {
             return;
         }
 
-        if (UnlockManager.Instance.IsUnlocked(item.name))
+        purchaseButton.normalText.text = item.cost.ToString();
+        purchaseButton.buttonVar.onClick.RemoveAllListeners();
+
+        if (!UnlockManager.Instance.IsUnlocked(item.name))
         {
-            purchaseButton.buttonVar.interactable = false;
-            purchaseButton.normalText.text = "Unlocked";
-        }
-        else if (item.cost > UnlockManager.Instance.fileStateToSave.currency)
-        {
-            purchaseButton.buttonVar.interactable = false;
-            purchaseButton.normalText.color = Color.red;
+            if (item.cost > UnlockManager.Instance.fileStateToSave.currency)
+            {
+                purchaseButton.buttonVar.interactable = false;
+                purchaseButton.normalText.color = Color.red;
+            }
+            else
+            {
+                purchaseButton.buttonVar.interactable = true;
+                purchaseButton.buttonVar.onClick.AddListener(OnUnlockClicked);
+            }
         }
         else
         {
-            purchaseButton.buttonVar.onClick.RemoveAllListeners();
-            purchaseButton.buttonVar.onClick.AddListener(OnUnlockClicked);
+            if(item.itemType == ItemType.BowlSkin || item.itemType == ItemType.WallSkin)
+            {
+                HandleUnlockedSkinItem();
+            }
+            else
+            {
+                purchaseButton.buttonVar.interactable = false;
+                purchaseButton.normalText.text = "Unlocked";
+            }
+        }
+    }
+
+    void HandleUnlockedSkinItem()
+    {
+        bool isSelectedBowl = item.itemType == ItemType.BowlSkin && item.itemName == UnlockManager.Instance.selectedBowlSkin.itemName;
+        bool isSelectedWall = item.itemType == ItemType.WallSkin && item.itemName == UnlockManager.Instance.selectedWallSkin.itemName;
+        if (isSelectedBowl || isSelectedWall)
+        {
+            purchaseButton.normalText.text = "Selected";
+            purchaseButton.buttonVar.interactable = false;
+            borderImage.color = Color.green;
+        }
+        else
+        {
+            purchaseButton.buttonVar.interactable = true;
+            purchaseButton.normalText.text = "Enable";
         }
     }
 

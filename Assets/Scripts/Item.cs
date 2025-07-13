@@ -4,7 +4,8 @@ public enum ItemType
 {
     Powerup,
     Item,
-    Skin,
+    WallSkin,
+    BowlSkin,
     Unlock
 }
 

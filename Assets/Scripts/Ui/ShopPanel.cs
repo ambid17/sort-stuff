@@ -8,7 +8,7 @@ public enum ShopTab
     PowerUps,
     Items,
     Skins,
-    Unlocks
+    Upgrades
 }
 
 public class ShopPanel : UiPanel
@@ -16,18 +16,18 @@ public class ShopPanel : UiPanel
     public Button backButton;
     public Button powerUpButton;
     public Button itemButton;
-    public ShopItem itemPrefab;
+    public ShopItem shopItemPrefab;
     public TMP_Text currencyText;
 
     public Transform itemParent;
     public Transform powerUpParent;
     public Transform skinsParent;
-    public Transform unlocksParent;
+    public Transform upgradesParent;
 
     private List<ShopItem> powerups;
     private List<ShopItem> items;
     private List<ShopItem> skins;
-    private List<ShopItem> unlocks;
+    private List<ShopItem> upgrades;
 
     void Start()
     {
@@ -57,25 +57,30 @@ public class ShopPanel : UiPanel
 
         foreach (var item in UnlockManager.Instance.itemSOs)
         {
-            ShopItem shopItem = Instantiate(itemPrefab, item.itemType == ItemType.Powerup ? powerUpParent : itemParent);
+            ShopItem shopItem = Instantiate(shopItemPrefab, itemParent);
             shopItem.SetItem(item);
-            shopItem.UpdateInternal();
+            items.Add(shopItem);
+        }
 
-            switch (item.itemType)
-            {
-                case ItemType.Powerup:
-                    powerups.Add(shopItem);
-                    break;
-                case ItemType.Item:
-                    items.Add(shopItem);
-                    break;
-                case ItemType.Skin:
-                    skins.Add(shopItem);
-                    break;
-                case ItemType.Unlock:
-                    unlocks.Add(shopItem);
-                    break;
-            }
+        foreach (var item in UnlockManager.Instance.powerUpSOs)
+        {
+            ShopItem shopItem = Instantiate(shopItemPrefab, powerUpParent);
+            shopItem.SetItem(item);
+            powerups.Add(shopItem);
+        }
+
+        foreach (var item in UnlockManager.Instance.skinSOs)
+        {
+            ShopItem shopItem = Instantiate(shopItemPrefab, skinsParent);
+            shopItem.SetItem(item);
+            skins.Add(shopItem);
+        }
+
+        foreach (var item in UnlockManager.Instance.upgradeSOs)
+        {
+            ShopItem shopItem = Instantiate(shopItemPrefab, upgradesParent);
+            shopItem.SetItem(item);
+            upgrades.Add(shopItem);
         }
     }
 
@@ -84,7 +89,7 @@ public class ShopPanel : UiPanel
         itemParent.gameObject.SetActive(shopTab == ShopTab.Items);
         powerUpParent.gameObject.SetActive(shopTab == ShopTab.PowerUps);
         skinsParent.gameObject.SetActive(shopTab == ShopTab.Skins);
-        unlocksParent.gameObject.SetActive(shopTab == ShopTab.Unlocks);
+        upgradesParent.gameObject.SetActive(shopTab == ShopTab.Upgrades);
 
         List<ShopItem> itemsToUpdate = new List<ShopItem>();
         switch (shopTab)
@@ -98,8 +103,8 @@ public class ShopPanel : UiPanel
             case ShopTab.Skins:
                 itemsToUpdate = skins;
                 break;
-            case ShopTab.Unlocks:
-                itemsToUpdate = unlocks;
+            case ShopTab.Upgrades:
+                itemsToUpdate = upgrades;
                 break;
         }
 

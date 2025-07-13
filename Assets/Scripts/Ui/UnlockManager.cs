@@ -8,16 +8,22 @@ using UnityEngine;
 public class UnlockManager : Singleton<UnlockManager>
 {
     public SaveFile fileStateToSave;
+    public List<Item> powerUpSOs;
     public List<Item> itemSOs;
+    public List<Item> skinSOs;
+    public List<Item> upgradeSOs;
+
+    public List<Item> unlockedPowerUps;
+    public List<Item> unlockedItems;
+    public List<Item> unlockedSkins;
+    public List<Item> unlockedUpgrades;
+
+    public Item selectedBowlSkin;
+    public Item selectedWallSkin;
 
     protected override void Initialize()
     {
         LoadUnlocks();
-    }
-
-    void Update()
-    {
-        
     }
 
     private void OnApplicationQuit()
