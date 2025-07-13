@@ -253,21 +253,12 @@ public class GameManager : Singleton<GameManager>
 
         var combinedSortables = sortables.Concat(unlockedSortables).ToList();
 
-        List<string> sortableNames = new List<string>();
-        try
-        {
-            sortableNames = combinedSortables
+        var sortableNames = combinedSortables
            .OrderBy(x => Random.Range(0, 1000)) // sort randomly
            .Take(TypeCount) // take the number of types we want
            .Select(x => x.objectName)
            .ToList();
-        }
-        catch(Exception e)
-        {
-            int x = 1;
-        }
         
-
         foreach (var sortableName in sortableNames)
         {
             for (int i = 0; i < CountPerType; i++)
