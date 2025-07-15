@@ -16,5 +16,5 @@ MonoBehaviour:
   description: Unlocks new tiers of the bonus bar. Meaning more money per item!
   cost: 1000
   icon: {fileID: 0}
-  itemType: 3
+  itemType: 4
   sortableObject: {fileID: 0}

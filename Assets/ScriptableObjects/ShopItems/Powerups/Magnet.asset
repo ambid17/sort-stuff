@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd14e8d18157cc245b3c08c398484718, type: 3}
-  m_Name: BonusBarMax++
+  m_Name: Magnet
   m_EditorClassIdentifier: 
-  itemName: Bonus Bar Max++
-  description: Unlocks new tiers of the bonus bar. Meaning more money per item!
-  cost: 2000
+  itemName: Magnet
+  description: Picks up all objects of one type
+  cost: 500
   icon: {fileID: 0}
-  itemType: 4
+  itemType: 0
   sortableObject: {fileID: 0}

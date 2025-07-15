@@ -9,6 +9,8 @@ public class CurrencyController : Singleton<CurrencyController>
 
     private float bonusTimer = 0f;
     private const float BONUS_DURATION = 10f;
+    public float bonusDurationMultiplier = 1f;
+    private float BonusDuration => BONUS_DURATION * bonusDurationMultiplier;
 
     private int bonusTier => bonusCounter / BONUS_PER_TIER;
     private int bonusCounter = 0;
@@ -33,7 +35,7 @@ public class CurrencyController : Singleton<CurrencyController>
             {
                 bonusCounter = Mathf.Max(0, bonusCounter - BONUS_PER_TIER);
             }
-            bonusTimer = BONUS_DURATION;
+            bonusTimer = BonusDuration;
         }
 
         UpdateBonusBarSlider();
@@ -44,7 +46,7 @@ public class CurrencyController : Singleton<CurrencyController>
         UiManager.Instance.hudPanel.bonusCountText.text = bonusCounter.ToString();
         if (bonusCounter > 0)
         {
-            UiManager.Instance.hudPanel.BonusBar.mainSlider.value = bonusTimer / BONUS_DURATION;
+            UiManager.Instance.hudPanel.BonusBar.mainSlider.value = bonusTimer / BonusDuration;
         }
         else
         {
@@ -65,7 +67,7 @@ public class CurrencyController : Singleton<CurrencyController>
     public void SortComplete(Sortable sortable)
     {
         bonusCounter++;
-        bonusTimer = Mathf.Min(BONUS_DURATION, bonusTimer + TIME_BONUS_FOR_SORT);
+        bonusTimer = Mathf.Min(BonusDuration, bonusTimer + TIME_BONUS_FOR_SORT);
 
         var tierInfo = GetTierInfo(bonusTier);
         UnlockManager.Instance.AddCurrency(tierInfo.currencyValue);

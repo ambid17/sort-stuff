@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd14e8d18157cc245b3c08c398484718, type: 3}
-  m_Name: Jello
+  m_Name: Bomb
   m_EditorClassIdentifier: 
-  itemName: Jello
-  cost: 5
-  icon: {fileID: 21300000, guid: 6ca804909faea644aa355ec5c5a9e1ba, type: 3}
-  id: 100
+  itemName: BOMBA
+  description: Scatters objects. If you don't pray, you might consider starting.
+  cost: 500
+  icon: {fileID: 0}
   itemType: 0
   sortableObject: {fileID: 0}

@@ -39,7 +39,6 @@ public class GameManager : Singleton<GameManager>
     public bool isGameRunning = false;
 
     public Dictionary<string, List<Sortable>> sortedMapping;
-    public List<SortableObject> unlockedSortables;
 
     protected override void Initialize()
     {
@@ -251,7 +250,7 @@ public class GameManager : Singleton<GameManager>
 
         allSortables = new List<Sortable>();
 
-        var combinedSortables = sortables.Concat(unlockedSortables).ToList();
+        var combinedSortables = sortables.Concat(UnlockManager.Instance.unlockedItems.Select(i => i.sortableObject)).ToList();
 
         var sortableNames = combinedSortables
            .OrderBy(x => Random.Range(0, 1000)) // sort randomly

@@ -8,16 +8,17 @@ using UnityEngine;
 public class UnlockManager : Singleton<UnlockManager>
 {
     public SaveFile fileStateToSave;
+    [Header("scriptable objects")]
     public List<Item> powerUpSOs;
     public List<Item> itemSOs;
     public List<Item> skinSOs;
     public List<Item> upgradeSOs;
-
+    [Header("unlocks")]
     public List<Item> unlockedPowerUps;
     public List<Item> unlockedItems;
     public List<Item> unlockedSkins;
     public List<Item> unlockedUpgrades;
-
+    [Header("selected skins")]
     public Item selectedBowlSkin;
     public Item selectedWallSkin;
 
@@ -33,26 +34,49 @@ public class UnlockManager : Singleton<UnlockManager>
 
     public bool TryUnlock(Item item)
     {
-        if (fileStateToSave.currency > item.cost)
-        {
-            fileStateToSave.currency -= item.cost;
-            fileStateToSave.unlockedItemNames.Add(item.name);
-            GameManager.Instance.unlockedSortables.Add(item.sortableObject);
-            Save();
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool IsUnlocked(string itemName)
-    {
-        if(fileStateToSave.unlockedItemNames == null)
+        if (fileStateToSave.currency < item.cost)
         {
             return false;
         }
 
-        return fileStateToSave.unlockedItemNames.Contains(itemName);
+        fileStateToSave.currency -= item.cost;
+        switch (item.itemType)
+        {
+            case ItemType.Item:
+                unlockedItems.Add(item);
+                break;
+            case ItemType.Powerup:
+                unlockedPowerUps.Add(item);
+                ApplyPowerup(item);
+                break;
+            case ItemType.WallSkin:
+            case ItemType.BowlSkin:
+                unlockedSkins.Add(item);
+                break;
+            case ItemType.Upgrade:
+                unlockedUpgrades.Add(item);
+                ApplyUpgrade(item);
+                break;
+        }
+        Save();
+        return true;
+    }
+
+    public bool IsUnlocked(Item item)
+    {
+        switch (item.itemType)
+        {
+            case ItemType.Item:
+                return unlockedItems.Contains(item);
+            case ItemType.Powerup:
+                return unlockedPowerUps.Contains(item);
+            case ItemType.WallSkin:
+            case ItemType.BowlSkin:
+                return unlockedSkins.Contains(item);
+            case ItemType.Upgrade:
+                return unlockedUpgrades.Contains(item);
+        }
+        return false;
     }
 
     public void AddCurrency(int currency)
@@ -65,6 +89,10 @@ public class UnlockManager : Singleton<UnlockManager>
     {
         try
         {
+            fileStateToSave.unlockedItemNames = unlockedItems?.Select(i => i.itemName).ToList();
+            fileStateToSave.unlockedPowerUpNames = unlockedPowerUps?.Select(i => i.itemName).ToList();
+            fileStateToSave.unlockedSkinNames = unlockedSkins?.Select(i => i.itemName).ToList();
+            fileStateToSave.unlockedUpgradeNames = unlockedUpgrades?.Select(i => i.itemName).ToList();
             var fileData = JsonConvert.SerializeObject(fileStateToSave);
             string filePath = Path.Combine(Application.persistentDataPath, "unlocks.json");
 
@@ -77,32 +105,18 @@ public class UnlockManager : Singleton<UnlockManager>
 
     void LoadUnlocks()
     {
+        fileStateToSave = new SaveFile();
         try
         {
             string filePath = Path.Combine(Application.persistentDataPath, "unlocks.json");
             if (File.Exists(filePath))
             {
                 var fileContents = File.ReadAllText(filePath);
-
                 fileStateToSave = JsonConvert.DeserializeObject<SaveFile>(fileContents);
-
-                if (fileStateToSave.unlockedItemNames == null)
-                {
-                    fileStateToSave.unlockedItemNames = new List<string>();
-                }
-                else
-                {
-                    AddUnlocksToUse();
-                    
-                }
-            }
-            else
-            {
-                fileStateToSave = new SaveFile
-                {
-                    unlockedItemNames = new List<string>(),
-                    currency = 0
-                };
+                UpdateUnlockList(unlockedItems, fileStateToSave.unlockedItemNames, itemSOs);
+                UpdateUnlockList(unlockedPowerUps, fileStateToSave.unlockedPowerUpNames, powerUpSOs);
+                UpdateUnlockList(unlockedSkins, fileStateToSave.unlockedSkinNames, skinSOs);
+                UpdateUnlockList(unlockedUpgrades, fileStateToSave.unlockedUpgradeNames, upgradeSOs);
             }
 
             UiManager.Instance.hudPanel.currencyText.text = $"{fileStateToSave.currency}";
@@ -114,20 +128,50 @@ public class UnlockManager : Singleton<UnlockManager>
         }
     }
 
-    void AddUnlocksToUse()
+    void UpdateUnlockList(List<Item> listToUpdate, List<string> names, List<Item> masterLookupList)
     {
-        if (GameManager.Instance.unlockedSortables == null)
+        if (listToUpdate == null)
         {
-            GameManager.Instance.unlockedSortables = new List<SortableObject>();
+            listToUpdate = new List<Item>();
         }
-
-        foreach (var unlock in fileStateToSave.unlockedItemNames)
+        foreach (var name in names)
         {
-            var item = itemSOs.FirstOrDefault(i => i.itemName == unlock);
+            var item = masterLookupList.FirstOrDefault(i => i.itemName == name);
             if (item != null)
             {
-                GameManager.Instance.unlockedSortables.Add(item.sortableObject);
+                listToUpdate.Add(item);
+                switch (item.itemType)
+                {
+                    case ItemType.Powerup:
+                        ApplyPowerup(item);
+                        break;
+                    case ItemType.WallSkin:
+                    case ItemType.BowlSkin:
+                        ApplySkin(item);
+                        break;
+                    case ItemType.Upgrade:
+                        ApplyUpgrade(item);
+                        break;
+                }
             }
         }
+    }
+
+    public void ApplyPowerup(Item powerup)
+    {
+        if(powerup.itemName.Contains("Bonus Bar Duration"))
+        {
+            CurrencyController.Instance.bonusDurationMultiplier *= 1.5f;
+        }
+    }
+
+    public void ApplySkin(Item skin)
+    {
+
+    }
+
+    public void ApplyUpgrade(Item upgrade)
+    {
+
     }
 }

@@ -16,5 +16,5 @@ MonoBehaviour:
   description: Randomly drops a pile of coins that are worth a lot when sorted.
   cost: 500
   icon: {fileID: 0}
-  itemType: 3
+  itemType: 4
   sortableObject: {fileID: 0}

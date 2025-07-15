@@ -6,7 +6,7 @@ public enum ItemType
     Item,
     WallSkin,
     BowlSkin,
-    Unlock
+    Upgrade
 }
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Item")]

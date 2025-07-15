@@ -16,5 +16,5 @@ MonoBehaviour:
   description: Make the bonus bar take longer to drop down a tier.
   cost: 500
   icon: {fileID: 0}
-  itemType: 3
+  itemType: 4
   sortableObject: {fileID: 0}

@@ -40,7 +40,7 @@ public class ShopItem : MonoBehaviour
         purchaseButton.normalText.text = item.cost.ToString();
         purchaseButton.buttonVar.onClick.RemoveAllListeners();
 
-        if (!UnlockManager.Instance.IsUnlocked(item.name))
+        if (!UnlockManager.Instance.IsUnlocked(item))
         {
             if (item.cost > UnlockManager.Instance.fileStateToSave.currency)
             {
@@ -81,6 +81,7 @@ public class ShopItem : MonoBehaviour
         {
             purchaseButton.buttonVar.interactable = true;
             purchaseButton.normalText.text = "Enable";
+            purchaseButton.buttonVar.onClick.AddListener(OnSkinApply);
         }
     }
 
@@ -92,5 +93,10 @@ public class ShopItem : MonoBehaviour
             UiManager.Instance.shopPanel.currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";
             UpdateInternal();
         }
+    }
+
+    public void OnSkinApply()
+    {
+        UnlockManager.Instance.ApplySkin(item);
     }
 }
