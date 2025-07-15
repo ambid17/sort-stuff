@@ -163,6 +163,10 @@ public class UnlockManager : Singleton<UnlockManager>
         {
             CurrencyController.Instance.bonusDurationMultiplier *= 1.5f;
         }
+
+        if(powerup.itemName.Contains("Bonus Bar Tier"))
+        {
+        }
     }
 
     public void ApplySkin(Item skin)
