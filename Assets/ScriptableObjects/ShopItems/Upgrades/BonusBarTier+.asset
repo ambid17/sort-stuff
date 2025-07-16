@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd14e8d18157cc245b3c08c398484718, type: 3}
-  m_Name: BonusBarMax+
+  m_Name: BonusBarTier+
   m_EditorClassIdentifier: 
-  itemName: Bonus Bar Max+
+  itemName: Bonus Bar Tier+
   description: Unlocks new tiers of the bonus bar. Meaning more money per item!
   cost: 1000
   icon: {fileID: 0}

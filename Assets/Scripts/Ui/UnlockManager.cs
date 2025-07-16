@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+public enum GameplayUpgradeType
+{
+    GoldInjection,
+    RainingMoney,
+    StickyFingers
+}
 
 public class UnlockManager : Singleton<UnlockManager>
 {
@@ -21,6 +27,13 @@ public class UnlockManager : Singleton<UnlockManager>
     [Header("selected skins")]
     public Item selectedBowlSkin;
     public Item selectedWallSkin;
+
+    public Dictionary<GameplayUpgradeType, bool> gameplayUpgradeStatuses = new Dictionary<GameplayUpgradeType, bool>
+    {
+        { GameplayUpgradeType.GoldInjection, false },
+        { GameplayUpgradeType.RainingMoney, false },
+        { GameplayUpgradeType.StickyFingers, false }
+    };
 
     protected override void Initialize()
     {
@@ -166,6 +179,27 @@ public class UnlockManager : Singleton<UnlockManager>
 
         if(powerup.itemName.Contains("Bonus Bar Tier"))
         {
+            CurrencyController.Instance.bonusTierModiier++;
+        }
+
+        if (powerup.itemName.Contains("Bonus Bar Speed"))
+        {
+            CurrencyController.Instance.bonusBarSpeedMultiplier *= 0.9f;
+        }
+
+        if (powerup.itemName == "Gold Injection")
+        {
+            gameplayUpgradeStatuses[GameplayUpgradeType.GoldInjection] = true;
+        }
+
+        if (powerup.itemName == "Raining Money")
+        {
+            gameplayUpgradeStatuses[GameplayUpgradeType.RainingMoney] = true;
+        }
+
+        if (powerup.itemName == "Sticky Fingers")
+        {
+            gameplayUpgradeStatuses[GameplayUpgradeType.StickyFingers] = true;
         }
     }
 

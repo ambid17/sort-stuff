@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -49,7 +50,7 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
-        if(!isGameRunning)
+        if (!isGameRunning)
         {
             return;
         }
@@ -107,7 +108,8 @@ public class GameManager : Singleton<GameManager>
 
     public void HandleContainerExit(Sortable sortable)
     {
-        if (sortedMapping[sortable.sortableObject.objectName].Contains(sortable)){
+        if (sortedMapping[sortable.sortableObject.objectName].Contains(sortable))
+        {
             sortedMapping[sortable.sortableObject.objectName].Remove(sortable);
             remainingCount++;
             UiManager.Instance.hudPanel.SetRemaining();
@@ -120,6 +122,11 @@ public class GameManager : Singleton<GameManager>
         if (sortedList.Contains(sortable))
         {
             return;
+        }
+
+        if (UnlockManager.Instance.gameplayUpgradeStatuses[GameplayUpgradeType.RainingMoney])
+        {
+            StartCoroutine(TryRainMoney());
         }
 
         sortedList.Add(sortable);
@@ -140,8 +147,7 @@ public class GameManager : Singleton<GameManager>
 
         if (remainingCount == 0)
         {
-            EndGame();
-            uiManager.ShowPanel(UiPanelType.Win);
+            StartCoroutine(EndCompletedRun());
         }
     }
 
@@ -165,6 +171,39 @@ public class GameManager : Singleton<GameManager>
         }
 
         isGameRunning = true;
+    }
+
+    private IEnumerator EndCompletedRun()
+    {
+        if (UnlockManager.Instance.gameplayUpgradeStatuses[GameplayUpgradeType.GoldInjection])
+        {
+            var random = Random.Range(0, 100);
+            if (random < 10)
+            {
+                yield return StartCoroutine(GoldInjection());
+            }
+        }
+        EndGame();
+        uiManager.ShowPanel(UiPanelType.Win);
+    }
+
+    private IEnumerator TryRainMoney()
+    {
+        var random = Random.Range(0, 100);
+        if (random < 10)
+        {
+            yield return StartCoroutine(GoldInjection());
+        }
+    }
+
+    private IEnumerator GoldInjection()
+    {
+        // TODO: currently just gives 10 random sortables an extra completion
+        foreach (var item in allSortables.OrderBy(x => Random.Range(0, 1000)).Take(10))
+        {
+            CurrencyController.Instance.SortComplete(item);
+        }
+        yield return new WaitForSeconds(2f);
     }
 
     public void EndGame()
@@ -217,7 +256,7 @@ public class GameManager : Singleton<GameManager>
 
     public void InitLevel()
     {
-        if(containers != null && containers.Count > 0)
+        if (containers != null && containers.Count > 0)
         {
             foreach (var container in containers)
             {
@@ -257,7 +296,7 @@ public class GameManager : Singleton<GameManager>
            .Take(TypeCount) // take the number of types we want
            .Select(x => x.objectName)
            .ToList();
-        
+
         foreach (var sortableName in sortableNames)
         {
             for (int i = 0; i < CountPerType; i++)

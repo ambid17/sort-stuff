@@ -7,15 +7,22 @@ public class CurrencyController : Singleton<CurrencyController>
     public PooledObject textPrefab;
     public Transform textParent;
 
-    private float bonusTimer = 0f;
     private const float BONUS_DURATION = 10f;
-    public float bonusDurationMultiplier = 1f;
-    private float BonusDuration => BONUS_DURATION * bonusDurationMultiplier;
-
-    private int bonusTier => bonusCounter / BONUS_PER_TIER;
-    private int bonusCounter = 0;
-    private const int BONUS_PER_TIER = 3;
+    private const int DEFAULT_MAX_BONUS_TIER = 3;
+    private const int SORTED_OBJECTS_PER_TIER = 3;
     private const float TIME_BONUS_FOR_SORT = 4F;
+
+    // set by unlocks
+    public float bonusDurationMultiplier = 1f;
+    public int bonusTierModiier = 0;
+    public float bonusBarSpeedMultiplier = 1f;
+
+    private float ScaledBonusDuration => BONUS_DURATION * bonusDurationMultiplier;
+    private int maxBonusTier => DEFAULT_MAX_BONUS_TIER + bonusTierModiier;
+    private int bonusTier => Mathf.Min(maxBonusTier, sortedObjectCounter / SORTED_OBJECTS_PER_TIER);
+    private int sortedObjectCounter = 0;
+    private float bonusTimer = 0f;
+
 
 
     void Start()
@@ -27,15 +34,14 @@ public class CurrencyController : Singleton<CurrencyController>
 
     void Update()
     {
-        // 3s - 1/60
-        bonusTimer -= Time.deltaTime;
+        bonusTimer -= Time.deltaTime * bonusBarSpeedMultiplier;
         if (bonusTimer <= 0)
         {
-            if(bonusCounter > 0)
+            if(sortedObjectCounter > 0)
             {
-                bonusCounter = Mathf.Max(0, bonusCounter - BONUS_PER_TIER);
+                sortedObjectCounter = Mathf.Max(0, sortedObjectCounter - SORTED_OBJECTS_PER_TIER);
             }
-            bonusTimer = BonusDuration;
+            bonusTimer = ScaledBonusDuration;
         }
 
         UpdateBonusBarSlider();
@@ -43,10 +49,10 @@ public class CurrencyController : Singleton<CurrencyController>
 
     void UpdateBonusBarSlider()
     {
-        UiManager.Instance.hudPanel.bonusCountText.text = bonusCounter.ToString();
-        if (bonusCounter > 0)
+        UiManager.Instance.hudPanel.bonusCountText.text = sortedObjectCounter.ToString();
+        if (sortedObjectCounter > 0)
         {
-            UiManager.Instance.hudPanel.BonusBar.mainSlider.value = bonusTimer / BonusDuration;
+            UiManager.Instance.hudPanel.BonusBar.mainSlider.value = bonusTimer / ScaledBonusDuration;
         }
         else
         {
@@ -66,8 +72,8 @@ public class CurrencyController : Singleton<CurrencyController>
 
     public void SortComplete(Sortable sortable)
     {
-        bonusCounter++;
-        bonusTimer = Mathf.Min(BonusDuration, bonusTimer + TIME_BONUS_FOR_SORT);
+        sortedObjectCounter++;
+        bonusTimer = Mathf.Min(ScaledBonusDuration, bonusTimer + TIME_BONUS_FOR_SORT);
 
         var tierInfo = GetTierInfo(bonusTier);
         UnlockManager.Instance.AddCurrency(tierInfo.currencyValue);
@@ -115,6 +121,12 @@ public class CurrencyController : Singleton<CurrencyController>
                 return new TierInfo(Color.yellow, 26, 3);
             case 3:
                 return new TierInfo(Color.red, 27 , 5);
+            case 4:
+                return new TierInfo(Color.blue, 27, 7);
+            case 5:
+                return new TierInfo(Color.cyan, 28, 10);
+            case 6:
+                return new TierInfo(Color.magenta, 28, 15);
             default:
                 var purpleColor = new Color(.71f, .27f, .8f, 1);
                 return new TierInfo(purpleColor, 28, 10);
