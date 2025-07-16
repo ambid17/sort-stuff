@@ -172,35 +172,7 @@ public class UnlockManager : Singleton<UnlockManager>
 
     public void ApplyPowerup(Item powerup)
     {
-        if(powerup.itemName.Contains("Bonus Bar Duration"))
-        {
-            CurrencyController.Instance.bonusDurationMultiplier *= 1.5f;
-        }
-
-        if(powerup.itemName.Contains("Bonus Bar Tier"))
-        {
-            CurrencyController.Instance.bonusTierModiier++;
-        }
-
-        if (powerup.itemName.Contains("Bonus Bar Speed"))
-        {
-            CurrencyController.Instance.bonusBarSpeedMultiplier *= 0.9f;
-        }
-
-        if (powerup.itemName == "Gold Injection")
-        {
-            gameplayUpgradeStatuses[GameplayUpgradeType.GoldInjection] = true;
-        }
-
-        if (powerup.itemName == "Raining Money")
-        {
-            gameplayUpgradeStatuses[GameplayUpgradeType.RainingMoney] = true;
-        }
-
-        if (powerup.itemName == "Sticky Fingers")
-        {
-            gameplayUpgradeStatuses[GameplayUpgradeType.StickyFingers] = true;
-        }
+        
     }
 
     public void ApplySkin(Item skin)
@@ -210,6 +182,35 @@ public class UnlockManager : Singleton<UnlockManager>
 
     public void ApplyUpgrade(Item upgrade)
     {
+        if (upgrade.itemName.Contains("Bonus Bar Duration"))
+        {
+            CurrencyController.Instance.bonusDurationMultiplier *= 1.5f;
+        }
 
+        if (upgrade.itemName.Contains("Bonus Bar Tier"))
+        {
+            CurrencyController.Instance.bonusTierModiier++;
+        }
+
+        if (upgrade.itemName.Contains("Bonus Bar Speed"))
+        {
+            CurrencyController.Instance.bonusBarSpeedModifier++;
+        }
+
+        if (upgrade.itemName == "Gold Injection")
+        {
+            gameplayUpgradeStatuses[GameplayUpgradeType.GoldInjection] = true;
+        }
+
+        if (upgrade.itemName == "Raining Money")
+        {
+            gameplayUpgradeStatuses[GameplayUpgradeType.RainingMoney] = true;
+        }
+
+        if (upgrade.itemName == "Sticky Fingers")
+        {
+            gameplayUpgradeStatuses[GameplayUpgradeType.StickyFingers] = true;
+            GameManager.Instance.forceMultiplier = 40f;
+        }
     }
 }

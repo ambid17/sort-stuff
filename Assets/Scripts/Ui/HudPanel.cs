@@ -1,4 +1,5 @@
 using Michsky.UI.ModernUIPack;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class HudPanel : UiPanel
 
     public SliderManager BonusBar;
     public TMP_Text bonusCountText;
+    public TMP_Text bonusPopupText;
 
     void Start()
     {
@@ -20,6 +22,7 @@ public class HudPanel : UiPanel
 #if UNITY_EDITOR
         bonusCountText.gameObject.SetActive(true);
 #endif
+        bonusPopupText.gameObject.SetActive(false);
     }
 
     protected override void AfterEnable()
@@ -35,5 +38,13 @@ public class HudPanel : UiPanel
     public void TogglePauseMenu()
     {
         UiManager.Instance.ShowPanel(UiPanelType.PauseMenu);
+    }
+
+    public IEnumerator ShowBonusPopup(string text, float duration = 1f)
+    {
+        bonusPopupText.text = text;
+        bonusPopupText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(duration);
+        bonusPopupText.gameObject.SetActive(false);
     }
 }

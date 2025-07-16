@@ -9,13 +9,13 @@ public class CurrencyController : Singleton<CurrencyController>
 
     private const float BONUS_DURATION = 10f;
     private const int DEFAULT_MAX_BONUS_TIER = 3;
-    private const int SORTED_OBJECTS_PER_TIER = 3;
+    private const int SORTED_OBJECTS_PER_TIER = 5;
     private const float TIME_BONUS_FOR_SORT = 4F;
 
     // set by unlocks
-    public float bonusDurationMultiplier = 1f;
-    public int bonusTierModiier = 0;
-    public float bonusBarSpeedMultiplier = 1f;
+    public float bonusDurationMultiplier = 1f; // increases the duration of the bonus bar when sorted objects are collected
+    public int bonusTierModiier = 0; // increases the maximum bonus tier based on unlocks
+    public int bonusBarSpeedModifier = 1; // increases the speed at which the bonus bar fills up when sorted objects are collected
 
     private float ScaledBonusDuration => BONUS_DURATION * bonusDurationMultiplier;
     private int maxBonusTier => DEFAULT_MAX_BONUS_TIER + bonusTierModiier;
@@ -30,11 +30,9 @@ public class CurrencyController : Singleton<CurrencyController>
         PopulateObjectPool();
     }
 
-    // 6 objects
-
     void Update()
     {
-        bonusTimer -= Time.deltaTime * bonusBarSpeedMultiplier;
+        bonusTimer -= Time.deltaTime;
         if (bonusTimer <= 0)
         {
             if(sortedObjectCounter > 0)
@@ -72,7 +70,7 @@ public class CurrencyController : Singleton<CurrencyController>
 
     public void SortComplete(Sortable sortable)
     {
-        sortedObjectCounter++;
+        sortedObjectCounter += bonusBarSpeedModifier;
         bonusTimer = Mathf.Min(ScaledBonusDuration, bonusTimer + TIME_BONUS_FOR_SORT);
 
         var tierInfo = GetTierInfo(bonusTier);

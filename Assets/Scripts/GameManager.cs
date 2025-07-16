@@ -180,7 +180,7 @@ public class GameManager : Singleton<GameManager>
             var random = Random.Range(0, 100);
             if (random < 10)
             {
-                yield return StartCoroutine(GoldInjection());
+                yield return StartCoroutine(SpawnMoney("Gold Injection"));
             }
         }
         EndGame();
@@ -192,13 +192,16 @@ public class GameManager : Singleton<GameManager>
         var random = Random.Range(0, 100);
         if (random < 10)
         {
-            yield return StartCoroutine(GoldInjection());
+            // TODO: drop some money above the sortable and show "raining money" text
+            yield return StartCoroutine(SpawnMoney("Raining money"));
         }
     }
 
-    private IEnumerator GoldInjection()
+    private IEnumerator SpawnMoney(string text)
     {
         // TODO: currently just gives 10 random sortables an extra completion
+        // drop money all over with a "gold injection" text 
+        StartCoroutine(UiManager.Instance.hudPanel.ShowBonusPopup(text, 3));
         foreach (var item in allSortables.OrderBy(x => Random.Range(0, 1000)).Take(10))
         {
             CurrencyController.Instance.SortComplete(item);
