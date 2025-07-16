@@ -16,6 +16,8 @@ public class ShopPanel : UiPanel
     public Button backButton;
     public Button powerUpButton;
     public Button itemButton;
+    public Button skinsButton;
+    public Button upgradesButton;
     public ShopItem shopItemPrefab;
     public TMP_Text currencyText;
 
@@ -34,6 +36,8 @@ public class ShopPanel : UiPanel
         backButton.onClick.AddListener(Back);
         powerUpButton.onClick.AddListener(() => SetShopTab(ShopTab.PowerUps));
         itemButton.onClick.AddListener(() => SetShopTab(ShopTab.Items));
+        skinsButton.onClick.AddListener(() => SetShopTab(ShopTab.Skins));
+        upgradesButton.onClick.AddListener(() => SetShopTab(ShopTab.Upgrades));
         PopulateItems();
     }
 
@@ -42,7 +46,6 @@ public class ShopPanel : UiPanel
         // Force update UI on panel enable
         SetShopTab(ShopTab.Items);
         currencyText.text = $"{UnlockManager.Instance.fileStateToSave.currency}";
-
     }
 
     void Back()
@@ -54,6 +57,8 @@ public class ShopPanel : UiPanel
     {
         items = new List<ShopItem>();
         powerups = new List<ShopItem>();
+        skins = new List<ShopItem>();
+        upgrades = new List<ShopItem>();
 
         foreach (var item in UnlockManager.Instance.itemSOs)
         {

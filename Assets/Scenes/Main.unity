@@ -455,7 +455,7 @@ RectTransform:
   m_Father: {fileID: 1337676868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4817,7 +4817,7 @@ RectTransform:
   m_Father: {fileID: 1337676868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6225,7 +6225,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 184904946}
   m_HandleRect: {fileID: 184904945}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6880,7 +6880,7 @@ RectTransform:
   m_Father: {fileID: 1337676868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8214,12 +8214,14 @@ MonoBehaviour:
   backButton: {fileID: 594903827}
   powerUpButton: {fileID: 59971816}
   itemButton: {fileID: 1364666341}
-  shopItemPrefab: {fileID: 0}
+  skinsButton: {fileID: 780255514}
+  upgradesButton: {fileID: 1377769186}
+  shopItemPrefab: {fileID: 8144017336039973277, guid: 036b97ecb9ffc344c98045ca9ea6ead2, type: 3}
   currencyText: {fileID: 1609569541}
   itemParent: {fileID: 1027119683}
   powerUpParent: {fileID: 30778798}
   skinsParent: {fileID: 1908630723}
-  upgradesParent: {fileID: 0}
+  upgradesParent: {fileID: 703493426}
 --- !u!1 &1218615834
 GameObject:
   m_ObjectHideFlags: 0
@@ -9048,6 +9050,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1337676868}
   - component: {fileID: 1337676870}
+  - component: {fileID: 1337676871}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -9092,6 +9095,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &1337676871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337676867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1341931769
 GameObject:
   m_ObjectHideFlags: 0
@@ -9895,7 +9924,6 @@ MonoBehaviour:
   isDragging: 0
   currentDrag: {fileID: 0}
   isGameRunning: 0
-  unlockedSortables: []
 --- !u!114 &1401467745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9911,6 +9939,7 @@ MonoBehaviour:
   textPool: []
   textPrefab: {fileID: 6001013052743866421, guid: b1165753ab04ab149bcfd5e7ceea50f4, type: 3}
   textParent: {fileID: 1679959174}
+  bonusDurationMultiplier: 1
 --- !u!114 &1401467746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9925,9 +9954,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpSOs:
   - {fileID: 11400000, guid: 96192851c85d1ae42befed7b534af88d, type: 2}
+  - {fileID: 11400000, guid: b1d1ee7aba9e6dd4a9bf4ba6929c20c9, type: 2}
   itemSOs:
   - {fileID: 11400000, guid: 2e6d6fabd9834d94f9d0d0e116db0eab, type: 2}
-  - {fileID: 11400000, guid: 96192851c85d1ae42befed7b534af88d, type: 2}
   skinSOs:
   - {fileID: 11400000, guid: c8a49007f464a6b4aac4997927744e41, type: 2}
   upgradeSOs:
@@ -12915,7 +12944,7 @@ RectTransform:
   m_Father: {fileID: 1337676868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
