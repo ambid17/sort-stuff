@@ -25,8 +25,8 @@ public class UnlockManager : Singleton<UnlockManager>
     public List<Item> unlockedSkins;
     public List<Item> unlockedUpgrades;
     [Header("selected skins")]
-    public Item selectedBowlSkin;
-    public Item selectedWallSkin;
+    public Skin selectedBowlSkin;
+    public Skin selectedWallSkin;
 
     public Dictionary<GameplayUpgradeType, bool> gameplayUpgradeStatuses = new Dictionary<GameplayUpgradeType, bool>
     {
@@ -177,7 +177,10 @@ public class UnlockManager : Singleton<UnlockManager>
 
     public void ApplySkin(Item skin)
     {
-
+        if (skin.itemName.Contains("Shiny Bowls"))
+        {
+            CurrencyController.Instance.bonusDurationMultiplier *= 1.5f;
+        }
     }
 
     public void ApplyUpgrade(Item upgrade)
