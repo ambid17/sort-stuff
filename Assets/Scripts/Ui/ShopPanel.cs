@@ -14,10 +14,10 @@ public enum ShopTab
 public class ShopPanel : UiPanel
 {
     public Button backButton;
-    public Button powerUpButton;
-    public Button itemButton;
-    public Button skinsButton;
-    public Button upgradesButton;
+    public TabButton powerUpButton;
+    public TabButton itemButton;
+    public TabButton skinsButton;
+    public TabButton upgradesButton;
     public ShopItem shopItemPrefab;
     public TMP_Text currencyText;
 
@@ -34,10 +34,10 @@ public class ShopPanel : UiPanel
     void Start()
     {
         backButton.onClick.AddListener(Back);
-        powerUpButton.onClick.AddListener(() => SetShopTab(ShopTab.PowerUps));
-        itemButton.onClick.AddListener(() => SetShopTab(ShopTab.Items));
-        skinsButton.onClick.AddListener(() => SetShopTab(ShopTab.Skins));
-        upgradesButton.onClick.AddListener(() => SetShopTab(ShopTab.Upgrades));
+        powerUpButton.button.onClick.AddListener(() => SetShopTab(ShopTab.PowerUps));
+        itemButton.button.onClick.AddListener(() => SetShopTab(ShopTab.Items));
+        skinsButton.button.onClick.AddListener(() => SetShopTab(ShopTab.Skins));
+        upgradesButton.button.onClick.AddListener(() => SetShopTab(ShopTab.Upgrades));
         PopulateItems();
     }
 
@@ -95,6 +95,11 @@ public class ShopPanel : UiPanel
         powerUpParent.gameObject.SetActive(shopTab == ShopTab.PowerUps);
         skinsParent.gameObject.SetActive(shopTab == ShopTab.Skins);
         upgradesParent.gameObject.SetActive(shopTab == ShopTab.Upgrades);
+
+        powerUpButton.SetSelected(shopTab == ShopTab.PowerUps);
+        itemButton.SetSelected(shopTab == ShopTab.Items);
+        skinsButton.SetSelected(shopTab == ShopTab.Skins);
+        upgradesButton.SetSelected(shopTab == ShopTab.Upgrades);
 
         List<ShopItem> itemsToUpdate = new List<ShopItem>();
         switch (shopTab)

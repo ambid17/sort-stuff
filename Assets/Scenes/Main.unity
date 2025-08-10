@@ -661,6 +661,7 @@ GameObject:
   - component: {fileID: 59971817}
   - component: {fileID: 59971816}
   - component: {fileID: 59971815}
+  - component: {fileID: 59971819}
   m_Layer: 5
   m_Name: PowerUp Button
   m_TagString: Untagged
@@ -805,6 +806,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59971813}
   m_CullTransparentMesh: 0
+--- !u!114 &59971819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59971813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883362c40f6f59d42ba954d470adbbb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  selectedSprite: {fileID: 21300000, guid: 5618123237d1d3f49a5a6025287065f7, type: 3}
+  unselectedSprite: {fileID: 21300000, guid: 6f26b2434055f404d8d9c0b82e4de90f, type: 3}
 --- !u!1 &85183215
 GameObject:
   m_ObjectHideFlags: 0
@@ -5353,6 +5369,7 @@ GameObject:
   - component: {fileID: 780255515}
   - component: {fileID: 780255514}
   - component: {fileID: 780255513}
+  - component: {fileID: 780255517}
   m_Layer: 5
   m_Name: Skins Button
   m_TagString: Untagged
@@ -5497,6 +5514,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780255511}
   m_CullTransparentMesh: 0
+--- !u!114 &780255517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780255511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883362c40f6f59d42ba954d470adbbb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  selectedSprite: {fileID: 21300000, guid: 5618123237d1d3f49a5a6025287065f7, type: 3}
+  unselectedSprite: {fileID: 21300000, guid: 6f26b2434055f404d8d9c0b82e4de90f, type: 3}
 --- !u!1 &803858669
 GameObject:
   m_ObjectHideFlags: 0
@@ -6226,7 +6258,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 184904946}
   m_HandleRect: {fileID: 184904945}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8214,10 +8246,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 608463666}
   backButton: {fileID: 594903827}
-  powerUpButton: {fileID: 59971816}
-  itemButton: {fileID: 1364666341}
-  skinsButton: {fileID: 780255514}
-  upgradesButton: {fileID: 1377769186}
+  powerUpButton: {fileID: 59971819}
+  itemButton: {fileID: 1364666344}
+  skinsButton: {fileID: 780255517}
+  upgradesButton: {fileID: 1377769189}
   shopItemPrefab: {fileID: 8144017336039973277, guid: 036b97ecb9ffc344c98045ca9ea6ead2, type: 3}
   currencyText: {fileID: 1609569541}
   itemParent: {fileID: 1027119683}
@@ -9436,6 +9468,7 @@ GameObject:
   - component: {fileID: 1364666342}
   - component: {fileID: 1364666341}
   - component: {fileID: 1364666340}
+  - component: {fileID: 1364666344}
   m_Layer: 5
   m_Name: Items Button
   m_TagString: Untagged
@@ -9580,6 +9613,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364666338}
   m_CullTransparentMesh: 0
+--- !u!114 &1364666344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364666338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883362c40f6f59d42ba954d470adbbb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  selectedSprite: {fileID: 21300000, guid: 5618123237d1d3f49a5a6025287065f7, type: 3}
+  unselectedSprite: {fileID: 21300000, guid: 6f26b2434055f404d8d9c0b82e4de90f, type: 3}
 --- !u!1 &1365661714
 GameObject:
   m_ObjectHideFlags: 0
@@ -9702,6 +9750,7 @@ GameObject:
   - component: {fileID: 1377769187}
   - component: {fileID: 1377769186}
   - component: {fileID: 1377769185}
+  - component: {fileID: 1377769189}
   m_Layer: 5
   m_Name: Upgrades Button
   m_TagString: Untagged
@@ -9846,6 +9895,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377769183}
   m_CullTransparentMesh: 0
+--- !u!114 &1377769189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377769183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883362c40f6f59d42ba954d470adbbb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  selectedSprite: {fileID: 21300000, guid: 5618123237d1d3f49a5a6025287065f7, type: 3}
+  unselectedSprite: {fileID: 21300000, guid: 6f26b2434055f404d8d9c0b82e4de90f, type: 3}
 --- !u!1 &1401467742
 GameObject:
   m_ObjectHideFlags: 0
