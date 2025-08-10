@@ -2,15 +2,12 @@ using UnityEngine;
 
 public class WallController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public BoxCollider collider;
 
-    // Update is called once per frame
-    void Update()
+    private void OnDrawGizmos()
     {
-        
+        if (collider == null) collider = GetComponent<BoxCollider>();
+        Gizmos.color = Color.green;
+        Gizmos.DrawCube(collider.bounds.center, collider.bounds.size);
     }
 }
