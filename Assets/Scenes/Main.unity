@@ -10026,7 +10026,7 @@ MonoBehaviour:
   itemSOs:
   - {fileID: 11400000, guid: 2e6d6fabd9834d94f9d0d0e116db0eab, type: 2}
   skinSOs:
-  - {fileID: 11400000, guid: c8a49007f464a6b4aac4997927744e41, type: 2}
+  - {fileID: 11400000, guid: 77f6737cf088e994993e27935dc61535, type: 2}
   upgradeSOs:
   - {fileID: 11400000, guid: c46e6bb1832066e43b5c8223efab3ceb, type: 2}
   - {fileID: 11400000, guid: 1edbcfc2a4bd4bd42a8f87679bc4250a, type: 2}

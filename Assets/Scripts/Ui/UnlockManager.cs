@@ -1,3 +1,4 @@
+using CaosCreations;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,12 @@ public class UnlockManager : Singleton<UnlockManager>
     [Header("scriptable objects")]
     public List<Item> powerUpSOs;
     public List<Item> itemSOs;
-    public List<Item> skinSOs;
+    public List<Skin> skinSOs;
     public List<Item> upgradeSOs;
     [Header("unlocks")]
     public List<Item> unlockedPowerUps;
     public List<Item> unlockedItems;
-    public List<Item> unlockedSkins;
+    public List<Skin> unlockedSkins;
     public List<Item> unlockedUpgrades;
     [Header("selected skins")]
     public Skin selectedBowlSkin;
@@ -64,7 +65,7 @@ public class UnlockManager : Singleton<UnlockManager>
                 break;
             case ItemType.WallSkin:
             case ItemType.BowlSkin:
-                unlockedSkins.Add(item);
+                unlockedSkins.Add(item as Skin);
                 break;
             case ItemType.Upgrade:
                 unlockedUpgrades.Add(item);
@@ -128,7 +129,7 @@ public class UnlockManager : Singleton<UnlockManager>
                 fileStateToSave = JsonConvert.DeserializeObject<SaveFile>(fileContents);
                 UpdateUnlockList(unlockedItems, fileStateToSave.unlockedItemNames, itemSOs);
                 UpdateUnlockList(unlockedPowerUps, fileStateToSave.unlockedPowerUpNames, powerUpSOs);
-                UpdateUnlockList(unlockedSkins, fileStateToSave.unlockedSkinNames, skinSOs);
+                UpdateSkinUnlockList(unlockedSkins, fileStateToSave.unlockedSkinNames, skinSOs);
                 UpdateUnlockList(unlockedUpgrades, fileStateToSave.unlockedUpgradeNames, upgradeSOs);
             }
 
@@ -170,6 +171,23 @@ public class UnlockManager : Singleton<UnlockManager>
         }
     }
 
+    public void UpdateSkinUnlockList(List<Skin> listToUpdate, List<string> names, List<Skin> masterLookupList)
+    {
+        if (listToUpdate == null)
+        {
+            listToUpdate = new List<Skin>();
+        }
+        foreach (var name in names)
+        {
+            var item = masterLookupList.FirstOrDefault(i => i.itemName == name);
+            if (item != null)
+            {
+                listToUpdate.Add(item);
+                ApplySkin(item);
+            }
+        }
+    }
+
     public void ApplyPowerup(Item powerup)
     {
         
@@ -179,7 +197,8 @@ public class UnlockManager : Singleton<UnlockManager>
     {
         if (skin.itemName.Contains("Shiny Bowls"))
         {
-            CurrencyController.Instance.bonusDurationMultiplier *= 1.5f;
+            selectedBowlSkin = skin as Skin;
+            GameManager.EventService.Dispatch(new SkinSelectedEvent(selectedBowlSkin));
         }
     }
 

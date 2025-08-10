@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using CaosTabButton = CaosCreations.TabButton;
 
 public enum ShopTab
 {
@@ -14,10 +15,10 @@ public enum ShopTab
 public class ShopPanel : UiPanel
 {
     public Button backButton;
-    public TabButton powerUpButton;
-    public TabButton itemButton;
-    public TabButton skinsButton;
-    public TabButton upgradesButton;
+    public CaosTabButton powerUpButton;
+    public CaosTabButton itemButton;
+    public CaosTabButton skinsButton;
+    public CaosTabButton upgradesButton;
     public ShopItem shopItemPrefab;
     public TMP_Text currencyText;
 

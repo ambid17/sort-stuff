@@ -1,3 +1,4 @@
+using CaosCreations;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,11 +7,22 @@ public class Container : MonoBehaviour
 {
     private string sortableName;
     public string SortableName => sortableName;
-    public GameObject example;
+
+    private MeshRenderer meshRenderer;
 
     private void Awake()
     {
         sortableName = null;
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
+
+    private void Start()
+    {
+        GameManager.EventService.Add<SkinSelectedEvent>(OnSkinSelected);
+        if (UnlockManager.Instance.selectedBowlSkin != null)
+        {
+            meshRenderer.material = UnlockManager.Instance.selectedBowlSkin.material;
+        }
     }
 
     public void SetType(SortableObject sortableObject)
@@ -23,5 +35,10 @@ public class Container : MonoBehaviour
     {
         sortableName = null;
         gameObject.name = "Empty container";
+    }
+
+    public void OnSkinSelected(SkinSelectedEvent e)
+    {
+        meshRenderer.material = e.skin.material;
     }
 }

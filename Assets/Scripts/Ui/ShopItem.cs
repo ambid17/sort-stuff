@@ -69,8 +69,8 @@ public class ShopItem : MonoBehaviour
 
     void HandleUnlockedSkinItem()
     {
-        bool isSelectedBowl = item.itemType == ItemType.BowlSkin && item.itemName == UnlockManager.Instance.selectedBowlSkin.itemName;
-        bool isSelectedWall = item.itemType == ItemType.WallSkin && item.itemName == UnlockManager.Instance.selectedWallSkin.itemName;
+        bool isSelectedBowl = item.itemType == ItemType.BowlSkin && item.itemName == UnlockManager.Instance.selectedBowlSkin?.itemName;
+        bool isSelectedWall = item.itemType == ItemType.WallSkin && item.itemName == UnlockManager.Instance.selectedWallSkin?.itemName;
         if (isSelectedBowl || isSelectedWall)
         {
             purchaseButton.normalText.text = "Selected";

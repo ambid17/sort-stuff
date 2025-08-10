@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.MPE;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using EventService = Utils.EventService;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -40,6 +42,20 @@ public class GameManager : Singleton<GameManager>
     public bool isGameRunning = false;
 
     public Dictionary<string, List<Sortable>> sortedMapping;
+
+    private EventService _eventService;
+    public static EventService EventService
+    {
+        get
+        {
+            if (Instance._eventService == null)
+            {
+                Instance._eventService = new EventService();
+            }
+
+            return Instance._eventService;
+        }
+    }
 
     protected override void Initialize()
     {
