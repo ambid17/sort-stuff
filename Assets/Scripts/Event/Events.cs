@@ -3,13 +3,7 @@ using Utils;
 
 namespace CaosCreations
 {
-    public class SkinSelectedEvent : IEvent
-    {
-        public Skin skin;
+    public class BowlSkinSelectedEvent : IEvent { }
 
-        public SkinSelectedEvent(Skin skin)
-        {
-            this.skin = skin;
-        }
-    }
+    public class WallSkinSelectedEvent : IEvent { }
 }

@@ -13,7 +13,7 @@ namespace CaosCreations
         private Image backgroundImage;
         private TextMeshProUGUI buttonText;
 
-        void Start()
+        void Awake()
         {
             button = GetComponent<Button>();
             backgroundImage = GetComponentInChildren<Image>();

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c32946751b652d04090ffd4595267676, type: 3}
-  m_Name: Shiny Bowls
+  m_Name: Uranium Glass
   m_EditorClassIdentifier: 
-  itemName: Shiny Bowlz
+  itemName: Uranium Glass
   description: 
   cost: 1000
   icon: {fileID: 0}
   itemType: 3
   sortableObject: {fileID: 0}
-  material: {fileID: 2100000, guid: 1525c0b49e4c4c94f85ab18875473f5f, type: 2}
+  material: {fileID: 2100000, guid: f38918f00e44dea408e6d45a0f01c5cf, type: 2}

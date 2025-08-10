@@ -1,3 +1,4 @@
+using CaosCreations;
 using Michsky.UI.ModernUIPack;
 using TMPro;
 using UnityEngine;
@@ -17,6 +18,14 @@ public class ShopItem : MonoBehaviour
     public void SetItem(Item item)
     {
         this.item = item;
+        if(item.itemType == ItemType.BowlSkin)
+        {
+            GameManager.EventService.Add<BowlSkinSelectedEvent>(OnBowlSkinSelected);
+        }
+        if (item.itemType == ItemType.WallSkin)
+        {
+            GameManager.EventService.Add<WallSkinSelectedEvent>(OnWallSkinSelected);
+        }
         UpdateInternal();
     }
 
@@ -81,7 +90,9 @@ public class ShopItem : MonoBehaviour
         {
             purchaseButton.buttonVar.interactable = true;
             purchaseButton.normalText.text = "Enable";
+            purchaseButton.buttonVar.onClick.RemoveAllListeners();
             purchaseButton.buttonVar.onClick.AddListener(OnSkinApply);
+            borderImage.color = Color.white;
         }
     }
 
@@ -97,6 +108,16 @@ public class ShopItem : MonoBehaviour
 
     public void OnSkinApply()
     {
-        UnlockManager.Instance.ApplySkin(item);
+        UnlockManager.Instance.ApplySkin(item as Skin);
+    }
+
+    private void OnBowlSkinSelected(BowlSkinSelectedEvent e)
+    {
+        UpdateInternal();
+    }
+
+    private void OnWallSkinSelected(WallSkinSelectedEvent e)
+    {
+        UpdateInternal();
     }
 }

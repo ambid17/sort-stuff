@@ -8,21 +8,18 @@ public class Container : MonoBehaviour
     private string sortableName;
     public string SortableName => sortableName;
 
-    private MeshRenderer meshRenderer;
+    private MeshRenderer[] meshRenderers;
 
     private void Awake()
     {
         sortableName = null;
-        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderers = GetComponentsInChildren<MeshRenderer>();
     }
 
     private void Start()
     {
-        GameManager.EventService.Add<SkinSelectedEvent>(OnSkinSelected);
-        if (UnlockManager.Instance.selectedBowlSkin != null)
-        {
-            meshRenderer.material = UnlockManager.Instance.selectedBowlSkin.material;
-        }
+        GameManager.EventService.Add<BowlSkinSelectedEvent>(OnSkinSelected);
+        ApplySkin();
     }
 
     public void SetType(SortableObject sortableObject)
@@ -37,8 +34,16 @@ public class Container : MonoBehaviour
         gameObject.name = "Empty container";
     }
 
-    public void OnSkinSelected(SkinSelectedEvent e)
+    public void OnSkinSelected(BowlSkinSelectedEvent e)
     {
-        meshRenderer.material = e.skin.material;
+        ApplySkin();
+    }
+
+    private void ApplySkin()
+    {
+        foreach (var renderer in meshRenderers)
+        {
+            renderer.material = UnlockManager.Instance.selectedBowlSkin.material;
+        }
     }
 }

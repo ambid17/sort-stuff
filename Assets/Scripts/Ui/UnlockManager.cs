@@ -26,8 +26,8 @@ public class UnlockManager : Singleton<UnlockManager>
     public List<Skin> unlockedSkins;
     public List<Item> unlockedUpgrades;
     [Header("selected skins")]
-    public Skin selectedBowlSkin;
-    public Skin selectedWallSkin;
+    public Skin selectedBowlSkin => skinSOs.FirstOrDefault(skin => skin.itemName == fileStateToSave.selectedBowlSkin);
+    public Skin selectedWallSkin => skinSOs.FirstOrDefault(skin => skin.itemName == fileStateToSave.selectedWallSkin);
 
     public Dictionary<GameplayUpgradeType, bool> gameplayUpgradeStatuses = new Dictionary<GameplayUpgradeType, bool>
     {
@@ -129,7 +129,7 @@ public class UnlockManager : Singleton<UnlockManager>
                 fileStateToSave = JsonConvert.DeserializeObject<SaveFile>(fileContents);
                 UpdateUnlockList(unlockedItems, fileStateToSave.unlockedItemNames, itemSOs);
                 UpdateUnlockList(unlockedPowerUps, fileStateToSave.unlockedPowerUpNames, powerUpSOs);
-                UpdateSkinUnlockList(unlockedSkins, fileStateToSave.unlockedSkinNames, skinSOs);
+                UpdateSkinUnlockList();
                 UpdateUnlockList(unlockedUpgrades, fileStateToSave.unlockedUpgradeNames, upgradeSOs);
             }
 
@@ -159,10 +159,6 @@ public class UnlockManager : Singleton<UnlockManager>
                     case ItemType.Powerup:
                         ApplyPowerup(item);
                         break;
-                    case ItemType.WallSkin:
-                    case ItemType.BowlSkin:
-                        ApplySkin(item);
-                        break;
                     case ItemType.Upgrade:
                         ApplyUpgrade(item);
                         break;
@@ -171,19 +167,22 @@ public class UnlockManager : Singleton<UnlockManager>
         }
     }
 
-    public void UpdateSkinUnlockList(List<Skin> listToUpdate, List<string> names, List<Skin> masterLookupList)
+    public void UpdateSkinUnlockList()
     {
-        if (listToUpdate == null)
+        if (unlockedSkins == null)
         {
-            listToUpdate = new List<Skin>();
+            unlockedSkins = new List<Skin>();
         }
-        foreach (var name in names)
+        foreach (var name in fileStateToSave.unlockedSkinNames)
         {
-            var item = masterLookupList.FirstOrDefault(i => i.itemName == name);
+            var item = skinSOs.FirstOrDefault(i => i.itemName == name);
             if (item != null)
             {
-                listToUpdate.Add(item);
-                ApplySkin(item);
+                unlockedSkins.Add(item);
+                if(item.itemName == fileStateToSave.selectedBowlSkin)
+                {
+                    ApplySkin(item);
+                }
             }
         }
     }
@@ -193,12 +192,17 @@ public class UnlockManager : Singleton<UnlockManager>
         
     }
 
-    public void ApplySkin(Item skin)
+    public void ApplySkin(Skin skin)
     {
-        if (skin.itemName.Contains("Shiny Bowls"))
+        if (skin.itemType == ItemType.BowlSkin)
         {
-            selectedBowlSkin = skin as Skin;
-            GameManager.EventService.Dispatch(new SkinSelectedEvent(selectedBowlSkin));
+            fileStateToSave.selectedBowlSkin = skin.itemName;
+            GameManager.EventService.Dispatch(new BowlSkinSelectedEvent());
+        }
+        else
+        {
+            fileStateToSave.selectedWallSkin = skin.itemName;
+            GameManager.EventService.Dispatch(new WallSkinSelectedEvent());
         }
     }
 

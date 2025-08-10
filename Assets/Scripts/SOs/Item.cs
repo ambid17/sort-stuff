@@ -19,9 +19,3 @@ public class Item : ScriptableObject
     public ItemType itemType;
     public SortableObject sortableObject;
 }
-
-[CreateAssetMenu(fileName = "New Skin", menuName = "Skin")]
-public class Skin : Item
-{
-    public Material material;
-}
