@@ -10,4 +10,5 @@ public enum PowerupType
 public class Powerup : Item
 {
     public PowerupType powerUpType;
+    public GameObject prefab;
 }

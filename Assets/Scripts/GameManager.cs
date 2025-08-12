@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.MPE;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using EventService = Utils.EventService;
@@ -38,7 +37,7 @@ public class GameManager : Singleton<GameManager>
 
     private Vector3 forceToApply;
     public bool isDragging = false;
-    public Sortable currentDrag;
+    public Interactable currentDrag;
     public bool isGameRunning = false;
 
     public Dictionary<string, List<Sortable>> sortedMapping;
@@ -79,7 +78,7 @@ public class GameManager : Singleton<GameManager>
                 if (Physics.Raycast(ray, out RaycastHit rayHit, float.MaxValue, SortableLayerMask))
                 {
                     var selectedObject = rayHit.collider.gameObject;
-                    currentDrag = selectedObject.GetComponent<Sortable>();
+                    currentDrag = selectedObject.GetComponent<Interactable>();
                     isDragging = true;
                 }
             }
@@ -99,6 +98,7 @@ public class GameManager : Singleton<GameManager>
             {
                 isDragging = false;
                 currentDrag.myRigidbody.linearDamping = 0.5f;
+                currentDrag.OnDrop();
                 currentDrag = null;
             }
         }
@@ -145,6 +145,8 @@ public class GameManager : Singleton<GameManager>
             StartCoroutine(TryRainMoney());
         }
 
+        TrySpawnPowerUp();
+
         sortedList.Add(sortable);
         remainingCount--;
         UiManager.Instance.hudPanel.SetRemaining();
@@ -164,6 +166,22 @@ public class GameManager : Singleton<GameManager>
         if (remainingCount == 0)
         {
             StartCoroutine(EndCompletedRun());
+        }
+    }
+
+    private void TrySpawnPowerUp()
+    {
+        if(UnlockManager.Instance.powerUpSOs.Count(so => so.isUnlocked) == 0)
+        {
+            return;
+        }
+
+        var random = Random.Range(0, 1f);
+        if(random < .1f)
+        {
+            var unlockedPowerups = UnlockManager.Instance.powerUpSOs.Where(so => so.isUnlocked).ToList();
+            var powerUpIndex = Random.Range(0, unlockedPowerups.Count());
+            Instantiate(unlockedPowerups[powerUpIndex].prefab);
         }
     }
 
@@ -324,7 +342,6 @@ public class GameManager : Singleton<GameManager>
                 var sortableGO = Instantiate(sortableSO.prefab);
                 Sortable sortable = sortableGO.AddComponent<Sortable>();
                 sortable.Setup(sortableSO);
-                sortable.TogglePhysics(false);
                 sortable.transform.parent = sortableParent.transform;
                 allSortables.Add(sortable);
             }
