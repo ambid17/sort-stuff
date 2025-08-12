@@ -41,6 +41,11 @@ public class Container : MonoBehaviour
 
     private void ApplySkin()
     {
+        if(UnlockManager.Instance.selectedBowlSkin == null)
+        {
+            Debug.LogWarning("No bowl skin selected.");
+            return;
+        }
         foreach (var renderer in meshRenderers)
         {
             renderer.material = UnlockManager.Instance.selectedBowlSkin.material;

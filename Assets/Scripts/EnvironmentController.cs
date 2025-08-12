@@ -22,6 +22,12 @@ public class EnvironmentController : MonoBehaviour
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
 
+        if(UnlockManager.Instance.selectedEnvironment == null)
+        {
+            Debug.LogWarning("No environment selected.");
+            return;
+        }
+
         var newEnvironment = Instantiate(UnlockManager.Instance.selectedEnvironment.prefab);
         newEnvironment.transform.SetParent(transform);
     }
