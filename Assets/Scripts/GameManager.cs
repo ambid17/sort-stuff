@@ -17,6 +17,8 @@ public class GameManager : Singleton<GameManager>
     public GameObject sortableParent;
     public float forceMultiplier = 4;
     public BoxCollider spawnArea;
+    [Range(0, 1)]
+    public float powerupSpawnChance;
 
     public const float CONTAINER_WIDTH = 3.33f;
     public const int MAX_CONTAINER_COUNT = 5;
@@ -79,6 +81,7 @@ public class GameManager : Singleton<GameManager>
                 {
                     var selectedObject = rayHit.collider.gameObject;
                     currentDrag = selectedObject.GetComponent<Interactable>();
+                    currentDrag.OnPickup();
                     isDragging = true;
                 }
             }
@@ -91,13 +94,12 @@ public class GameManager : Singleton<GameManager>
             {
                 var targetPosition = rayHit.point + new Vector3(0, 3.5f, 0);
                 forceToApply = targetPosition - currentDrag.transform.position;
-                currentDrag.myRigidbody.linearDamping = 4;
+                currentDrag.targetPosition = targetPosition;
             }
 
             if (Input.GetMouseButtonUp(0))
             {
                 isDragging = false;
-                currentDrag.myRigidbody.linearDamping = 0.5f;
                 currentDrag.OnDrop();
                 currentDrag = null;
             }
@@ -177,7 +179,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         var random = Random.Range(0, 1f);
-        if(random < .1f)
+        if(random < powerupSpawnChance)
         {
             var unlockedPowerups = UnlockManager.Instance.powerUpSOs.Where(so => so.isUnlocked).ToList();
             var powerUpIndex = Random.Range(0, unlockedPowerups.Count());

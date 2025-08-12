@@ -16,6 +16,6 @@ MonoBehaviour:
   description: Picks up all objects of one type
   cost: 500
   icon: {fileID: 0}
-  itemType: 0
   isUnlocked: 0
   powerUpType: 1
+  prefab: {fileID: 4803166110693541236, guid: ceebdbbc80de53a46a57eb6b36913842, type: 3}

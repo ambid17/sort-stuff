@@ -21,7 +21,7 @@ public class Sortable : Interactable
     private Vector3 shrunkSize => defaultSize * 0.3f;
     public HashSet<string> touchingContainers;
     private Scaling scalingStatus;
-    private bool isCollected = false;
+    public bool areAllCollected = false;
     enum Scaling
     {
         None, Growing, Shrinking
@@ -55,7 +55,7 @@ public class Sortable : Interactable
 
     private void Update()
     {
-        if (isCollected)
+        if (areAllCollected)
         {
             HandleShrinkToNothing();
             return;
@@ -116,7 +116,7 @@ public class Sortable : Interactable
     {
         Destroy(myRigidbody);
         Destroy(gameObject.GetComponent<MeshCollider>());
-        isCollected = true;
+        areAllCollected = true;
     }
 
     private void HandleStop()

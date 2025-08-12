@@ -6289,7 +6289,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 184904946}
   m_HandleRect: {fileID: 184904945}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -10051,6 +10051,7 @@ MonoBehaviour:
   sortableParent: {fileID: 1492593734}
   forceMultiplier: 25
   spawnArea: {fileID: 1607263976}
+  powerupSpawnChance: 0.1
   TypeCount: 3
   CountPerType: 40
   ContainerCount: 5

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class Bomb : Interactable
@@ -21,7 +22,8 @@ public class Bomb : Interactable
             return;
         }
 
-        foreach(var go in GameManager.Instance.allSortables)
+        var activeSortables = GameManager.Instance.allSortables.Where(so => !so.areAllCollected && so.touchingContainers.Count == 0);
+        foreach (var go in activeSortables)
         {
             go.myRigidbody.AddExplosionForce(10000f, transform.position, 20f);
         }

@@ -16,6 +16,6 @@ MonoBehaviour:
   description: Scatters objects. If you don't pray, you might consider starting.
   cost: 500
   icon: {fileID: 0}
-  itemType: 0
-  isUnlocked: 0
+  isUnlocked: 1
   powerUpType: 0
+  prefab: {fileID: 7359239995162387197, guid: 6d20b564d94ca7b4cbedef8053aec6aa, type: 3}

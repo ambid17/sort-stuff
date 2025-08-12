@@ -1,16 +1,58 @@
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class Magnet : MonoBehaviour
+public class Magnet : Interactable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    List<Sortable> targetSortables;
+    bool isDragging = false;
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
+
+    private void FixedUpdate()
+    {
+        if (!GameManager.Instance.isGameRunning || !isDragging)
+        {
+            return;
+        }
+
+        foreach(var sortable in targetSortables)
+        {
+            var forceToApply = targetPosition - sortable.transform.position;
+            sortable.myRigidbody.AddForce(forceToApply * Time.fixedDeltaTime * GameManager.Instance.forceMultiplier, ForceMode.Impulse);
+        }
+    }
+
+    public override void OnPickup()
+    {
+        base.OnPickup();
+        var targetName = GameManager.Instance.allSortables
+            .Where(x => !x.areAllCollected)
+            .OrderBy(x => Random.Range(0, 1000))
+            .Select(x=> x.sortableObject.objectName)
+            .FirstOrDefault();
+
+        targetSortables = GameManager.Instance.allSortables
+            .Where(sortable => sortable.touchingContainers.Count == 0 
+            && sortable.sortableObject.objectName == targetName).ToList();
+        isDragging = true;
+    }
+
+    public override void OnDrop()
+    {
+        base.OnDrop();
+        isDragging = false;
+        Destroy(gameObject);
+    }
+
+    
 }

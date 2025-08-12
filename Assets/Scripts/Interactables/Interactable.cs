@@ -6,6 +6,7 @@ public class Interactable : MonoBehaviour
     public Rigidbody myRigidbody;
     public MeshCollider myCollider;
     protected Vector3 defaultSize;
+    public Vector3 targetPosition;
 
     private void Awake()
     {
@@ -40,9 +41,14 @@ public class Interactable : MonoBehaviour
         transform.position = GetSpawnPoint();
     }
 
+    public virtual void OnPickup()
+    {
+        myRigidbody.linearDamping = 4;
+    }
+
     public virtual void OnDrop()
     {
-
+        myRigidbody.linearDamping = 0.5f;
     }
 
     protected Vector3 GetSpawnPoint()
