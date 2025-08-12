@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c32946751b652d04090ffd4595267676, type: 3}
   m_Name: Uranium Glass 1
   m_EditorClassIdentifier: 
-  itemName: Uranium Glass
+  itemName: Castle
   description: 
-  cost: 1000
+  cost: 5000
   icon: {fileID: 0}
-  itemType: 3
+  itemType: 2
   sortableObject: {fileID: 0}
   material: {fileID: 2100000, guid: f38918f00e44dea408e6d45a0f01c5cf, type: 2}
