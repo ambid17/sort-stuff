@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd14e8d18157cc245b3c08c398484718, type: 3}
+  m_Script: {fileID: 11500000, guid: de4992d7b5abdcc4092126d5e06ed456, type: 3}
   m_Name: Magnet
   m_EditorClassIdentifier: 
   itemName: Magnet
@@ -17,4 +17,5 @@ MonoBehaviour:
   cost: 500
   icon: {fileID: 0}
   itemType: 0
-  sortableObject: {fileID: 0}
+  isUnlocked: 0
+  powerUpType: 1

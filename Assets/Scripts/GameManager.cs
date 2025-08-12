@@ -140,7 +140,7 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        if (UnlockManager.Instance.gameplayUpgradeStatuses[GameplayUpgradeType.RainingMoney])
+        if (UnlockManager.Instance.IsUpgradeUnlocked(GameplayUpgradeType.RainingMoney))
         {
             StartCoroutine(TryRainMoney());
         }
@@ -191,7 +191,7 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator EndCompletedRun()
     {
-        if (UnlockManager.Instance.gameplayUpgradeStatuses[GameplayUpgradeType.GoldInjection])
+        if (UnlockManager.Instance.IsUpgradeUnlocked(GameplayUpgradeType.GoldInjection))
         {
             var random = Random.Range(0, 100);
             if (random < 10)
@@ -308,7 +308,7 @@ public class GameManager : Singleton<GameManager>
 
         allSortables = new List<Sortable>();
 
-        var combinedSortables = sortables.Concat(UnlockManager.Instance.unlockedItems.Select(i => i.sortableObject)).ToList();
+        var combinedSortables = sortables.Concat(UnlockManager.Instance.itemSOs.Where(i => i.isUnlocked).Select(i => i.sortableObject)).ToList();
 
         var sortableNames = combinedSortables
            .OrderBy(x => Random.Range(0, 1000)) // sort randomly

@@ -5,5 +5,5 @@ namespace CaosCreations
 {
     public class BowlSkinSelectedEvent : IEvent { }
 
-    public class WallSkinSelectedEvent : IEvent { }
+    public class EnvironmentSelectedEvent : IEvent { }
 }

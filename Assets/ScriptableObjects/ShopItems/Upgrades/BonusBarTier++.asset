@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd14e8d18157cc245b3c08c398484718, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cb71d605bf13a2449c24d962b641677, type: 3}
   m_Name: BonusBarTier++
   m_EditorClassIdentifier: 
   itemName: Bonus Bar Tier++
   description: Unlocks new tiers of the bonus bar. Meaning more money per item!
-  cost: 2000
+  cost: 500
   icon: {fileID: 0}
-  itemType: 4
-  sortableObject: {fileID: 0}
+  isUnlocked: 0
+  upgradeType: 4

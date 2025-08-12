@@ -2169,6 +2169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 381825898}
+  - component: {fileID: 381825899}
   m_Layer: 6
   m_Name: Environment
   m_TagString: Untagged
@@ -2196,6 +2197,18 @@ Transform:
   - {fileID: 1504237548}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &381825899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381825897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5198f77a7ef73464f8bd2795ec7d1934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &384634520
 GameObject:
   m_ObjectHideFlags: 0
@@ -10078,30 +10091,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpSOs:
-  - {fileID: 11400000, guid: 96192851c85d1ae42befed7b534af88d, type: 2}
-  - {fileID: 11400000, guid: b1d1ee7aba9e6dd4a9bf4ba6929c20c9, type: 2}
+  - {fileID: 11400000, guid: 137a554f1ca62ec4da834c404b7eb5b0, type: 2}
+  - {fileID: 11400000, guid: 91fb8e7a59b3ae4428ed54c2bfeac1c5, type: 2}
   itemSOs:
-  - {fileID: 11400000, guid: 2e6d6fabd9834d94f9d0d0e116db0eab, type: 2}
+  - {fileID: 11400000, guid: 4a3097c657d12334286210c309ebbfb1, type: 2}
   skinSOs:
   - {fileID: 11400000, guid: e4818aa90be8ffa41a565236cf02a624, type: 2}
   - {fileID: 11400000, guid: 3bb7ec1c0c8cc9448b2675c82c05809f, type: 2}
   upgradeSOs:
-  - {fileID: 11400000, guid: c46e6bb1832066e43b5c8223efab3ceb, type: 2}
-  - {fileID: 11400000, guid: 1edbcfc2a4bd4bd42a8f87679bc4250a, type: 2}
-  - {fileID: 11400000, guid: 5161323ff2452234690e9274f8b9c2bb, type: 2}
-  - {fileID: 11400000, guid: 8866e12b523fd6f449254ccba69c4621, type: 2}
-  - {fileID: 11400000, guid: 0a4ad6261a98d154e8a8956a54ac69dd, type: 2}
-  - {fileID: 11400000, guid: 2328596f59973fe40ac405ffe382832a, type: 2}
-  - {fileID: 11400000, guid: 45f12c525ce545c478b8497a4ed54660, type: 2}
-  - {fileID: 11400000, guid: 8834fc5b006505c4eb9e14df50e61022, type: 2}
-  - {fileID: 11400000, guid: c877e946c763f6849a760d19f7592d80, type: 2}
-  - {fileID: 11400000, guid: a7387ea574dfedc418cef21d065dfc86, type: 2}
-  - {fileID: 11400000, guid: f761017e3db5fcb4eac53dbe22e0174b, type: 2}
-  - {fileID: 11400000, guid: c6a6df3d3b1ae0f42b42d414ff09bd64, type: 2}
-  unlockedPowerUps: []
-  unlockedItems: []
-  unlockedSkins: []
-  unlockedUpgrades: []
+  - {fileID: 11400000, guid: 777a6fb67a1286346904104f330b9dbf, type: 2}
+  - {fileID: 11400000, guid: 2ea6e7edaf461c049adc6b8789301db1, type: 2}
+  - {fileID: 11400000, guid: 9c675bfc0b20a7949bfeb6c1a12ef8ad, type: 2}
+  - {fileID: 11400000, guid: e684c103d9f96fe449c848841401c501, type: 2}
+  - {fileID: 11400000, guid: 82062ab8eb422df44956f54a7cf01d8a, type: 2}
+  - {fileID: 11400000, guid: 4ff779e9787301d4bbef43e732592a46, type: 2}
+  - {fileID: 11400000, guid: ae05be0dfe9338b43a3190557ccfd77a, type: 2}
+  - {fileID: 11400000, guid: 858abdc77220c624380b0b740291d6e1, type: 2}
+  - {fileID: 11400000, guid: 720121321de805a4e81112acc931548c, type: 2}
+  - {fileID: 11400000, guid: 286901acb8ddf6140b7ac02f1a2fb23d, type: 2}
+  - {fileID: 11400000, guid: 1b23ea95611d29a438ee845d1724cddf, type: 2}
+  - {fileID: 11400000, guid: 23282776a2de7024cb96c32dbc6d68af, type: 2}
+  environmentSOs:
+  - {fileID: 11400000, guid: 81ae17d061ee8974db39943efaa1a840, type: 2}
 --- !u!1 &1408733568
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Uranium Glass
   m_EditorClassIdentifier: 
   itemName: Uranium Glass
-  description: 
+  description: Do. Not. Eat. Don't be the reason for new warning labels.
   cost: 1000
   icon: {fileID: 0}
-  itemType: 3
-  sortableObject: {fileID: 0}
+  isUnlocked: 0
   material: {fileID: 2100000, guid: f38918f00e44dea408e6d45a0f01c5cf, type: 2}

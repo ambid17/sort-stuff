@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Shiny Bowls
   m_EditorClassIdentifier: 
   itemName: Shiny Bowls
-  description: 
+  description: Not to be confused with uh... yeah.
   cost: 1000
   icon: {fileID: 0}
-  itemType: 3
-  sortableObject: {fileID: 0}
+  isUnlocked: 0
   material: {fileID: 2100000, guid: 1525c0b49e4c4c94f85ab18875473f5f, type: 2}

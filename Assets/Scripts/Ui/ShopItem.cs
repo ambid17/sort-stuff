@@ -18,13 +18,13 @@ public class ShopItem : MonoBehaviour
     public void SetItem(Item item)
     {
         this.item = item;
-        if(item.itemType == ItemType.BowlSkin)
+        if(item is Skin)
         {
             GameManager.EventService.Add<BowlSkinSelectedEvent>(OnBowlSkinSelected);
         }
-        if (item.itemType == ItemType.WallSkin)
+        if (item is Environment)
         {
-            GameManager.EventService.Add<WallSkinSelectedEvent>(OnWallSkinSelected);
+            GameManager.EventService.Add<EnvironmentSelectedEvent>(OnWallSkinSelected);
         }
         UpdateInternal();
     }
@@ -49,7 +49,7 @@ public class ShopItem : MonoBehaviour
         purchaseButton.normalText.text = item.cost.ToString();
         purchaseButton.buttonVar.onClick.RemoveAllListeners();
 
-        if (!UnlockManager.Instance.IsUnlocked(item))
+        if (!item.isUnlocked)
         {
             if (item.cost > UnlockManager.Instance.fileStateToSave.currency)
             {
@@ -64,7 +64,7 @@ public class ShopItem : MonoBehaviour
         }
         else
         {
-            if(item.itemType == ItemType.BowlSkin || item.itemType == ItemType.WallSkin)
+            if(item is Skin || item is Environment)
             {
                 HandleUnlockedSkinItem();
             }
@@ -78,8 +78,8 @@ public class ShopItem : MonoBehaviour
 
     void HandleUnlockedSkinItem()
     {
-        bool isSelectedBowl = item.itemType == ItemType.BowlSkin && item.itemName == UnlockManager.Instance.selectedBowlSkin?.itemName;
-        bool isSelectedWall = item.itemType == ItemType.WallSkin && item.itemName == UnlockManager.Instance.selectedWallSkin?.itemName;
+        bool isSelectedBowl = item is Skin && item.itemName == UnlockManager.Instance.selectedBowlSkin?.itemName;
+        bool isSelectedWall = item is Environment && item.itemName == UnlockManager.Instance.selectedEnvironment?.itemName;
         if (isSelectedBowl || isSelectedWall)
         {
             purchaseButton.normalText.text = "Selected";
@@ -108,7 +108,14 @@ public class ShopItem : MonoBehaviour
 
     public void OnSkinApply()
     {
-        UnlockManager.Instance.ApplySkin(item as Skin);
+        if(item is Environment env)
+        {
+            UnlockManager.Instance.ApplyEnvironment(env);
+        }
+        else
+        {
+            UnlockManager.Instance.ApplySkin(item as Skin);
+        }
     }
 
     private void OnBowlSkinSelected(BowlSkinSelectedEvent e)
@@ -116,7 +123,7 @@ public class ShopItem : MonoBehaviour
         UpdateInternal();
     }
 
-    private void OnWallSkinSelected(WallSkinSelectedEvent e)
+    private void OnWallSkinSelected(EnvironmentSelectedEvent e)
     {
         UpdateInternal();
     }

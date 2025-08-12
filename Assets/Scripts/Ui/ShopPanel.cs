@@ -82,6 +82,13 @@ public class ShopPanel : UiPanel
             skins.Add(shopItem);
         }
 
+        foreach(var item in UnlockManager.Instance.environmentSOs)
+        {
+            ShopItem shopItem = Instantiate(shopItemPrefab, skinsParent);
+            shopItem.SetItem(item);
+            skins.Add(shopItem);
+        }
+
         foreach (var item in UnlockManager.Instance.upgradeSOs)
         {
             ShopItem shopItem = Instantiate(shopItemPrefab, upgradesParent);

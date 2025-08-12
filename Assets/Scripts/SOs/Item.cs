@@ -9,13 +9,11 @@ public enum ItemType
     Upgrade
 }
 
-[CreateAssetMenu(fileName = "New Item", menuName = "Item")]
 public class Item : ScriptableObject
 {
     public string itemName;
     public string description;
     public int cost;
     public Sprite icon;
-    public ItemType itemType;
-    public SortableObject sortableObject;
+    public bool isUnlocked;
 }

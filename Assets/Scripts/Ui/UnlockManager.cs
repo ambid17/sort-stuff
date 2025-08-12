@@ -5,36 +5,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-public enum GameplayUpgradeType
-{
-    GoldInjection,
-    RainingMoney,
-    StickyFingers
-}
 
 public class UnlockManager : Singleton<UnlockManager>
 {
     public SaveFile fileStateToSave;
     [Header("scriptable objects")]
-    public List<Item> powerUpSOs;
-    public List<Item> itemSOs;
+    public List<Powerup> powerUpSOs;
+    public List<SortableItem> itemSOs;
     public List<Skin> skinSOs;
-    public List<Item> upgradeSOs;
-    [Header("unlocks")]
-    public List<Item> unlockedPowerUps;
-    public List<Item> unlockedItems;
-    public List<Skin> unlockedSkins;
-    public List<Item> unlockedUpgrades;
+    public List<Upgrade> upgradeSOs;
+    public List<Environment> environmentSOs;
     [Header("selected skins")]
     public Skin selectedBowlSkin => skinSOs.FirstOrDefault(skin => skin.itemName == fileStateToSave.selectedBowlSkin);
-    public Skin selectedWallSkin => skinSOs.FirstOrDefault(skin => skin.itemName == fileStateToSave.selectedWallSkin);
-
-    public Dictionary<GameplayUpgradeType, bool> gameplayUpgradeStatuses = new Dictionary<GameplayUpgradeType, bool>
-    {
-        { GameplayUpgradeType.GoldInjection, false },
-        { GameplayUpgradeType.RainingMoney, false },
-        { GameplayUpgradeType.StickyFingers, false }
-    };
+    public Environment selectedEnvironment => environmentSOs.FirstOrDefault(env => env.itemName == fileStateToSave.selectedEnvironment);
 
     protected override void Initialize()
     {
@@ -54,43 +37,15 @@ public class UnlockManager : Singleton<UnlockManager>
         }
 
         fileStateToSave.currency -= item.cost;
-        switch (item.itemType)
+        item.isUnlocked = true;
+        switch (item)
         {
-            case ItemType.Item:
-                unlockedItems.Add(item);
-                break;
-            case ItemType.Powerup:
-                unlockedPowerUps.Add(item);
-                ApplyPowerup(item);
-                break;
-            case ItemType.WallSkin:
-            case ItemType.BowlSkin:
-                unlockedSkins.Add(item as Skin);
-                break;
-            case ItemType.Upgrade:
-                unlockedUpgrades.Add(item);
-                ApplyUpgrade(item);
+            case Upgrade upgrade:
+                ApplyUpgrade(upgrade);
                 break;
         }
         Save();
         return true;
-    }
-
-    public bool IsUnlocked(Item item)
-    {
-        switch (item.itemType)
-        {
-            case ItemType.Item:
-                return unlockedItems.Contains(item);
-            case ItemType.Powerup:
-                return unlockedPowerUps.Contains(item);
-            case ItemType.WallSkin:
-            case ItemType.BowlSkin:
-                return unlockedSkins.Contains(item);
-            case ItemType.Upgrade:
-                return unlockedUpgrades.Contains(item);
-        }
-        return false;
     }
 
     public void AddCurrency(int currency)
@@ -103,15 +58,17 @@ public class UnlockManager : Singleton<UnlockManager>
     {
         try
         {
-            fileStateToSave.unlockedItemNames = unlockedItems?.Select(i => i.itemName).ToList();
-            fileStateToSave.unlockedPowerUpNames = unlockedPowerUps?.Select(i => i.itemName).ToList();
-            fileStateToSave.unlockedSkinNames = unlockedSkins?.Select(i => i.itemName).ToList();
-            fileStateToSave.unlockedUpgradeNames = unlockedUpgrades?.Select(i => i.itemName).ToList();
+            fileStateToSave.unlockedItemNames = itemSOs.Where(i => i.isUnlocked).Select(i => i.itemName).ToList();
+            fileStateToSave.unlockedPowerUpNames = powerUpSOs.Where(i => i.isUnlocked).Select(i => i.itemName).ToList();
+            fileStateToSave.unlockedSkinNames = skinSOs.Where(i => i.isUnlocked).Select(i => i.itemName).ToList();
+            fileStateToSave.unlockedEnvironmentNames = environmentSOs.Where(i => i.isUnlocked).Select(i => i.itemName).ToList();
+            fileStateToSave.unlockedUpgradeNames = upgradeSOs.Where(i => i.isUnlocked).Select(i => i.itemName).ToList();
             var fileData = JsonConvert.SerializeObject(fileStateToSave);
             string filePath = Path.Combine(Application.persistentDataPath, "unlocks.json");
 
             File.WriteAllText(filePath, fileData);
-        }catch(Exception e)
+        }
+        catch (Exception e)
         {
             Debug.LogError($"Error saving: {e.Message}\n{e.StackTrace}");
         }
@@ -127,10 +84,11 @@ public class UnlockManager : Singleton<UnlockManager>
             {
                 var fileContents = File.ReadAllText(filePath);
                 fileStateToSave = JsonConvert.DeserializeObject<SaveFile>(fileContents);
-                UpdateUnlockList(unlockedItems, fileStateToSave.unlockedItemNames, itemSOs);
-                UpdateUnlockList(unlockedPowerUps, fileStateToSave.unlockedPowerUpNames, powerUpSOs);
-                UpdateSkinUnlockList();
-                UpdateUnlockList(unlockedUpgrades, fileStateToSave.unlockedUpgradeNames, upgradeSOs);
+                LoadItems();
+                LoadPowerups();
+                LoadSkins();
+                LoadEnvironments();
+                LoadUpgrades();
             }
 
             UiManager.Instance.hudPanel.currencyText.text = $"{fileStateToSave.currency}";
@@ -142,101 +100,93 @@ public class UnlockManager : Singleton<UnlockManager>
         }
     }
 
-    void UpdateUnlockList(List<Item> listToUpdate, List<string> names, List<Item> masterLookupList)
+    void LoadItems()
     {
-        if (listToUpdate == null)
+        foreach (var name in fileStateToSave.unlockedItemNames)
         {
-            listToUpdate = new List<Item>();
-        }
-        foreach (var name in names)
-        {
-            var item = masterLookupList.FirstOrDefault(i => i.itemName == name);
-            if (item != null)
-            {
-                listToUpdate.Add(item);
-                switch (item.itemType)
-                {
-                    case ItemType.Powerup:
-                        ApplyPowerup(item);
-                        break;
-                    case ItemType.Upgrade:
-                        ApplyUpgrade(item);
-                        break;
-                }
-            }
+            var item = itemSOs.FirstOrDefault(i => i.itemName == name);
+            item.isUnlocked = true;
         }
     }
 
-    public void UpdateSkinUnlockList()
+    void LoadPowerups()
     {
-        if (unlockedSkins == null)
+        foreach (var name in fileStateToSave.unlockedPowerUpNames)
         {
-            unlockedSkins = new List<Skin>();
+            var powerup = powerUpSOs.FirstOrDefault(i => i.itemName == name);
+            powerup.isUnlocked = true;
         }
+    }
+
+    public void LoadSkins()
+    {
         foreach (var name in fileStateToSave.unlockedSkinNames)
         {
-            var item = skinSOs.FirstOrDefault(i => i.itemName == name);
-            if (item != null)
+            var skin = skinSOs.FirstOrDefault(i => i.itemName == name);
+            skin.isUnlocked = true;
+            if (skin.itemName == fileStateToSave.selectedBowlSkin)
             {
-                unlockedSkins.Add(item);
-                if(item.itemName == fileStateToSave.selectedBowlSkin)
-                {
-                    ApplySkin(item);
-                }
+                ApplySkin(skin);
             }
         }
     }
 
-    public void ApplyPowerup(Item powerup)
+    public void LoadEnvironments()
     {
-        
+        foreach (var name in fileStateToSave.unlockedEnvironmentNames)
+        {
+            var environment = environmentSOs.FirstOrDefault(i => i.itemName == name);
+            environment.isUnlocked = true;
+            if (environment.itemName == fileStateToSave.selectedEnvironment)
+            {
+                ApplyEnvironment(environment);
+            }
+        }
+    }
+
+    void LoadUpgrades()
+    {
+        foreach (var name in fileStateToSave.unlockedUpgradeNames)
+        {
+            var upgrade = upgradeSOs.FirstOrDefault(i => i.itemName == name);
+            upgrade.isUnlocked = true;
+            ApplyUpgrade(upgrade);
+        }
     }
 
     public void ApplySkin(Skin skin)
     {
-        if (skin.itemType == ItemType.BowlSkin)
+        fileStateToSave.selectedBowlSkin = skin.itemName;
+        GameManager.EventService.Dispatch(new BowlSkinSelectedEvent());
+    }
+
+    public void ApplyEnvironment(Environment environment)
+    {
+        fileStateToSave.selectedEnvironment = environment.itemName;
+        GameManager.EventService.Dispatch(new EnvironmentSelectedEvent());
+    }
+
+    public void ApplyUpgrade(Upgrade upgrade)
+    {
+        switch (upgrade.upgradeType)
         {
-            fileStateToSave.selectedBowlSkin = skin.itemName;
-            GameManager.EventService.Dispatch(new BowlSkinSelectedEvent());
-        }
-        else
-        {
-            fileStateToSave.selectedWallSkin = skin.itemName;
-            GameManager.EventService.Dispatch(new WallSkinSelectedEvent());
+            case GameplayUpgradeType.BonusBarDuration:
+                CurrencyController.Instance.bonusDurationMultiplier *= 1.5f;
+                break;
+            case GameplayUpgradeType.BonusBarTier:
+                CurrencyController.Instance.bonusTierModiier++;
+                break;
+            case GameplayUpgradeType.BonusBarSpeed:
+                CurrencyController.Instance.bonusBarSpeedModifier++;
+                break;
+            case GameplayUpgradeType.StickyFingers:
+                GameManager.Instance.forceMultiplier = 40f;
+                break;
         }
     }
 
-    public void ApplyUpgrade(Item upgrade)
+    public bool IsUpgradeUnlocked(GameplayUpgradeType type)
     {
-        if (upgrade.itemName.Contains("Bonus Bar Duration"))
-        {
-            CurrencyController.Instance.bonusDurationMultiplier *= 1.5f;
-        }
-
-        if (upgrade.itemName.Contains("Bonus Bar Tier"))
-        {
-            CurrencyController.Instance.bonusTierModiier++;
-        }
-
-        if (upgrade.itemName.Contains("Bonus Bar Speed"))
-        {
-            CurrencyController.Instance.bonusBarSpeedModifier++;
-        }
-
-        if (upgrade.itemName == "Gold Injection")
-        {
-            gameplayUpgradeStatuses[GameplayUpgradeType.GoldInjection] = true;
-        }
-
-        if (upgrade.itemName == "Raining Money")
-        {
-            gameplayUpgradeStatuses[GameplayUpgradeType.RainingMoney] = true;
-        }
-
-        if (upgrade.itemName == "Sticky Fingers")
-        {
-            gameplayUpgradeStatuses[GameplayUpgradeType.StickyFingers] = true;
-            GameManager.Instance.forceMultiplier = 40f;
-        }
+        return upgradeSOs.Where(so => so.upgradeType == type).First().isUnlocked;
     }
 }
