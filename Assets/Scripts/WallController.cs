@@ -7,7 +7,7 @@ public class WallController : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (myCollider == null) myCollider = GetComponent<BoxCollider>();
-        Gizmos.color = Color.green;
+        Gizmos.color = new Color(0, 1, 0 , 0.5f);
         Gizmos.DrawCube(myCollider.bounds.center, myCollider.bounds.size);
     }
 }

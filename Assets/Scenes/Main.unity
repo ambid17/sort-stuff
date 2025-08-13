@@ -10120,6 +10120,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 23282776a2de7024cb96c32dbc6d68af, type: 2}
   environmentSOs:
   - {fileID: 11400000, guid: 81ae17d061ee8974db39943efaa1a840, type: 2}
+  - {fileID: 11400000, guid: e4345d85c7da6164eaf428b0103d77df, type: 2}
 --- !u!1 &1408733568
 GameObject:
   m_ObjectHideFlags: 0
