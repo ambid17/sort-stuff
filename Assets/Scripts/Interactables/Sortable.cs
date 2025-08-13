@@ -14,7 +14,6 @@ public class Sortable : Interactable
 {
     public SortableObject sortableObject;
     public readonly int IgnoreLayer = 2;
-    public readonly int ContainerLayer = 8;
     public Container myContainer;
 
     public bool isMoving;
@@ -140,7 +139,8 @@ public class Sortable : Interactable
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer != ContainerLayer)
+        Debug.Log("trigger enter 2");
+        if (other.gameObject.layer != ContainerLayer)
         {
             return;
         }
@@ -153,8 +153,6 @@ public class Sortable : Interactable
         }
 
         touchingContainers.Add(otherContainer.SortableName);
-
-        
 
         // Bail if we already have a container
         if (myContainer != null)
@@ -181,21 +179,23 @@ public class Sortable : Interactable
         var otherContainer = other.gameObject.GetComponentInParent<Container>();
         touchingContainers.Remove(otherContainer.SortableName);
 
-        if (myContainer == null)
+        if (myContainer == null || otherContainer.SortableName != sortableObject.objectName)
         {
             return;
         }
 
-        if (otherContainer.SortableName == sortableObject.objectName)
+        gameObject.layer = RaycastLayer;
+        gameObject.transform.localScale = defaultSize;
+        GameManager.Instance.HandleContainerExit(this);
+        scalingStatus = Scaling.Growing;
+        Debug.DrawLine(transform.position, otherContainer.transform.position, Color.red, 2f);
+        Debug.Log("Exiting container");
+
+        // If we exit the container we were in, and that would make the container empty, clear it
+        if (GameManager.Instance.sortedMapping[sortableObject.objectName].Count == 0)
         {
             myContainer.ClearType();
-            myContainer = null;
-            gameObject.layer = RaycastLayer;
-            gameObject.transform.localScale = defaultSize;
-            GameManager.Instance.HandleContainerExit(this);
-            scalingStatus = Scaling.Growing;
-            Debug.DrawLine(transform.position, otherContainer.transform.position, Color.red, 2f);
-            Debug.Log("Exiting container");
         }
+        myContainer = null;
     }
 }

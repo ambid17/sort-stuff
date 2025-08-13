@@ -4,10 +4,10 @@ public class Killbox : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        var sortable = other.GetComponent<Sortable>();
-        if (sortable != null)
+        var interactable = other.GetComponent<Interactable>();
+        if (interactable != null)
         {
-            sortable.Respawn();
+            interactable.Respawn();
         }
     }
 }

@@ -7,6 +7,9 @@ public class Interactable : MonoBehaviour
     public MeshCollider myCollider;
     protected Vector3 defaultSize;
     public Vector3 targetPosition;
+    protected bool isMoving;
+    private int touchingContainerCount;
+    public readonly int ContainerLayer = 8;
 
     private void Awake()
     {
@@ -34,6 +37,49 @@ public class Interactable : MonoBehaviour
         var bounds = meshFilter.mesh.bounds;
         defaultSize = Vector3.one / bounds.extents.magnitude;
         transform.localScale = defaultSize;
+    }
+
+    private void Update()
+    {
+        if (myRigidbody.linearVelocity.magnitude > 0.1f || myRigidbody.angularVelocity.magnitude > 0.1f)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            if (isMoving)
+            {
+                HandleStop();
+            }
+            isMoving = false;
+        }
+    }
+
+    protected virtual void HandleStop()
+    {
+        // Override in subclasses if needed
+        var isTouchingContainers = touchingContainerCount >= 1;
+        if (isTouchingContainers)
+        {
+            Respawn();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("trigger enter 1");
+        if (other.gameObject.layer == ContainerLayer)
+        {
+            touchingContainerCount++;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == ContainerLayer)
+        {
+            touchingContainerCount--;
+        }
     }
 
     public virtual void Respawn()

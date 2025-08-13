@@ -8,16 +8,6 @@ public class Magnet : Interactable
     List<Sortable> targetSortables;
     bool isDragging = false;
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         if (!GameManager.Instance.isGameRunning || !isDragging)

@@ -12,12 +12,13 @@ public class Bomb : Interactable
 
     public override void OnDrop()
     {
+        base.OnDrop();
         hasBeenDropped = true;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!hasBeenDropped)
+        if (!hasBeenDropped || collision.gameObject.layer == ContainerLayer)
         {
             return;
         }
