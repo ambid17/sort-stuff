@@ -1,14 +1,5 @@
 using UnityEngine;
 
-public enum ItemType
-{
-    Powerup,
-    Item,
-    WallSkin,
-    BowlSkin,
-    Upgrade
-}
-
 public class Item : ScriptableObject
 {
     public string itemName;
