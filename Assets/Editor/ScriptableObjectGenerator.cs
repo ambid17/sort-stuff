@@ -70,6 +70,7 @@ public class ScriptableObjectGenerator : EditorWindow
         scriptableObject.name = prefab.name;
         scriptableObject.itemName = prefab.name;
         scriptableObject.icon = itemIcon;
+        scriptableObject.prefab = prefab;
 
         AssetDatabase.CreateAsset(scriptableObject, $"{scriptableObjectFolder}/{prefab.name}.asset");
         AssetDatabase.SaveAssets();

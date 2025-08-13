@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class WallController : MonoBehaviour
 {
-    public BoxCollider collider;
+    public BoxCollider myCollider;
 
     private void OnDrawGizmos()
     {
-        if (collider == null) collider = GetComponent<BoxCollider>();
+        if (myCollider == null) myCollider = GetComponent<BoxCollider>();
         Gizmos.color = Color.green;
-        Gizmos.DrawCube(collider.bounds.center, collider.bounds.size);
+        Gizmos.DrawCube(myCollider.bounds.center, myCollider.bounds.size);
     }
 }

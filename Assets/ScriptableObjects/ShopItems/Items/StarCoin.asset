@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e91aa30ff1e293b4888025d5d7d12bbf, type: 3}
-  m_Name: Corndog
+  m_Name: StarCoin
   m_EditorClassIdentifier: 
-  itemName: Corndog
+  itemName: StarCoin
   description: 
-  cost: 10
-  icon: {fileID: 21300000, guid: f09e84f3e63f08b4c84c619b11139bbd, type: 3}
-  isUnlocked: 1
-  prefab: {fileID: 919132149155446097, guid: 90aec18e58e9f6e40a611d69bdbb6a14, type: 3}
+  cost: 5
+  icon: {fileID: 21300000, guid: 202574ffb78a67a4f8fa11408d30e9b8, type: 3}
+  isUnlocked: 0
+  prefab: {fileID: 919132149155446097, guid: 8596f346ea0284b41bb900ae6f4ce276, type: 3}

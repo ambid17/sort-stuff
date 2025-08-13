@@ -16,7 +16,6 @@ public class Sortable : Interactable
     public readonly int IgnoreLayer = 2;
     public Container myContainer;
 
-    public bool isMoving;
     private Vector3 shrunkSize => defaultSize * 0.3f;
     public HashSet<string> touchingContainers;
     private Scaling scalingStatus;
@@ -118,7 +117,7 @@ public class Sortable : Interactable
         areAllCollected = true;
     }
 
-    private void HandleStop()
+    protected override void HandleStop()
     {
         // if you're only touching 1 correct container when you stop, you're good
         if (touchingContainers.Count == 1 && touchingContainers.Contains(sortableObject.objectName))
@@ -139,7 +138,6 @@ public class Sortable : Interactable
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("trigger enter 2");
         if (other.gameObject.layer != ContainerLayer)
         {
             return;

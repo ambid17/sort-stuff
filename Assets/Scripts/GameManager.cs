@@ -336,7 +336,15 @@ public class GameManager : Singleton<GameManager>
 
         allSortables = new List<Sortable>();
 
-        var combinedSortables = sortables.Concat(UnlockManager.Instance.itemSOs.Where(i => i.isUnlocked).Select(i => i.sortableObject)).ToList();
+        var unlockedSortables = UnlockManager.Instance.itemSOs.Where(i => i.isUnlocked).Select(i =>
+        { var so = ScriptableObject.CreateInstance<SortableObject>();
+            so.objectName = i.itemName;
+            so.prefab = i.prefab;
+            return so;
+        }
+        );
+
+        var combinedSortables = sortables.Concat(unlockedSortables).ToList();
 
         var sortableNames = combinedSortables
            .OrderBy(x => Random.Range(0, 1000)) // sort randomly

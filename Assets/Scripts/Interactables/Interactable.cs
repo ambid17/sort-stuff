@@ -67,7 +67,6 @@ public class Interactable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("trigger enter 1");
         if (other.gameObject.layer == ContainerLayer)
         {
             touchingContainerCount++;

@@ -10097,6 +10097,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 91fb8e7a59b3ae4428ed54c2bfeac1c5, type: 2}
   itemSOs:
   - {fileID: 11400000, guid: 4a3097c657d12334286210c309ebbfb1, type: 2}
+  - {fileID: 11400000, guid: 5a9d17827820e5c4db98cf5ba8b5aff9, type: 2}
+  - {fileID: 11400000, guid: af6d9fdcf93cd3f448250415090dc49d, type: 2}
+  - {fileID: 11400000, guid: a10f8e7f4a813ee47ba468bad8c8d50a, type: 2}
+  - {fileID: 11400000, guid: 635b8def4d35a6041a51899cdf0e6cc9, type: 2}
+  - {fileID: 11400000, guid: 982803ac802cf624dbea7b69034c7971, type: 2}
   skinSOs:
   - {fileID: 11400000, guid: e4818aa90be8ffa41a565236cf02a624, type: 2}
   - {fileID: 11400000, guid: 3bb7ec1c0c8cc9448b2675c82c05809f, type: 2}
