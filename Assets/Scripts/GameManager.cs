@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager>
     public BoxCollider spawnArea;
     [Range(0, 1)]
     public float powerupSpawnChance;
+    public Transform powerupContainer;
 
     public const float CONTAINER_WIDTH = 3.33f;
     public const int MAX_CONTAINER_COUNT = 5;
@@ -183,7 +184,8 @@ public class GameManager : Singleton<GameManager>
         {
             var unlockedPowerups = UnlockManager.Instance.powerUpSOs.Where(so => so.isUnlocked).ToList();
             var powerUpIndex = Random.Range(0, unlockedPowerups.Count());
-            Instantiate(unlockedPowerups[powerUpIndex].prefab);
+            var powerupGO = Instantiate(unlockedPowerups[powerUpIndex].prefab);
+            powerupGO.transform.parent = powerupContainer;
         }
     }
 
@@ -193,6 +195,12 @@ public class GameManager : Singleton<GameManager>
         foreach (Sortable sortable in allSortables)
         {
             sortable.TogglePhysics(true);
+        }
+
+        // delete old powerups
+        while (powerupContainer.childCount > 0)
+        {
+            DestroyImmediate(powerupContainer.GetChild(0).gameObject);
         }
 
         isDragging = false;
@@ -342,6 +350,7 @@ public class GameManager : Singleton<GameManager>
             {
                 var sortableSO = combinedSortables.FirstOrDefault(x => x.objectName == sortableName);
                 var sortableGO = Instantiate(sortableSO.prefab);
+                sortableGO.name += $"{i}";
                 Sortable sortable = sortableGO.AddComponent<Sortable>();
                 sortable.Setup(sortableSO);
                 sortable.transform.parent = sortableParent.transform;
