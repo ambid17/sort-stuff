@@ -16,5 +16,5 @@ MonoBehaviour:
   description: 
   cost: 10
   icon: {fileID: 21300000, guid: f09e84f3e63f08b4c84c619b11139bbd, type: 3}
-  isUnlocked: 1
+  isUnlocked: 0
   prefab: {fileID: 919132149155446097, guid: 90aec18e58e9f6e40a611d69bdbb6a14, type: 3}
