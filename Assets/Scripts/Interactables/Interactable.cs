@@ -4,7 +4,7 @@ public class Interactable : MonoBehaviour
 {
     public readonly int RaycastLayer = 7;
     public Rigidbody myRigidbody;
-    public MeshCollider myCollider;
+    public SphereCollider myCollider;
     protected Vector3 defaultSize;
     public Vector3 targetPosition;
     protected bool isMoving;
@@ -30,8 +30,7 @@ public class Interactable : MonoBehaviour
 
         gameObject.layer = RaycastLayer;
 
-        myCollider = gameObject.AddComponent<MeshCollider>();
-        myCollider.convex = true;
+        myCollider = gameObject.AddComponent<SphereCollider>();
 
         var meshFilter = gameObject.GetComponent<MeshFilter>();
         var bounds = meshFilter.mesh.bounds;
