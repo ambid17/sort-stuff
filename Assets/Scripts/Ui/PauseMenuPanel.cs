@@ -7,6 +7,7 @@ public class PauseMenuPanel : UiPanel
     public Button NewGameButton;
     public Button SettingsButton;
     public Button QuitButton;
+    public Button DebugButton;
 
     void Start()
     {
@@ -14,6 +15,7 @@ public class PauseMenuPanel : UiPanel
         NewGameButton.onClick.AddListener(NewGame);
         SettingsButton.onClick.AddListener(Settings);
         QuitButton.onClick.AddListener(Quit);
+        DebugButton.onClick.AddListener(Debug);
     }
 
     protected override void AfterEnable()
@@ -42,5 +44,10 @@ public class PauseMenuPanel : UiPanel
     {
         UnlockManager.Instance.Save();
         Application.Quit();
+    }
+
+    void Debug()
+    {
+        UiManager.Instance.ShowPanel(UiPanelType.Debug);
     }
 }

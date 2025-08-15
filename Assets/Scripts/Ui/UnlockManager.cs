@@ -90,6 +90,10 @@ public class UnlockManager : Singleton<UnlockManager>
                 LoadEnvironments();
                 LoadUpgrades();
             }
+            else
+            {
+                Debug.LogWarning("Unlocks file not found, creating a new one.");
+            }
 
             UiManager.Instance.hudPanel.currencyText.text = $"{fileStateToSave.currency}";
             UiManager.Instance.shopPanel.currencyText.text = $"{fileStateToSave.currency}";

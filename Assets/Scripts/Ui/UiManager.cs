@@ -11,7 +11,7 @@ public enum Difficulty
 
 public enum UiPanelType
 {
-    NewGame, Shop, Hud, PauseMenu, Win, Settings
+    NewGame, Shop, Hud, PauseMenu, Win, Settings, Debug
 }
 
 public class UiManager : Singleton<UiManager>
@@ -22,6 +22,7 @@ public class UiManager : Singleton<UiManager>
     public PauseMenuPanel pausePanel;
     public WinPanel winPanel;
     public SettingsPanel settingsPanel;
+    public DebugPanel debugPanel;
 
     void Start()
     {
@@ -41,5 +42,6 @@ public class UiManager : Singleton<UiManager>
         pausePanel.Toggle(panelType == UiPanelType.PauseMenu);
         winPanel.Toggle(panelType == UiPanelType.Win);
         settingsPanel.Toggle(panelType == UiPanelType.Settings);
+        debugPanel.Toggle(panelType == UiPanelType.Debug);
     }
 }
