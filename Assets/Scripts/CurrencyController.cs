@@ -22,6 +22,7 @@ public class CurrencyController : Singleton<CurrencyController>
     private int bonusTier => Mathf.Min(maxBonusTier, sortedObjectCounter / SORTED_OBJECTS_PER_TIER);
     private int sortedObjectCounter = 0;
     private float bonusTimer = 0f;
+    private int lastBonusTier;
 
 
 
@@ -57,15 +58,20 @@ public class CurrencyController : Singleton<CurrencyController>
             UiManager.Instance.hudPanel.BonusBar.mainSlider.value = 0;
         }
 
-        var tierInfo = GetTierInfo(bonusTier);
-        UiManager.Instance.hudPanel.BonusBar.mainSlider.colors = new UnityEngine.UI.ColorBlock() 
-        { 
-            normalColor = tierInfo.color,
-            highlightedColor = tierInfo.color,
-            pressedColor = tierInfo.color,
-            selectedColor = tierInfo.color,
-            colorMultiplier = 1,
-        };
+        if(lastBonusTier != bonusTier)
+        {
+            var tierInfo = GetTierInfo(bonusTier);
+            UiManager.Instance.hudPanel.BonusBar.mainSlider.colors = new UnityEngine.UI.ColorBlock()
+            {
+                normalColor = tierInfo.color,
+                highlightedColor = tierInfo.color,
+                pressedColor = tierInfo.color,
+                selectedColor = tierInfo.color,
+                colorMultiplier = 1,
+            };
+
+            lastBonusTier = bonusTier;
+        }
     }
 
     public void SortComplete(Sortable sortable)
