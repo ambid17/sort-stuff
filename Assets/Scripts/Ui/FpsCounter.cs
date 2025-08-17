@@ -9,6 +9,13 @@ public class FpsCounter : MonoBehaviour
 
     private float _timer;
 
+    private void Start()
+    {
+#if !DEVELOPMENT_BUILD && !UNITY_EDITOR
+        gameObject.SetActive(false);
+#endif
+    }
+
     private void Update()
     {
         if (Time.unscaledTime > _timer)

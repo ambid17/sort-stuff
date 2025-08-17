@@ -131,7 +131,6 @@ public class GameManager : Singleton<GameManager>
         {
             sortedMapping[sortable.sortableItem.prefab.name].Remove(sortable);
             remainingCount++;
-            UiManager.Instance.hudPanel.SetRemaining();
         }
     }
 
@@ -152,7 +151,6 @@ public class GameManager : Singleton<GameManager>
 
         sortedList.Add(sortable);
         remainingCount--;
-        UiManager.Instance.hudPanel.SetRemaining();
         CurrencyController.Instance.SortComplete(sortable);
 
         // drain the container when full and allow it to be reused
@@ -206,7 +204,6 @@ public class GameManager : Singleton<GameManager>
         isDragging = false;
         currentDrag = null;
         remainingCount = TotalCount;
-        UiManager.Instance.hudPanel.SetRemaining();
         InitSortedMapping();
 
         foreach (var container in containers)

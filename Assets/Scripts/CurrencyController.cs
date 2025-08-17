@@ -48,7 +48,6 @@ public class CurrencyController : Singleton<CurrencyController>
 
     void UpdateBonusBarSlider()
     {
-        UiManager.Instance.hudPanel.bonusCountText.text = sortedObjectCounter.ToString();
         if (sortedObjectCounter > 0)
         {
             UiManager.Instance.hudPanel.BonusBar.mainSlider.value = bonusTimer / ScaledBonusDuration;
