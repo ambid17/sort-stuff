@@ -16,6 +16,9 @@ public class PauseMenuPanel : UiPanel
         SettingsButton.onClick.AddListener(Settings);
         QuitButton.onClick.AddListener(Quit);
         DebugButton.onClick.AddListener(Debug);
+#if !DEVELOPMENT_BUILD && !UNITY_EDITOR
+        DebugButton.gameObject.SetActive(false);
+#endif
     }
 
     protected override void AfterEnable()
