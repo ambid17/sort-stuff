@@ -55,7 +55,7 @@ public class ScriptableObjectGenerator : EditorWindow
     {
         if (generatePreviews)
         {
-            PreviewImageGenerator.GeneratePrefabPreview(prefab);
+            PreviewImageGenerator.GenerateTransparentPrefabPreview(prefab);
         }
 
         var existingScriptableObjects = AssetDatabase.FindAssets($"{prefab.name}", new string[] { outputFolder });
