@@ -32,7 +32,7 @@ namespace Michsky.UI.ModernUIPack
         [System.Serializable]
         public class SliderEvent : UnityEvent<float> { }
         [SerializeField]
-        private SliderEvent onValueChanged = new SliderEvent();
+        public SliderEvent onValueChanged = new SliderEvent();
         public UnityEvent onPointerEnter;
         public UnityEvent onPointerExit;
 
