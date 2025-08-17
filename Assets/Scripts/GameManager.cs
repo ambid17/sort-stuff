@@ -5,21 +5,21 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using EventService = Utils.EventService;
+using CaosCreations;
 
 public class GameManager : Singleton<GameManager>
 {
     public List<SortableItem> defaultSortableItems;
-    public LayerMask SortableLayerMask;
-    public LayerMask WallLayerMask;
+    
     public UiManager uiManager;
     public Container containerPrefab;
     public GameObject rightWall;
     public GameObject sortableParent;
-    public float forceMultiplier = 4;
     public BoxCollider spawnArea;
     [Range(0, 1)]
     public float powerupSpawnChance;
     public Transform powerupContainer;
+    public InteractableMover interactableMover;
 
     public const float CONTAINER_WIDTH = 3.33f;
     public const int MAX_CONTAINER_COUNT = 5;
@@ -36,11 +36,7 @@ public class GameManager : Singleton<GameManager>
     public int remainingCount;
 
     public List<Container> containers;
-    private Camera mainCamera;
-
-    private Vector3 forceToApply;
-    public bool isDragging = false;
-    public Interactable currentDrag;
+    
     public bool isGameRunning = false;
 
     public Dictionary<string, List<Sortable>> sortedMapping;
@@ -62,62 +58,7 @@ public class GameManager : Singleton<GameManager>
     protected override void Initialize()
     {
         sortedMapping = new Dictionary<string, List<Sortable>>();
-        mainCamera = Camera.main;
         InitLevel();
-    }
-
-    void Update()
-    {
-        if (!isGameRunning)
-        {
-            return;
-        }
-
-        if (!isDragging)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit rayHit, float.MaxValue, SortableLayerMask))
-                {
-                    var selectedObject = rayHit.collider.gameObject;
-                    currentDrag = selectedObject.GetComponent<Interactable>();
-                    currentDrag.OnPickup();
-                    isDragging = true;
-                }
-            }
-        }
-        else
-        {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            // update position
-            if (Physics.Raycast(ray, out RaycastHit rayHit, float.MaxValue, WallLayerMask, QueryTriggerInteraction.Collide))
-            {
-                var targetPosition = rayHit.point + new Vector3(0, 3.5f, 0);
-                forceToApply = targetPosition - currentDrag.transform.position;
-                currentDrag.targetPosition = targetPosition;
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                isDragging = false;
-                currentDrag.OnDrop();
-                currentDrag = null;
-            }
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (!isGameRunning)
-        {
-            return;
-        }
-
-        if (isDragging)
-        {
-            currentDrag.myRigidbody.AddForce(forceToApply * Time.fixedDeltaTime * forceMultiplier, ForceMode.Impulse);
-        }
     }
 
     public bool CanSetContainer(Sortable sortable)
@@ -201,8 +142,7 @@ public class GameManager : Singleton<GameManager>
             DestroyImmediate(powerupContainer.GetChild(0).gameObject);
         }
 
-        isDragging = false;
-        currentDrag = null;
+        EventService.Dispatch(new GameStartedEvent());
         remainingCount = TotalCount;
         InitSortedMapping();
 

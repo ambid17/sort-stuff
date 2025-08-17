@@ -18,7 +18,7 @@ public class Magnet : Interactable
         foreach(var sortable in targetSortables)
         {
             var forceToApply = targetPosition - sortable.transform.position;
-            sortable.myRigidbody.AddForce(forceToApply * Time.fixedDeltaTime * GameManager.Instance.forceMultiplier, ForceMode.Impulse);
+            sortable.myRigidbody.AddForce(forceToApply * Time.fixedDeltaTime * GameManager.Instance.interactableMover.forceMultiplier, ForceMode.Impulse);
         }
     }
 

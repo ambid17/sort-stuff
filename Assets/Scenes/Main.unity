@@ -3357,7 +3357,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 0.1, z: 10}
+  m_Size: {x: 10, y: 0.05, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &468131563
 GameObject:
@@ -11476,6 +11476,7 @@ GameObject:
   - component: {fileID: 1401467744}
   - component: {fileID: 1401467745}
   - component: {fileID: 1401467746}
+  - component: {fileID: 1401467747}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -11533,28 +11534,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a9a95b79b577ea14babff803910e8c3c, type: 2}
   - {fileID: 11400000, guid: 5a591c1198ecaab4bb61a471e45034ee, type: 2}
   - {fileID: 11400000, guid: f1246fed4a15ed24d803480a87b5e207, type: 2}
-  SortableLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  WallLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
   uiManager: {fileID: 570009741}
   containerPrefab: {fileID: 7281790586027939541, guid: ed55b884f9e46f94aa54105bfba24629, type: 3}
   rightWall: {fileID: 1466549898}
   sortableParent: {fileID: 1492593734}
-  forceMultiplier: 25
   spawnArea: {fileID: 1607263976}
   powerupSpawnChance: 0.1
   powerupContainer: {fileID: 2076163130}
+  interactableMover: {fileID: 1401467747}
   TypeCount: 3
   CountPerType: 40
   ContainerCount: 5
   allSpawnedSortables: []
   remainingCount: 0
   containers: []
-  isDragging: 0
-  currentDrag: {fileID: 0}
   isGameRunning: 0
 --- !u!114 &1401467745
 MonoBehaviour:
@@ -11615,6 +11608,27 @@ MonoBehaviour:
   environmentSOs:
   - {fileID: 11400000, guid: 81ae17d061ee8974db39943efaa1a840, type: 2}
   - {fileID: 11400000, guid: e4345d85c7da6164eaf428b0103d77df, type: 2}
+--- !u!114 &1401467747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401467742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6931f60115d04f7469f7bfc9798a1756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortableLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  WallLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  forceMultiplier: 25
+  isDragging: 0
+  currentDrag: {fileID: 0}
 --- !u!1 &1408733568
 GameObject:
   m_ObjectHideFlags: 0
@@ -11916,7 +11930,7 @@ Transform:
   m_GameObject: {fileID: 1466549898}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 15, y: 5, z: 0}
+  m_LocalPosition: {x: 16.6, y: 5, z: 0}
   m_LocalScale: {x: 3, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11941,7 +11955,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 0.1, z: 10}
+  m_Size: {x: 10, y: 0.05, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1470615510
 GameObject:

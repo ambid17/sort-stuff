@@ -184,7 +184,7 @@ public class UnlockManager : Singleton<UnlockManager>
                 CurrencyController.Instance.bonusBarSpeedModifier++;
                 break;
             case GameplayUpgradeType.StickyFingers:
-                GameManager.Instance.forceMultiplier = 40f;
+                GameManager.Instance.interactableMover.forceMultiplier = 40f;
                 break;
         }
     }
