@@ -163,7 +163,6 @@ public class Sortable : Interactable
             myContainer = otherContainer;
             gameObject.layer = IgnoreLayer;
             scalingStatus = Scaling.Shrinking;
-            Debug.DrawLine(transform.position, otherContainer.transform.position, Color.green, 2f);
         }
     }
 
@@ -186,8 +185,6 @@ public class Sortable : Interactable
         gameObject.transform.localScale = defaultSize;
         GameManager.Instance.HandleContainerExit(this);
         scalingStatus = Scaling.Growing;
-        Debug.DrawLine(transform.position, otherContainer.transform.position, Color.red, 2f);
-        Debug.Log("Exiting container");
 
         // If we exit the container we were in, and that would make the container empty, clear it
         if (GameManager.Instance.sortedMapping[sortableItem.prefab.name].Count == 0)
