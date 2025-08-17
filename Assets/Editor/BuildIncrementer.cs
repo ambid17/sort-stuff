@@ -8,6 +8,6 @@ public class BuildIncrementer : IPreprocessBuildWithReport
 
     public void OnPreprocessBuild(BuildReport report)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 }

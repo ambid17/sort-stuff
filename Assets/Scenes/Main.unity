@@ -8700,7 +8700,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1997384459}
   m_HandleRect: {fileID: 1997384458}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -11472,7 +11472,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   uiManager: {fileID: 570009741}
-  containerPrefab: {fileID: -6854038045919382287, guid: ad6ac9c8ceac3264aa9d5a4e17abc2e4, type: 3}
+  containerPrefab: {fileID: -3692063558551301657, guid: ed55b884f9e46f94aa54105bfba24629, type: 3}
   rightWall: {fileID: 1466549898}
   sortableParent: {fileID: 1492593734}
   forceMultiplier: 25
