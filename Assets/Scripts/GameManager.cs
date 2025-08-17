@@ -315,7 +315,7 @@ public class GameManager : Singleton<GameManager>
         for (int i = 0; i < MAX_CONTAINER_COUNT; i++)
         {
             var container = Instantiate(containerPrefab);
-            container.transform.position = new Vector3(i * 3.33f, -1.635f, -6.6f);
+            container.transform.position = new Vector3(i * 3.685f, -2f, -6.6f);
             container.ClearType();
             containers.Add(container);
         }

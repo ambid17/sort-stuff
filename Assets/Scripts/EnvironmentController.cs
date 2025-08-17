@@ -16,16 +16,16 @@ public class EnvironmentController : MonoBehaviour
 
     void ApplyEnvironment()
     {
+        if (UnlockManager.Instance.selectedEnvironment == null)
+        {
+            Debug.LogWarning("No environment selected.");
+            return;
+        }
+
         // Destroy current environment
         while (transform.childCount > 0)
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
-        }
-
-        if(UnlockManager.Instance.selectedEnvironment == null)
-        {
-            Debug.LogWarning("No environment selected.");
-            return;
         }
 
         var newEnvironment = Instantiate(UnlockManager.Instance.selectedEnvironment.prefab);
