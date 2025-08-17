@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TestScene : MonoBehaviour
 {
-    public List<SortableObject> sortables;
+    public List<SortableItem> sortables;
 
     void Start()
     {

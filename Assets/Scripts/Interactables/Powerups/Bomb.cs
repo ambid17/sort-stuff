@@ -23,7 +23,7 @@ public class Bomb : Interactable
             return;
         }
 
-        var activeSortables = GameManager.Instance.allSortables.Where(so => !so.areAllCollected && so.touchingContainers.Count == 0);
+        var activeSortables = GameManager.Instance.allSpawnedSortables.Where(so => !so.areAllCollected && so.touchingContainers.Count == 0);
         foreach (var go in activeSortables)
         {
             go.myRigidbody.AddExplosionForce(10000f, transform.position, 20f);

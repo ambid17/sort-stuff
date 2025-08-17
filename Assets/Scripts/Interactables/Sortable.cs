@@ -12,7 +12,7 @@ public enum SortableType
 
 public class Sortable : Interactable
 {
-    public SortableObject sortableObject;
+    public SortableItem sortableItem;
     public readonly int IgnoreLayer = 2;
     public Container myContainer;
 
@@ -30,9 +30,9 @@ public class Sortable : Interactable
         touchingContainers = new HashSet<string>();
     }
 
-    public void Setup(SortableObject sortableObject)
+    public void Setup(SortableItem sortableItem)
     {
-        this.sortableObject = sortableObject;
+        this.sortableItem = sortableItem;
         if (myRigidbody == null || myCollider == null)
         {
             Init();
@@ -120,7 +120,7 @@ public class Sortable : Interactable
     protected override void HandleStop()
     {
         // if you're only touching 1 correct container when you stop, you're good
-        if (touchingContainers.Count == 1 && touchingContainers.Contains(sortableObject.objectName))
+        if (touchingContainers.Count == 1 && touchingContainers.Contains(sortableItem.prefab.name))
         {
             GameManager.Instance.TryAddSorted(this);
         }
@@ -128,7 +128,7 @@ public class Sortable : Interactable
         {
             var touchingMultipleContainers = touchingContainers.Count > 1;
             var touchingOneWrongContainer = touchingContainers.Count == 1
-                && !touchingContainers.Contains(sortableObject.objectName);
+                && !touchingContainers.Contains(sortableItem.prefab.name);
             if(touchingMultipleContainers || touchingOneWrongContainer)
             {
                 Respawn();
@@ -147,7 +147,7 @@ public class Sortable : Interactable
 
         if (GameManager.Instance.CanSetContainer(this) && otherContainer.SortableName == null)
         {
-            otherContainer.SetType(sortableObject);
+            otherContainer.SetType(sortableItem);
         }
 
         touchingContainers.Add(otherContainer.SortableName);
@@ -158,7 +158,7 @@ public class Sortable : Interactable
             return;
         }
 
-        if (otherContainer.SortableName == sortableObject.objectName)
+        if (otherContainer.SortableName == sortableItem.prefab.name)
         {
             myContainer = otherContainer;
             gameObject.layer = IgnoreLayer;
@@ -177,7 +177,7 @@ public class Sortable : Interactable
         var otherContainer = other.gameObject.GetComponentInParent<Container>();
         touchingContainers.Remove(otherContainer.SortableName);
 
-        if (myContainer == null || otherContainer.SortableName != sortableObject.objectName)
+        if (myContainer == null || otherContainer.SortableName != sortableItem.prefab.name)
         {
             return;
         }
@@ -190,7 +190,7 @@ public class Sortable : Interactable
         Debug.Log("Exiting container");
 
         // If we exit the container we were in, and that would make the container empty, clear it
-        if (GameManager.Instance.sortedMapping[sortableObject.objectName].Count == 0)
+        if (GameManager.Instance.sortedMapping[sortableItem.prefab.name].Count == 0)
         {
             myContainer.ClearType();
         }

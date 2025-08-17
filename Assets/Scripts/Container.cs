@@ -1,6 +1,5 @@
 using CaosCreations;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Container : MonoBehaviour
@@ -22,10 +21,10 @@ public class Container : MonoBehaviour
         ApplySkin();
     }
 
-    public void SetType(SortableObject sortableObject)
+    public void SetType(SortableItem sortableItem)
     {
-        sortableName = sortableObject.objectName;
-        gameObject.name = $"{sortableObject.objectName} container";
+        sortableName = sortableItem.prefab.name;
+        gameObject.name = $"{sortableItem.prefab.name} container";
     }
 
     public void ClearType()

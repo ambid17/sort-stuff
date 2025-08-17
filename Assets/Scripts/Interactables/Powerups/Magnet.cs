@@ -25,15 +25,15 @@ public class Magnet : Interactable
     public override void OnPickup()
     {
         base.OnPickup();
-        var targetName = GameManager.Instance.allSortables
+        var targetName = GameManager.Instance.allSpawnedSortables
             .Where(x => !x.areAllCollected)
             .OrderBy(x => Random.Range(0, 1000))
-            .Select(x=> x.sortableObject.objectName)
+            .Select(x=> x.sortableItem.prefab.name)
             .FirstOrDefault();
 
-        targetSortables = GameManager.Instance.allSortables
+        targetSortables = GameManager.Instance.allSpawnedSortables
             .Where(sortable => sortable.touchingContainers.Count == 0 
-            && sortable.sortableObject.objectName == targetName).ToList();
+            && sortable.sortableItem.prefab.name == targetName).ToList();
         isDragging = true;
     }
 
