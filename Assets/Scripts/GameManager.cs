@@ -91,7 +91,7 @@ public class GameManager : Singleton<GameManager>
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             // update position
-            if (Physics.Raycast(ray, out RaycastHit rayHit, float.MaxValue, WallLayerMask))
+            if (Physics.Raycast(ray, out RaycastHit rayHit, float.MaxValue, WallLayerMask, QueryTriggerInteraction.Collide))
             {
                 var targetPosition = rayHit.point + new Vector3(0, 3.5f, 0);
                 forceToApply = targetPosition - currentDrag.transform.position;

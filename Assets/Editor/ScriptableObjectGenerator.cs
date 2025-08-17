@@ -12,6 +12,8 @@ public class ScriptableObjectGenerator : EditorWindow
     [SerializeField] private List<GameObject> prefabs;
     [SerializeField] private int cost;
     [SerializeField] private string costInput;
+    [SerializeField] private string outputFolder = "Assets/ScriptableObjects/ShopItems/Items";
+    [SerializeField] private bool generatePreviews = true;
     private SerializedObject serializedObject;
 
     [MenuItem("Tools/ScriptableObjectGenerator")]
@@ -29,6 +31,9 @@ public class ScriptableObjectGenerator : EditorWindow
         EditorGUILayout.PropertyField(serialProp, true);
         serialObj.ApplyModifiedProperties();
 
+        outputFolder = EditorGUILayout.TextField("Output Folder", outputFolder);
+
+        generatePreviews = EditorGUILayout.Toggle("Generate Previews", generatePreviews);
 
         costInput = EditorGUILayout.TextField("Cost", costInput);
         if (int.TryParse(costInput, out int parsedCost))
@@ -48,31 +53,38 @@ public class ScriptableObjectGenerator : EditorWindow
 
     private void GenerateSo(GameObject prefab, int cost)
     {
-        PreviewImageGenerator.GeneratePrefabPreview(prefab);
+        if (generatePreviews)
+        {
+            PreviewImageGenerator.GeneratePrefabPreview(prefab);
+        }
 
-        string scriptableObjectFolder = "Assets/ScriptableObjects/ShopItems/Items";
-        var existingScriptableObjects = AssetDatabase.FindAssets($"{prefab.name}", new string[] { scriptableObjectFolder });
+        var existingScriptableObjects = AssetDatabase.FindAssets($"{prefab.name}", new string[] { outputFolder });
         if (existingScriptableObjects != null && existingScriptableObjects.Length > 0)
         {
-            Debug.LogWarning($"ScriptableObject already exists for {prefab.name} in {scriptableObjectFolder}. Skipping creation.");
+            Debug.LogWarning($"ScriptableObject already exists for {prefab.name} in {outputFolder}. Skipping creation.");
             return;
         }
 
-        var itemIcon = GetSpriteFromAssets(prefab);
-
-        if (itemIcon == null)
-        {
-            Debug.LogWarning($"No sprite found for {prefab.name}.");
-            return;
-        }
         var scriptableObject = CreateInstance<SortableItem>();
         scriptableObject.cost = cost;
         scriptableObject.name = prefab.name;
         scriptableObject.itemName = prefab.name;
-        scriptableObject.icon = itemIcon;
         scriptableObject.prefab = prefab;
 
-        AssetDatabase.CreateAsset(scriptableObject, $"{scriptableObjectFolder}/{prefab.name}.asset");
+        if (generatePreviews)
+        {
+            var itemIcon = GetSpriteFromAssets(prefab);
+
+            if (itemIcon == null)
+            {
+                Debug.LogWarning($"No sprite found for {prefab.name}.");
+                return;
+            }
+
+            scriptableObject.icon = itemIcon;
+        }
+
+        AssetDatabase.CreateAsset(scriptableObject, $"{outputFolder}/{prefab.name}.asset");
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
