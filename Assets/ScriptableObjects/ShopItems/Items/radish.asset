@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e91aa30ff1e293b4888025d5d7d12bbf, type: 3}
+  m_Name: radish
+  m_EditorClassIdentifier: 
+  itemName: radish
+  description: 
+  cost: 5
+  icon: {fileID: 21300000, guid: 0e537d072d0a04942988a15b51332d87, type: 3}
+  isUnlocked: 0
+  prefab: {fileID: 919132149155446097, guid: e5e3148b1c009ab47be6fa28929a80de, type: 3}

@@ -82,10 +82,10 @@ public class PreviewImageGenerator : EditorWindow
         
         var go = Instantiate(prefab);
         go.transform.position = Vector3.zero;
-
-        var meshFilter = go.GetComponent<MeshFilter>();
-        var bounds = meshFilter.mesh.bounds;
+        var bounds = GetObjectBounds(go);
         go.transform.localScale = Vector3.one / bounds.extents.magnitude;
+        go.transform.position -= go.transform.TransformPoint(bounds.center);
+
 
         var previewSize = 1024;
         var mainCamera = Camera.main;
@@ -111,6 +111,22 @@ public class PreviewImageGenerator : EditorWindow
         DestroyImmediate(go);
         WriteFile(bytes, prefab.name);
         ReimportTexture(prefab.name);
+    }
+
+    private static Bounds GetObjectBounds(GameObject obj)
+    {
+        var meshRenderers = obj.GetComponentsInChildren<Renderer>();
+        Bounds bounds = meshRenderers[0].bounds;
+
+        if (meshRenderers.Length > 1)
+        {
+            for (int i = 1; i < meshRenderers.Length; i++)
+            {
+                bounds.Encapsulate(meshRenderers[i].bounds);
+            }
+        }
+
+        return bounds;
     }
 
     public static void WriteFile(byte[] data, string assetName)

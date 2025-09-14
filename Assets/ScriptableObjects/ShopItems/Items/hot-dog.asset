@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e91aa30ff1e293b4888025d5d7d12bbf, type: 3}
+  m_Name: hot-dog
+  m_EditorClassIdentifier: 
+  itemName: hot dog
+  description: 
+  cost: 5
+  icon: {fileID: 21300000, guid: 4833a69f08fc89e438ce8e98c64b6ba7, type: 3}
+  isUnlocked: 0
+  prefab: {fileID: 919132149155446097, guid: 73aea338dcc18894aaea2c61c3e18ddd, type: 3}
