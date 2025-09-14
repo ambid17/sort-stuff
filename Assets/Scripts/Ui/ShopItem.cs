@@ -13,9 +13,9 @@ public class ShopItem : MonoBehaviour
     public GameObject iconContainer;
     public Image itemIcon;
 
-    private Item item;
+    protected Item item;
 
-    public void SetItem(Item item)
+    public virtual void SetItem(Item item)
     {
         this.item = item;
         if(item is Skin)
@@ -29,7 +29,7 @@ public class ShopItem : MonoBehaviour
         UpdateInternal();
     }
 
-    public void UpdateInternal()
+    public virtual void UpdateInternal()
     {
         itemNameText.text = item.itemName;
         itemDescriptionText.text = item.description;
@@ -38,7 +38,7 @@ public class ShopItem : MonoBehaviour
         SetupButton();
     }
 
-    void SetupButton()
+    protected virtual void SetupButton()
     {
         // ModernUI doesn't have this set up on Awake
         if (purchaseButton.buttonVar == null)
@@ -96,7 +96,7 @@ public class ShopItem : MonoBehaviour
         }
     }
 
-    public void OnUnlockClicked()
+    public virtual void OnUnlockClicked()
     {
         var didUnlock = UnlockManager.Instance.TryUnlock(item);
         if (didUnlock)

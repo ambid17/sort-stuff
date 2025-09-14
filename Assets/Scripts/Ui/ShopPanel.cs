@@ -20,6 +20,7 @@ public class ShopPanel : UiPanel
     public CaosTabButton skinsButton;
     public CaosTabButton upgradesButton;
     public ShopItem shopItemPrefab;
+    public SortableShopItem sortableShopItemPrefab;
     public TMP_Text currencyText;
 
     public Transform itemParent;
@@ -63,7 +64,7 @@ public class ShopPanel : UiPanel
 
         foreach (var item in UnlockManager.Instance.itemSOs)
         {
-            ShopItem shopItem = Instantiate(shopItemPrefab, itemParent);
+            var shopItem = Instantiate(sortableShopItemPrefab, itemParent);
             shopItem.SetItem(item);
             items.Add(shopItem);
         }
