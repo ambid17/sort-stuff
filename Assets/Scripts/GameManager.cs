@@ -273,21 +273,21 @@ public class GameManager : Singleton<GameManager>
 
         allSpawnedSortables = new List<Sortable>();
 
-        var unlockedSortables = UnlockManager.Instance.itemSOs.Where(i => i.isUnlocked);
+        var unlockedSortables = UnlockManager.Instance.itemSOs.Where(i => i.isUnlocked).ToList();
 
         var combinedSortables = defaultSortableItems.Concat(unlockedSortables).ToList();
 
         var sortableNames = combinedSortables
            .OrderBy(x => Random.Range(0, 1000)) // sort randomly
            .Take(TypeCount) // take the number of types we want
-           .Select(x => x.prefab.name)
+           .Select(x => x.itemName)
            .ToList();
 
         foreach (var sortableName in sortableNames)
         {
             for (int i = 0; i < CountPerType; i++)
             {
-                var sortableSO = combinedSortables.FirstOrDefault(x => x.prefab.name == sortableName);
+                var sortableSO = combinedSortables.FirstOrDefault(x => x.itemName == sortableName);
                 var sortableGO = Instantiate(sortableSO.prefab);
                 sortableGO.name += $"{i}";
                 Sortable sortable = sortableGO.AddComponent<Sortable>();

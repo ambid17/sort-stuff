@@ -65,10 +65,12 @@ public class ScriptableObjectGenerator : EditorWindow
             return;
         }
 
+        var correctedPrefabName = prefab.name.Replace('-', ' ');
+
         var scriptableObject = CreateInstance<SortableItem>();
         scriptableObject.cost = cost;
-        scriptableObject.name = prefab.name;
-        scriptableObject.itemName = prefab.name;
+        scriptableObject.name = correctedPrefabName;
+        scriptableObject.itemName = correctedPrefabName;
         scriptableObject.prefab = prefab;
 
         if (generatePreviews)
