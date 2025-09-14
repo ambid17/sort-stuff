@@ -1,9 +1,10 @@
+using log4net.Util;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
 using System.IO;
+using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 
 public class PreviewImageGenerator : EditorWindow
 {
@@ -81,6 +82,10 @@ public class PreviewImageGenerator : EditorWindow
         
         var go = Instantiate(prefab);
         go.transform.position = Vector3.zero;
+
+        var meshFilter = go.GetComponent<MeshFilter>();
+        var bounds = meshFilter.mesh.bounds;
+        go.transform.localScale = Vector3.one / bounds.extents.magnitude;
 
         var previewSize = 1024;
         var mainCamera = Camera.main;
