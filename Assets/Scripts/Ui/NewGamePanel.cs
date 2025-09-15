@@ -8,17 +8,17 @@ public class NewGamePanel : UiPanel
     public TMP_Text titleText;
     public Button startButton;
     public Button shopButton;
-    public RadialSlider boxCountSlider;
-    public RadialSlider objectTypeSlider;
-    public RadialSlider objectCountSlider;
+    public SliderManager boxCountSlider;
+    public SliderManager objectTypeSlider;
+    public SliderManager objectCountSlider;
 
     void Start()
     {
         titleText.text = "Sort some stuff";
         startButton.onClick.AddListener(StartGame);
-        boxCountSlider.onValueChanged.AddListener(SetBoxCount);
-        objectTypeSlider.onValueChanged.AddListener(SetTypeCount);
-        objectCountSlider.onValueChanged.AddListener(SetObjectCount);
+        boxCountSlider.mainSlider.onValueChanged.AddListener(SetBoxCount);
+        objectTypeSlider.mainSlider.onValueChanged.AddListener(SetTypeCount);
+        objectCountSlider.mainSlider.onValueChanged.AddListener(SetObjectCount);
         shopButton.onClick.AddListener(() => UiManager.Instance.ShowPanel(UiPanelType.Shop));
     }
 
@@ -30,7 +30,7 @@ public class NewGamePanel : UiPanel
 
     public void SetBoxCount(float containerCount)
     {
-        var count = Mathf.RoundToInt(boxCountSlider.SliderValue);
+        var count = Mathf.RoundToInt(boxCountSlider.mainSlider.value);
         if(count != GameManager.Instance.ContainerCount)
         {
             GameManager.Instance.SetContainerCount(count);
@@ -39,7 +39,7 @@ public class NewGamePanel : UiPanel
 
     public void SetTypeCount(float typeCount)
     {
-        var count = Mathf.RoundToInt(objectTypeSlider.SliderValue);
+        var count = Mathf.RoundToInt(objectTypeSlider.mainSlider.value);
         if (count != GameManager.Instance.TypeCount)
         {
             GameManager.Instance.SetTypeCount(count);
@@ -48,7 +48,7 @@ public class NewGamePanel : UiPanel
 
     public void SetObjectCount(float objectCount)
     {
-        var count = Mathf.RoundToInt(objectCountSlider.SliderValue);
+        var count = Mathf.RoundToInt(objectCountSlider.mainSlider.value);
         if (count != GameManager.Instance.CountPerType)
         {
             GameManager.Instance.SetCountPerType(count);

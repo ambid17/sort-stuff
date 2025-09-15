@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
     
     public UiManager uiManager;
     public Container containerPrefab;
+    public GameObject containerSlotCoverPrefab;
     public GameObject rightWall;
     public GameObject sortableParent;
     public BoxCollider spawnArea;
@@ -36,6 +37,7 @@ public class GameManager : Singleton<GameManager>
     public int remainingCount;
 
     public List<Container> containers;
+    public List<GameObject> containerSlotCovers;
     
     public bool isGameRunning = false;
 
@@ -230,6 +232,7 @@ public class GameManager : Singleton<GameManager>
         for (int i = 0; i < MAX_CONTAINER_COUNT; i++)
         {
             containers[i].gameObject.SetActive(i < ContainerCount);
+            containerSlotCovers[i].SetActive(i >= ContainerCount);
         }
 
         foreach (var sortable in allSpawnedSortables)
@@ -249,12 +252,18 @@ public class GameManager : Singleton<GameManager>
         }
         // spawn containers
         containers = new List<Container>();
+        containerSlotCovers = new List<GameObject>();
         for (int i = 0; i < MAX_CONTAINER_COUNT; i++)
         {
             var container = Instantiate(containerPrefab);
             container.transform.position = new Vector3(i * 3.685f, -2f, -6.6f);
             container.ClearType();
             containers.Add(container);
+
+            var containerSlotCover = Instantiate(containerSlotCoverPrefab);
+            containerSlotCover.SetActive(false);
+            containerSlotCover.transform.position = new Vector3(i * 3.685f, -0.5f, -6.6f);
+            containerSlotCovers.Add(containerSlotCover);
         }
 
         // spawn all sortables
