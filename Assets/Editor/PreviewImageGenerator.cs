@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class PreviewImageGenerator : EditorWindow
 {
+    [SerializeField] private string outputFolder = "Assets/Textures/PowerupPreviews";
+
     [MenuItem("Tools/GeneratePreview")]
     private static void GeneratePreview()
     {
@@ -16,6 +18,8 @@ public class PreviewImageGenerator : EditorWindow
 
     private void OnGUI()
     {
+        outputFolder = EditorGUILayout.TextField("Output Folder", outputFolder);
+
         GUILayout.Label("This creates a preview image");
         if (GUILayout.Button("Create"))
         {
@@ -24,7 +28,7 @@ public class PreviewImageGenerator : EditorWindow
 
         if (GUILayout.Button("Create transparent"))
         {
-            GenerateTransparentPrefabPreview(Selection.activeObject as GameObject);
+            GenerateTransparentPrefabPreview(outputFolder, Selection.activeObject as GameObject);
         }
     }
 
@@ -63,7 +67,7 @@ public class PreviewImageGenerator : EditorWindow
         }
     }
 
-    public static void GenerateTransparentPrefabPreview(GameObject prefab)
+    public static void GenerateTransparentPrefabPreview(string folderPath, GameObject prefab)
     {
         if (prefab == null)
         {
@@ -109,7 +113,7 @@ public class PreviewImageGenerator : EditorWindow
         var assetName = FindFirstObjectByType<MeshRenderer>().gameObject.name;
 
         DestroyImmediate(go);
-        WriteFile(bytes, prefab.name);
+        WriteFile(folderPath, bytes, prefab.name);
         ReimportTexture(prefab.name);
     }
 
@@ -129,12 +133,10 @@ public class PreviewImageGenerator : EditorWindow
         return bounds;
     }
 
-    public static void WriteFile(byte[] data, string assetName)
+    public static void WriteFile(string folderPath, byte[] data, string assetName)
     {
-        string texturesFolder = Path.Combine(Application.dataPath, "Textures");
-        string previewsFolder = Path.Combine(texturesFolder, "GeneratedPreviews");
         string fileName = $"{assetName}.png";
-        string fullPath = Path.Combine(previewsFolder, fileName);
+        string fullPath = Path.Combine(folderPath, fileName);
         if (File.Exists(fullPath))
         {
             Debug.Log($"Preview already exists for {assetName} at {fullPath}. Deleting");

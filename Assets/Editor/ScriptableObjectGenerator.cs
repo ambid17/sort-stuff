@@ -14,6 +14,7 @@ public class ScriptableObjectGenerator : EditorWindow
     [SerializeField] private string costInput;
     [SerializeField] private string outputFolder = "Assets/ScriptableObjects/ShopItems/Items";
     [SerializeField] private bool generatePreviews = true;
+    [SerializeField] private string previewOutputFolder = "Assets/Textures/GeneratedPreviews";
     private SerializedObject serializedObject;
 
     [MenuItem("Tools/ScriptableObjectGenerator")]
@@ -55,7 +56,7 @@ public class ScriptableObjectGenerator : EditorWindow
     {
         if (generatePreviews)
         {
-            PreviewImageGenerator.GenerateTransparentPrefabPreview(prefab);
+            PreviewImageGenerator.GenerateTransparentPrefabPreview(previewOutputFolder, prefab);
         }
 
         var existingScriptableObjects = AssetDatabase.FindAssets($"{prefab.name}", new string[] { outputFolder });

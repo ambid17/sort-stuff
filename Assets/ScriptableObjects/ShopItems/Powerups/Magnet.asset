@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Magnet
   description: Picks up all objects of one type
   cost: 500
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 2bca54013b6d898499444b21a95c92b9, type: 3}
   isUnlocked: 0
   powerUpType: 1
   prefab: {fileID: 4803166110693541236, guid: ceebdbbc80de53a46a57eb6b36913842, type: 3}

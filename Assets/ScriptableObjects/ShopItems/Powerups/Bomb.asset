@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: BOMBA
   description: Scatters objects. If you don't pray, you might consider starting.
   cost: 500
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 7be72863f5f160646b61e7c2f41d1272, type: 3}
   isUnlocked: 0
   powerUpType: 0
   prefab: {fileID: 7359239995162387197, guid: 6d20b564d94ca7b4cbedef8053aec6aa, type: 3}
