@@ -32,7 +32,7 @@ public class WinAnimController : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             GameObject box = Instantiate(boxPrefab, new Vector3(-5 + i * 2, 0, 0), Quaternion.identity);
-            StartCoroutine(BounceBox(box));
+            //StartCoroutine(BounceBox(box));
             yield return new WaitForSeconds(0.5f);
         }
     }
