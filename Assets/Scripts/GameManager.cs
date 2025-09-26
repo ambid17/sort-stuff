@@ -214,7 +214,7 @@ public class GameManager : Singleton<GameManager>
 
     public void SetTypeCount(int count)
     {
-        TypeCount = count;
+        TypeCount = count + 5;
         SpawnMaxSortables();
     }
 
