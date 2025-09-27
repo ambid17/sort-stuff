@@ -72,7 +72,7 @@ public class PowerupManager : MonoBehaviour
         StartCoroutine(UiManager.Instance.hudPanel.ShowBonusPopup(text, 3));
         foreach (var item in GameManager.Instance.allSpawnedSortables.OrderBy(x => Random.Range(0, 1000)).Take(10))
         {
-            CurrencyController.Instance.SortComplete(item);
+            CurrencyController.Instance.OnItemSorted( new ItemSortedEvent(item));
         }
         yield return new WaitForSeconds(2f);
     }

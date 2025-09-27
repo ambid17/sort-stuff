@@ -1,4 +1,6 @@
+using CaosCreations;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CurrencyController : Singleton<CurrencyController>
@@ -24,6 +26,7 @@ public class CurrencyController : Singleton<CurrencyController>
     private float bonusTimer = 0f;
     private int lastBonusTier;
 
+    private float roundTimer = 0f;
     private float currencyGainedThisRound = 0f;
 
 
@@ -31,10 +34,19 @@ public class CurrencyController : Singleton<CurrencyController>
     void Start()
     {
         PopulateObjectPool();
+        GameManager.EventService.Add<GameStartedEvent>(OnGameStarted);
+        GameManager.EventService.Add<ItemSortedEvent>(OnItemSorted);
+    }
+
+    void OnGameStarted(GameStartedEvent e)
+    {
+        currencyGainedThisRound = 0f;
+        roundTimer = 0f;
     }
 
     void Update()
     {
+        roundTimer += Time.deltaTime;
         bonusTimer -= Time.deltaTime;
         if (bonusTimer <= 0)
         {
@@ -75,17 +87,18 @@ public class CurrencyController : Singleton<CurrencyController>
         }
     }
 
-    public void SortComplete(Sortable sortable)
+    public void OnItemSorted(ItemSortedEvent e)
     {
         sortedObjectCounter += bonusBarSpeedModifier;
         bonusTimer = Mathf.Min(ScaledBonusDuration, bonusTimer + TIME_BONUS_FOR_SORT);
 
         var tierInfo = GetTierInfo(bonusTier);
         UnlockManager.Instance.AddCurrency(tierInfo.currencyValue);
-        
+        currencyGainedThisRound += tierInfo.currencyValue;
+
 
         var text = GetPooledObject();
-        text.transform.position = sortable.transform.position + new Vector3(0, 3, 3);
+        text.transform.position = e.item.transform.position + new Vector3(0, 3, 3);
         text.gameObject.SetActive(true);
         text.SetTier(bonusTier);
     }

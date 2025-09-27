@@ -87,7 +87,6 @@ public class GameManager : Singleton<GameManager>
 
         sortedList.Add(sortable);
         remainingCount--;
-        CurrencyController.Instance.SortComplete(sortable);
 
         // drain the container when full and allow it to be reused
         if (sortedList.Count == CountPerType)
