@@ -12222,6 +12222,7 @@ GameObject:
   - component: {fileID: 1401467745}
   - component: {fileID: 1401467746}
   - component: {fileID: 1401467747}
+  - component: {fileID: 1401467748}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -12284,8 +12285,6 @@ MonoBehaviour:
   rightWall: {fileID: 1466549898}
   sortableParent: {fileID: 1492593734}
   spawnArea: {fileID: 1607263976}
-  powerupSpawnChance: 0.1
-  powerupContainer: {fileID: 2076163130}
   interactableMover: {fileID: 1401467747}
   TypeCount: 3
   CountPerType: 40
@@ -12431,6 +12430,20 @@ MonoBehaviour:
   forceMultiplier: 25
   isDragging: 0
   currentDrag: {fileID: 0}
+--- !u!114 &1401467748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401467742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dfe2fe418ed76d408d50ea2a0b1abb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerupSpawnChance: 0.07
+  powerupContainer: {fileID: 2076163130}
 --- !u!1 &1408733568
 GameObject:
   m_ObjectHideFlags: 0

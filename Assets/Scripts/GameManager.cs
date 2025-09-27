@@ -17,9 +17,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject rightWall;
     public GameObject sortableParent;
     public BoxCollider spawnArea;
-    [Range(0, 1)]
-    public float powerupSpawnChance;
-    public Transform powerupContainer;
+   
     public InteractableMover interactableMover;
 
     public const float CONTAINER_WIDTH = 3.33f;
@@ -85,12 +83,7 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        if (UnlockManager.Instance.IsUpgradeUnlocked(GameplayUpgradeType.RainingMoney))
-        {
-            StartCoroutine(TryRainMoney());
-        }
-
-        TrySpawnPowerUp();
+        EventService.Dispatch(new ItemSortedEvent(sortable));
 
         sortedList.Add(sortable);
         remainingCount--;
@@ -109,24 +102,7 @@ public class GameManager : Singleton<GameManager>
 
         if (remainingCount == 0)
         {
-            StartCoroutine(EndCompletedRun());
-        }
-    }
-
-    private void TrySpawnPowerUp()
-    {
-        if(UnlockManager.Instance.powerUpSOs.Count(so => so.isUnlocked) == 0)
-        {
-            return;
-        }
-
-        var random = Random.Range(0, 1f);
-        if(random < powerupSpawnChance)
-        {
-            var unlockedPowerups = UnlockManager.Instance.powerUpSOs.Where(so => so.isUnlocked).ToList();
-            var powerUpIndex = Random.Range(0, unlockedPowerups.Count());
-            var powerupGO = Instantiate(unlockedPowerups[powerUpIndex].prefab);
-            powerupGO.transform.parent = powerupContainer;
+            EndCompletedRun();
         }
     }
 
@@ -136,12 +112,6 @@ public class GameManager : Singleton<GameManager>
         foreach (Sortable sortable in allSpawnedSortables)
         {
             sortable.TogglePhysics(true);
-        }
-
-        // delete old powerups
-        while (powerupContainer.childCount > 0)
-        {
-            DestroyImmediate(powerupContainer.GetChild(0).gameObject);
         }
 
         EventService.Dispatch(new GameStartedEvent());
@@ -156,44 +126,15 @@ public class GameManager : Singleton<GameManager>
         isGameRunning = true;
     }
 
-    private IEnumerator EndCompletedRun()
+    private void EndCompletedRun()
     {
-        if (UnlockManager.Instance.IsUpgradeUnlocked(GameplayUpgradeType.GoldInjection))
-        {
-            var random = Random.Range(0, 100);
-            if (random < 10)
-            {
-                yield return StartCoroutine(SpawnMoney("Gold Injection"));
-            }
-        }
         EndGame();
         uiManager.ShowPanel(UiPanelType.Win);
     }
 
-    private IEnumerator TryRainMoney()
-    {
-        var random = Random.Range(0, 100);
-        if (random < 10)
-        {
-            // TODO: drop some money above the sortable and show "raining money" text
-            yield return StartCoroutine(SpawnMoney("Raining money"));
-        }
-    }
-
-    private IEnumerator SpawnMoney(string text)
-    {
-        // TODO: currently just gives 10 random sortables an extra completion
-        // drop money all over with a "gold injection" text 
-        StartCoroutine(UiManager.Instance.hudPanel.ShowBonusPopup(text, 3));
-        foreach (var item in allSpawnedSortables.OrderBy(x => Random.Range(0, 1000)).Take(10))
-        {
-            CurrencyController.Instance.SortComplete(item);
-        }
-        yield return new WaitForSeconds(2f);
-    }
-
     public void EndGame()
     {
+        EventService.Dispatch(new GameEndedEvent());
         sortedMapping.Clear();
         InitLevel();
         UnlockManager.Instance.Save();

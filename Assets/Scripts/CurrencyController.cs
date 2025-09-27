@@ -24,6 +24,8 @@ public class CurrencyController : Singleton<CurrencyController>
     private float bonusTimer = 0f;
     private int lastBonusTier;
 
+    private float currencyGainedThisRound = 0f;
+
 
 
     void Start()
