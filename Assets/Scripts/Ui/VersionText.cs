@@ -12,9 +12,5 @@ public class VersionText : MonoBehaviour
         gameObject.SetActive(false);
 #endif
         versionText.text = $"Version: {Application.version}";
-
-#if UNITY_IOS
-        versionText.text += $" ({PlayerSettings.iOS.buildNumber})";
-#endif
     }
 }
