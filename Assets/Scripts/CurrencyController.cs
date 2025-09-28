@@ -26,9 +26,10 @@ public class CurrencyController : Singleton<CurrencyController>
     private float bonusTimer = 0f;
     private int lastBonusTier;
 
-    private float roundTimer = 0f;
-    private float currencyGainedThisRound = 0f;
-
+    public float roundTimer = 0f;
+    public float itemsSortedThisRound = 0f;
+    public float currencyGainedThisRound = 0f;
+    public int powerupsUsedThisRound = 0;
 
 
     void Start()
@@ -36,16 +37,24 @@ public class CurrencyController : Singleton<CurrencyController>
         PopulateObjectPool();
         GameManager.EventService.Add<GameStartedEvent>(OnGameStarted);
         GameManager.EventService.Add<ItemSortedEvent>(OnItemSorted);
+        GameManager.EventService.Add<PowerupUsedEvent>(OnPowerupUsed);
     }
 
     void OnGameStarted(GameStartedEvent e)
     {
         currencyGainedThisRound = 0f;
+        itemsSortedThisRound = 0f;
+        powerupsUsedThisRound = 0;
         roundTimer = 0f;
     }
 
     void Update()
     {
+        if(!GameManager.Instance.isGameRunning)
+        {
+            return;
+        }
+
         roundTimer += Time.deltaTime;
         bonusTimer -= Time.deltaTime;
         if (bonusTimer <= 0)
@@ -94,6 +103,7 @@ public class CurrencyController : Singleton<CurrencyController>
 
         var tierInfo = GetTierInfo(bonusTier);
         UnlockManager.Instance.AddCurrency(tierInfo.currencyValue);
+        itemsSortedThisRound++;
         currencyGainedThisRound += tierInfo.currencyValue;
 
 
@@ -101,6 +111,11 @@ public class CurrencyController : Singleton<CurrencyController>
         text.transform.position = e.item.transform.position + new Vector3(0, 3, 3);
         text.gameObject.SetActive(true);
         text.SetTier(bonusTier);
+    }
+
+    private void OnPowerupUsed(PowerupUsedEvent e)
+    {
+        powerupsUsedThisRound++;
     }
 
     private PooledObject GetPooledObject()

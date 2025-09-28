@@ -1,3 +1,4 @@
+using CaosCreations;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,7 @@ public class Magnet : Interactable
     {
         base.OnDrop();
         isDragging = false;
+        GameManager.EventService.Dispatch(new PowerupUsedEvent());
         Destroy(gameObject);
     }
 

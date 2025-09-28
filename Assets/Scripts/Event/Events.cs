@@ -11,6 +11,8 @@ namespace CaosCreations
 
     public class  GameEndedEvent : IEvent { }
 
+    public class PowerupUsedEvent : IEvent { }
+
     public class  ItemSortedEvent : IEvent
     {
        public Sortable item;

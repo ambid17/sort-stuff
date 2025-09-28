@@ -1,3 +1,4 @@
+using CaosCreations;
 using System.Linq;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ public class Bomb : Interactable
             go.myRigidbody.AddExplosionForce(10000f, transform.position, 20f);
         }
 
+        GameManager.EventService.Dispatch(new PowerupUsedEvent());
         Destroy(gameObject);
     }
 }
